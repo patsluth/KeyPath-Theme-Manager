@@ -1,0 +1,16 @@
+PODS:
+  - KeyPath-Theme-Manager (0.1.0)
+
+DEPENDENCIES:
+  - KeyPath-Theme-Manager (from `../`)
+
+EXTERNAL SOURCES:
+  KeyPath-Theme-Manager:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  KeyPath-Theme-Manager: c8a76ac30649c5b889a1b2893a0fd63a919a3915
+
+PODFILE CHECKSUM: b59944cc3e85303663f855393ea41527fbd72e13
+
+COCOAPODS: 1.5.3

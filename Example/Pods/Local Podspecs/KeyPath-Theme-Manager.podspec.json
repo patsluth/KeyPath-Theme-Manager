@@ -1,0 +1,28 @@
+{
+  "name": "KeyPath-Theme-Manager",
+  "version": "0.1.0",
+  "summary": "A short description of KeyPath-Theme-Manager.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/patsluth/KeyPath-Theme-Manager",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "patsluth": "pat.sluth@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/patsluth/KeyPath-Theme-Manager.git",
+    "tag": "0.1.0"
+  },
+  "social_media_url": "https://twitter.com/patsluth",
+  "platforms": {
+    "ios": "8.0"
+  },
+  "swift_version": "4.2",
+  "source_files": [
+    "KeyPath-Theme-Manager/Classes/**/*",
+    "KeyPath-Theme-Manager/Classes/Sluthware/**/*"
+  ],
+  "frameworks": "UIKit"
+}

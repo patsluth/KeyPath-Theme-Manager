@@ -1,0 +1,58 @@
+//
+//  AppDelegate.swift
+//  KeyPath-Theme-Manager
+//
+//  Created by patsluth on 12/15/2018.
+//  Copyright (c) 2018 patsluth. All rights reserved.
+//
+
+import UIKit
+import KeyPath_Theme_Manager
+
+
+
+
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate
+{
+	var window: UIWindow?
+	
+	
+	
+	
+	
+	func application(_ application: UIApplication,
+					 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool
+	{
+		ThemeManager.register(ThemeType.self)
+		ThemeManager.register(ThemeType.self)
+		ThemeManager.register(ThemeType.self)
+		
+		return true
+	}
+	
+	func applicationWillResignActive(_ application: UIApplication)
+	{
+	}
+	
+	func applicationDidEnterBackground(_ application: UIApplication)
+	{
+	}
+	
+	func applicationWillEnterForeground(_ application: UIApplication)
+	{
+	}
+	
+	func applicationDidBecomeActive(_ application: UIApplication)
+	{
+	}
+	
+	func applicationWillTerminate(_ application: UIApplication)
+	{
+	}
+}
+
+
+
+

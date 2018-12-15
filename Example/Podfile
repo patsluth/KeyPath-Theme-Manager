@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'KeyPath-Theme-Manager_Example' do
+  pod 'KeyPath-Theme-Manager', :path => '../'
+
+  target 'KeyPath-Theme-Manager_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
