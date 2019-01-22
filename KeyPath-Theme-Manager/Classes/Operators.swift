@@ -36,27 +36,33 @@ precedencegroup ThemePropertyPrecedence {
 }
 
 infix operator +++: ThemePropertyPrecedence
-
-@discardableResult
-public func +++<R, V>(lhs: ThemeComponent<R>, rhs: (WritableKeyPath<R, V>, V)) -> ThemeComponent<R>
-{
-	lhs.property(rhs.0, rhs.1)
-	return lhs
-}
+infix operator <<<: ThemePropertyPrecedence
 
 @discardableResult
 public func +++<R, V, K>(lhs: ThemeComponent<R>, rhs: (K, V)) -> ThemeComponent<R>
 	where K: KeyPathWriter<R, V>
 {
-	lhs.property(rhs.0, rhs.1)
-	return lhs
+	return lhs.property(rhs.0, rhs.1)
 }
 
 @discardableResult
-public func +++<R>(lhs: ThemeComponent<R>, rhs: @escaping ThemeComponent<R>.OnApplyClosure) -> ThemeComponent<R>
+public func +++<R, V>(lhs: ThemeComponent<R>, rhs: (WritableKeyPath<R, V>, V)) -> ThemeComponent<R>
 {
-	lhs.onApply(rhs)
-	return lhs
+	return lhs.property(rhs.0, rhs.1)
+}
+
+@discardableResult
+public func +++<R, V1, V2>(lhs: ThemeComponent<R>,
+						 rhs: (KeyPath<R, V1?>, WritableKeyPath<R, V2>, V2)) -> ThemeComponent<R>
+{
+	return lhs.property(SafeKeyPathWriter(rhs.0, rhs.1), rhs.2)
+}
+
+@discardableResult
+public func <<<<R>(lhs: ThemeComponent<R>,
+					  rhs: @escaping ThemeComponent<R>.OnApplyClosure) -> ThemeComponent<R>
+{
+	return lhs.onApply(rhs)
 }
 
 

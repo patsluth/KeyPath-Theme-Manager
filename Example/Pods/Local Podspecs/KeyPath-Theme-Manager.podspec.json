@@ -26,6 +26,9 @@
 
     ]
   },
-  "frameworks": "UIKit",
+  "frameworks": [
+    "Foundation",
+    "UIKit"
+  ],
   "source_files": "KeyPath-Theme-Manager/Classes/**/*"
 }

@@ -21,7 +21,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/patsluth/Sluthware.git
 
 SPEC CHECKSUMS:
-  KeyPath-Theme-Manager: 9d58eed0e540feefc02c4e23e893ed290de72072
+  KeyPath-Theme-Manager: 556b40fe6e5be31b3542d38f80a514c3c15bf5e7
   Sluthware: b24bfc82468ad4c5f0e6492b0748a283c00a8f3b
 
 PODFILE CHECKSUM: 6b14c2b6dfa21890ae64d0a7028a3b78a2fba8ae

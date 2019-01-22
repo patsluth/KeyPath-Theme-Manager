@@ -1,6 +1,6 @@
 //
 //  Theme.swift
-//  KeyPathThemeManager
+//  KeyPath-Theme-Manager
 //
 //  Created by Pat Sluth on 2018-02-15.
 //  Copyright © 2018 Pat Sluth. All rights reserved.
@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+
+import Sluthware
 
 
 
@@ -45,61 +47,6 @@ public class Theme
 		
 		self.tintedTextAttibutes = [.foregroundColor: self.tintColor]
 		self.components = []
-		
-		
-		
-		self.add(ThemeComponent<UIViewController>({
-			$0.property(\UIViewController.view!.tintColor, self.tintColor)
-		}))
-		
-		if #available(iOS 11.0, *) {
-			self.add(ThemeComponent<UINavigationBar>({
-				$0.property(\UINavigationBar.barTintColor, self.barTintColor)
-				$0.property(\UINavigationBar.tintColor, self.tintColor)
-				$0.property(\UINavigationBar.isTranslucent, self.isTranslucent)
-				$0.property(\UINavigationBar.titleTextAttributes, self.tintedTextAttibutes)
-				$0.property(\UINavigationBar.largeTitleTextAttributes, self.tintedTextAttibutes)
-			}))
-		}
-		
-		self.add(ThemeComponent<UITabBar>({
-			$0.property(\UITabBar.barTintColor, self.barTintColor)
-			$0.property(\UITabBar.tintColor, self.tintColor)
-			$0.property(\UITabBar.isTranslucent, self.isTranslucent)
-		}))
-		
-		self.add(ThemeComponent<UIToolbar>({
-			$0.property(\UIToolbar.barTintColor, self.barTintColor)
-			$0.property(\UIToolbar.tintColor, self.tintColor)
-			$0.property(\UIToolbar.isTranslucent, self.isTranslucent)
-		}))
-		
-		self.add(ThemeComponent<UISearchBar>({
-			$0.property(\UISearchBar.barTintColor, self.barTintColor)
-			$0.property(\UISearchBar.tintColor, self.tintColor)
-			$0.property(\UISearchBar.isTranslucent, self.isTranslucent)
-		}))
-		
-		self.add(ThemeComponent<UITextView>({
-			$0.property(\UITextView.keyboardAppearance, self.keyboardAppearance)
-		}))
-		
-		//		self.add(ThemeComponent<UITextField>({
-		////			ThemeProperty(\UITextField.tintColor, self.tintColor),
-		//			ThemeProperty(\UITextField.defaultTextAttributes, self.tintedTextAttibutes),
-		//			]) {
-		//				// Apply tint to image views
-		//				for case let subview as UIImageView in $0.subviews {
-		//					subview.image = subview.image?.withRenderingMode(.alwaysTemplate)
-		//				}
-		//
-		//				// Apply tint to placeholder text
-		//				guard let placeholder = $0.attributedPlaceholder?.string ?? $0.placeholder else { return }
-		//				$0.attributedPlaceholder = NSAttributedString(string: placeholder,
-		//																attributes: $0.defaultTextAttributes)
-		//			}
-		//			.addingConstraint(when: .ContainedIn, is: UISearchBar.self)
-		//		}))
 	}
 	
 	@discardableResult
@@ -125,16 +72,79 @@ public class Theme
 			$0.applyTo(view, for: self)
 		}
 	}
+}
+
+
+
+
+
+public extension Theme
+{
+	@discardableResult
+	public func addingDefaultProperties() -> Self
+	{
+		self ++ ThemeComponent<UIViewController>()
+			+++ (\UIViewController.view?, \UIViewController.view!.tintColor, self.tintColor)
+		
+		if #available(iOS 11.0, *) {
+			self ++ ThemeComponent<UINavigationBar>()
+				+++ (\UINavigationBar.barTintColor, self.barTintColor)
+				+++ (\UINavigationBar.tintColor, self.tintColor)
+				+++ (\UINavigationBar.isTranslucent, self.isTranslucent)
+				+++ (\UINavigationBar.titleTextAttributes, self.tintedTextAttibutes)
+				+++ (\UINavigationBar.largeTitleTextAttributes, self.tintedTextAttibutes)
+		} else {
+			self ++ ThemeComponent<UINavigationBar>()
+				+++ (\UINavigationBar.barTintColor, self.barTintColor)
+				+++ (\UINavigationBar.tintColor, self.tintColor)
+				+++ (\UINavigationBar.isTranslucent, self.isTranslucent)
+		}
+		
+		self.add(ThemeComponent<UITabBar>({
+			$0.property(\UITabBar.barTintColor, self.barTintColor)
+			$0.property(\UITabBar.tintColor, self.tintColor)
+			$0.property(\UITabBar.isTranslucent, self.isTranslucent)
+		}))
+		
+		self.add(ThemeComponent<UIToolbar>({
+			$0.property(\UIToolbar.barTintColor, self.barTintColor)
+			$0.property(\UIToolbar.tintColor, self.tintColor)
+			$0.property(\UIToolbar.isTranslucent, self.isTranslucent)
+		}))
+		
+		self.add(ThemeComponent<UISearchBar>({
+			$0.property(\UISearchBar.barTintColor, self.barTintColor)
+			$0.property(\UISearchBar.tintColor, self.tintColor)
+			$0.property(\UISearchBar.isTranslucent, self.isTranslucent)
+		}))
+		
+		self.add(ThemeComponent<UITextView>({
+			$0.property(\UITextView.keyboardAppearance, self.keyboardAppearance)
+		}))
+		
+		return self
+	}
 	
-	
-	
-	//	public static func +(lhs: Fraction, rhs: Fraction) -> Fraction
-	//	{
-	//		let num = (lhs.num * rhs.den) + (lhs.den * rhs.num)
-	//		let den = (lhs.den * rhs.den)
-	//
-	//		return Fraction(num, den)//.reduced()
-	//	}
+	@discardableResult
+	public func addingTintedSearchBarProperties() -> Self
+	{
+		self ++ ThemeComponent<UITextField>()
+			+++ (\UITextField.tintColor, self.tintColor)
+			+++ (\UITextField.defaultTextAttributes, self.tintedTextAttibutes)
+			<<< ({
+				// Apply tint to image views
+				for case let subview as UIImageView in $0.subviews {
+					subview.image = subview.image?.withRenderingMode(.alwaysTemplate)
+				}
+				
+				// Apply tint to placeholder text
+				guard let placeholder = $0.attributedPlaceholder?.string ?? $0.placeholder else { return }
+				$0.attributedPlaceholder = NSAttributedString(string: placeholder,
+															  attributes: $0.defaultTextAttributes)
+			})
+		
+		return self
+	}
 }
 
 

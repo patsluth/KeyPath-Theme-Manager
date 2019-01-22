@@ -54,19 +54,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 //							UIColor.blue)
 				$0.property(\ViewController.tableView.backgroundColor, UIColor.orange)
 				$0.property(\ViewController.tableView.alpha, 0.8)
-				
-				$0.onApply({
-					print($0.view.bounds)
-				})
-				$0.onApply({
-					print($0.view.bounds)
-				})
-				$0.onApply({
-					print($0.view.bounds)
-				})
-				$0.onApply({
-					print($0.view.bounds)
-				})
 			})
 		
 		

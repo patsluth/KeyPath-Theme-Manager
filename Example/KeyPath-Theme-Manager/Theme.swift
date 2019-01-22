@@ -17,17 +17,25 @@ import KeyPath_Theme_Manager
 
 extension Theme
 {
-	static let light = Theme(name: "Light",
-							 barTintColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1),
-							 tintColor: #colorLiteral(red: 0.2823529412, green: 0.5176470588, blue: 0.2745098039, alpha: 1),
-							 isTranslucent: false,
-							 keyboardAppearance: .default)
+	static let light = {
+		Theme(name: "Light",
+					 barTintColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1),
+					 tintColor: #colorLiteral(red: 0.2823529412, green: 0.5176470588, blue: 0.2745098039, alpha: 1),
+					 isTranslucent: false,
+					 keyboardAppearance: .default)
+			.addingDefaultProperties()
+			.addingTintedSearchBarProperties()
+	}()
 	
-	static let dark = Theme(name: "Dark",
-							barTintColor: #colorLiteral(red: 0.1254901961, green: 0.1254901961, blue: 0.1254901961, alpha: 1),
-							tintColor: #colorLiteral(red: 0.4980392157, green: 0.7294117647, blue: 0.4901960784, alpha: 1),
-							isTranslucent: false,
-							keyboardAppearance: .dark)
+	static let dark = {
+		Theme(name: "Dark",
+			  barTintColor: #colorLiteral(red: 0.1254901961, green: 0.1254901961, blue: 0.1254901961, alpha: 1),
+			  tintColor: #colorLiteral(red: 0.4980392157, green: 0.7294117647, blue: 0.4901960784, alpha: 1),
+			  isTranslucent: false,
+			  keyboardAppearance: .dark)
+			.addingDefaultProperties()
+			.addingTintedSearchBarProperties()
+	}()
 }
 
 

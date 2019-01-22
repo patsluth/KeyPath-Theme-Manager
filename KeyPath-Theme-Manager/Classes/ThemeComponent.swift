@@ -15,8 +15,10 @@ import Sluthware
 
 
 
-protocol AnyThemeComponent: NSObjectProtocol
+protocol AnyThemeComponent//: Hashable
 {
+//	var rootType: Any.Type { get }
+	
 	func applyTo<T: UIViewController>(_ viewController: T, for theme: Theme)
 	func applyTo<T: UIView>(_ view: T, for theme: Theme)
 }
@@ -25,18 +27,16 @@ protocol AnyThemeComponent: NSObjectProtocol
 
 
 
-public final class ThemeComponent<Root>: NSObject, AnyThemeComponent
+public final class ThemeComponent<Root>: AnyThemeComponent
 {
-//	public typealias Init<K, V> = (_ writer: K, _ value: V)
-//	public func property<K, V>(_ writer: K, _ value: V) -> Self
-//		where K: KeyPathWriter<Root, V>
 	public typealias OnApplyClosure = (Root) -> Void
-	
 	private typealias Constraint = (ConstraintType, AnyTypeContainer)
 	
 	
 	
 	
+	
+//	public let rootType: Any.Type = Root.self
 	
 	private var properties = [PartialThemeProperty<Root>]()
 	private var viewControllerConstraints = [Constraint]()
@@ -47,9 +47,9 @@ public final class ThemeComponent<Root>: NSObject, AnyThemeComponent
 	
 	
 	
-	public required init(_ initBlock: (ThemeComponent<Root>) -> Void)
+	public required init(_ initBlock: (ThemeComponent<Root>) -> Void = { _ in })
 	{
-		super.init()
+//		super.init()
 		
 		initBlock(self)
 	}
@@ -209,6 +209,39 @@ public final class ThemeComponent<Root>: NSObject, AnyThemeComponent
 		})
 	}
 }
+
+
+
+
+
+//extension ThemeComponent: Equatable
+//{
+//	public static func == (lhs: ThemeComponent<Root>, rhs: ThemeComponent<Root>) -> Bool
+//	{
+//		<#code#>
+//	}
+//
+////	public static func ==(lhs: AnyThemeComponent, rhs: AnyThemeComponent) -> Bool
+////	{
+////		return (R.self == )
+////	}
+//}
+//
+//
+//
+//
+//
+//extension ThemeComponent: Hashable
+//{
+//	public func hash(into hasher: inout Hasher)
+//	{
+//		hasher.combine("\(self.rootType)")
+//	}
+////	public static func == (lhs: ThemeComponent, rhs: ThemeComponent) -> Bool
+////	{
+////		return (lhs.name == rhs.name)
+////	}
+//}
 
 
 
