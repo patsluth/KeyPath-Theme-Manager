@@ -9,14 +9,16 @@
 import Foundation
 import UIKit
 
+import Sluthware
 
 
 
 
-public protocol AnyThemeComponent: NSObjectProtocol
+
+protocol AnyThemeComponent: NSObjectProtocol
 {
-	func applyTo<T: UIViewController>(_ viewController: T)
-	func applyTo<T: UIView>(_ view: T)
+	func applyTo<T: UIViewController>(_ viewController: T, for theme: Theme)
+	func applyTo<T: UIView>(_ view: T, for theme: Theme)
 }
 
 
@@ -25,43 +27,72 @@ public protocol AnyThemeComponent: NSObjectProtocol
 
 public final class ThemeComponent<Root>: NSObject, AnyThemeComponent
 {
-	typealias UpdateClosure = (Root) -> Void
-	private typealias Constraint = (constraint: ThemeComponentConstraint, typeContainer: AnyTypeContainer)
+//	public typealias Init<K, V> = (_ writer: K, _ value: V)
+//	public func property<K, V>(_ writer: K, _ value: V) -> Self
+//		where K: KeyPathWriter<Root, V>
+	public typealias OnApplyClosure = (Root) -> Void
+	
+	private typealias Constraint = (ConstraintType, AnyTypeContainer)
 	
 	
 	
 	
 	
-	private let properties: [PartialThemeProperty<Root>]
-	private var viewControllerConstraints: [Constraint]
-	private var viewConstraints: [Constraint]
-	private let onUpdate: UpdateClosure?
+	private var properties = [PartialThemeProperty<Root>]()
+	private var viewControllerConstraints = [Constraint]()
+	private var viewConstraints = [Constraint]()
+	private var onApplyClosures = [OnApplyClosure]()
 	
 	
 	
 	
 	
-	required init(_ properties: [PartialThemeProperty<Root>], _ onUpdate: UpdateClosure? = nil)
+	public required init(_ initBlock: (ThemeComponent<Root>) -> Void)
 	{
-		self.properties = properties
-		self.viewControllerConstraints = []
-		self.viewConstraints = []
-		self.onUpdate = onUpdate
+		super.init()
+		
+		initBlock(self)
 	}
 	
-	func addingConstraint<T>(when constraint: ThemeComponentConstraint, is type: T.Type) -> Self
+	@discardableResult
+	public func property<K, V>(_ keyPath: K, _ value: V) -> Self
+		where K: WritableKeyPath<Root, V>
+	{
+		return self.property(KeyPathWriter(keyPath), value)
+	}
+	
+	@discardableResult
+	public func property<K, V>(_ writer: K, _ value: V) -> Self
+		where K: KeyPathWriter<Root, V>
+	{
+		self.properties.append(ThemeProperty(writer, value))
+		return self
+	}
+	
+	@discardableResult
+	public func constraint<T>(when constraint: ConstraintType, is type: T.Type) -> Self
 		where T: UIViewController
 	{
 		self.viewControllerConstraints.append((constraint, TypeContainer(type)))
 		return self
 	}
 	
-	func addingConstraint<T>(when constraint: ThemeComponentConstraint, is type: T.Type) -> Self
+	@discardableResult
+	public func constraint<T>(when constraint: ConstraintType, is type: T.Type) -> Self
 		where T: UIView
 	{
 		self.viewConstraints.append((constraint, TypeContainer(type)))
 		return self
 	}
+	
+	@discardableResult
+	public func onApply(_ onApply: @escaping OnApplyClosure) -> Self
+	{
+		self.onApplyClosures.append(onApply)
+		return self
+	}
+	
+	
 	
 	private func canApplyTo<T>(_ viewController: T) -> Bool
 		where T: UIViewController
@@ -121,57 +152,61 @@ public final class ThemeComponent<Root>: NSObject, AnyThemeComponent
 		return canApply
 	}
 	
-	public func applyTo<T>(_ viewController: T)
+	internal func applyTo<T>(_ viewController: T, for theme: Theme)
 		where T: UIViewController
 	{
 		viewController.view.recurseDecendents {
-			self.applyTo($0, in: viewController)
+			self.applyTo($0, in: viewController, for: theme)
 			return false
 		}
 		
-		guard let root = viewController as? Root else { return }
+		guard var root = viewController as? Root else { return }
 		guard self.canApplyTo(viewController) else { return }
 		guard self.canApplyTo(viewController.view) else { return }
 		
 		
 		
-//		print(#file.fileName, #function, type(of: viewController))
+		//		print(#file.fileName, #function, type(of: viewController))
 		for property in self.properties {
-//			print(Char.Tab, property)
-			property.applyTo(root)
+			//			print(Char.Tab, property)
+			property.applyTo(&root, for: theme)
 		}
 		
 		
 		
-		self.onUpdate?(root)
+		self.onApplyClosures.forEach({
+			$0(root)
+		})
 	}
 	
-	public func applyTo<T>(_ view: T)
+	internal func applyTo<T>(_ view: T, for theme: Theme)
 		where T: UIView
 	{
 		guard let viewController = view.ancestorViewController else { return }
 		
-		self.applyTo(view, in: viewController)
+		self.applyTo(view, in: viewController, for: theme)
 	}
 	
-	private func applyTo<T>(_ view: T, in viewController: UIViewController)
+	private func applyTo<T>(_ view: T, in viewController: UIViewController, for theme: Theme)
 		where T: UIView
 	{
-		guard let root = view as? Root else { return }
+		guard var root = view as? Root else { return }
 		guard self.canApplyTo(view) else { return }
 		guard self.canApplyTo(viewController) else { return }
 		
 		
 		
-//		print(#file.fileName, #function, Root.self)
+		//		print(#file.fileName, #function, Root.self)
 		for property in self.properties {
-//			print(Char.Tab, property)
-			property.applyTo(root)
+			//			print(Char.Tab, property)
+			property.applyTo(&root, for: theme)
 		}
 		
 		
 		
-		self.onUpdate?(root)
+		self.onApplyClosures.forEach({
+			$0(root)
+		})
 	}
 }
 

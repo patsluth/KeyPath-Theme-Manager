@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+import Sluthware
+
 
 
 
@@ -19,7 +21,7 @@ class PartialThemeProperty<Root>: CustomStringConvertible
 	{
 	}
 	
-	func applyTo(_ object: Root)
+	func applyTo(_ object: inout Root, for theme: Theme)
 	{
 	}
 	
@@ -34,38 +36,31 @@ class PartialThemeProperty<Root>: CustomStringConvertible
 
 
 
-final class ThemeProperty<Root, Value>: PartialThemeProperty<Root>
+class ThemeProperty<Root, Value>: PartialThemeProperty<Root>
 {
-	private let keyPath: WritableKeyPath<Root, Value>
+	private let keyPathWriter: KeyPathWriter<Root, Value>
 	private let value: Value
 	
 	
 	
 	
 	
-	init(_ keyPath: WritableKeyPath<Root, Value>, _ value: Value)
+	init<K>(_ keyPathWriter: K, _ value: Value)
+		where K: KeyPathWriter<Root, Value>
 	{
-		self.keyPath = keyPath
+		self.keyPathWriter = keyPathWriter
 		self.value = value
 		
 		super.init()
 	}
 	
-	init(_ keyPath: ReferenceWritableKeyPath<Root, Value>, _ value: Value)
+	override func applyTo(_ object: inout Root, for theme: Theme)
 	{
-		self.keyPath = keyPath
-		self.value = value
+		if let themeable = object as? Themeable {
+			guard themeable.themeManager(shouldApply: self.keyPathWriter.keyPath, for: theme) else { return }
+		}
 		
-		super.init()
-	}
-	
-	override func applyTo(_ object: Root)
-	{
-		var object = object
-		//		guard var object = object as? Root else { return }
-		//		guard let value = self.value as? Value else { return }
-		
-		object[keyPath: self.keyPath] = self.value
+		self.keyPathWriter.write(value: self.value, toObject: &object)
 	}
 }
 

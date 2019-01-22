@@ -1,16 +1,29 @@
 PODS:
-  - KeyPath-Theme-Manager (0.1.0)
+  - KeyPath-Theme-Manager (0.1.0):
+    - Sluthware
+  - Sluthware (1.0.31):
+    - Sluthware/Default (= 1.0.31)
+  - Sluthware/Default (1.0.31)
 
 DEPENDENCIES:
   - KeyPath-Theme-Manager (from `../`)
+  - Sluthware (from `https://github.com/patsluth/Sluthware.git`)
 
 EXTERNAL SOURCES:
   KeyPath-Theme-Manager:
     :path: "../"
+  Sluthware:
+    :git: https://github.com/patsluth/Sluthware.git
+
+CHECKOUT OPTIONS:
+  Sluthware:
+    :commit: f3a0f2a7efc765a7f6360be5b9e9afd26af05728
+    :git: https://github.com/patsluth/Sluthware.git
 
 SPEC CHECKSUMS:
-  KeyPath-Theme-Manager: c8a76ac30649c5b889a1b2893a0fd63a919a3915
+  KeyPath-Theme-Manager: 9d58eed0e540feefc02c4e23e893ed290de72072
+  Sluthware: b24bfc82468ad4c5f0e6492b0748a283c00a8f3b
 
-PODFILE CHECKSUM: b59944cc3e85303663f855393ea41527fbd72e13
+PODFILE CHECKSUM: 6b14c2b6dfa21890ae64d0a7028a3b78a2fba8ae
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0.beta.2

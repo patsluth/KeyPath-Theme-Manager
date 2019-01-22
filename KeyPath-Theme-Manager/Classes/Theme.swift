@@ -1,6 +1,6 @@
 //
 //  Theme.swift
-//  KeyPath-Theme-Manager
+//  KeyPathThemeManager
 //
 //  Created by Pat Sluth on 2018-02-15.
 //  Copyright © 2018 Pat Sluth. All rights reserved.
@@ -13,25 +13,30 @@ import UIKit
 
 
 
-public final class Theme
+public class Theme
 {
-	let barTintColor: UIColor?
-	let tintColor: UIColor
-	let isTranslucent: Bool
-	let keyboardAppearance: UIKeyboardAppearance
+	public let name: String
 	
-	let tintedTextAttibutes: [NSAttributedString.Key: Any]
+	public let barTintColor: UIColor?
+	public let tintColor: UIColor
+	public let isTranslucent: Bool
+	public let keyboardAppearance: UIKeyboardAppearance
+	
+	public let tintedTextAttibutes: [NSAttributedString.Key: Any]
 	private var components: [AnyThemeComponent]
 	
 	
 	
 	
 	
-	public required init(barTintColor: UIColor?,
-						 tintColor: UIColor?,
-						 isTranslucent: Bool?,
-						 keyboardAppearance: UIKeyboardAppearance?)
+	public required init(name: String,
+						 barTintColor: UIColor?,
+						 tintColor: UIColor!,
+						 isTranslucent: Bool!,
+						 keyboardAppearance: UIKeyboardAppearance!)
 	{
+		self.name = name
+		
 		// fallback to system defaults
 		self.barTintColor = barTintColor ?? UINavigationBar().barTintColor
 		self.tintColor = tintColor ?? UIView().tintColor
@@ -43,84 +48,117 @@ public final class Theme
 		
 		
 		
-		self.add(ThemeComponent([
-			ThemeProperty(\UIViewController.view!.tintColor, self.tintColor),
-			]))
+		self.add(ThemeComponent<UIViewController>({
+			$0.property(\UIViewController.view!.tintColor, self.tintColor)
+		}))
 		
 		if #available(iOS 11.0, *) {
-			self.add(ThemeComponent([
-				ThemeProperty(\UINavigationBar.barTintColor, self.barTintColor),
-				ThemeProperty(\UINavigationBar.tintColor, self.tintColor),
-				ThemeProperty(\UINavigationBar.isTranslucent, self.isTranslucent),
-				ThemeProperty(\UINavigationBar.titleTextAttributes, self.tintedTextAttibutes),
-				ThemeProperty(\UINavigationBar.largeTitleTextAttributes, self.tintedTextAttibutes),
-				]))
+			self.add(ThemeComponent<UINavigationBar>({
+				$0.property(\UINavigationBar.barTintColor, self.barTintColor)
+				$0.property(\UINavigationBar.tintColor, self.tintColor)
+				$0.property(\UINavigationBar.isTranslucent, self.isTranslucent)
+				$0.property(\UINavigationBar.titleTextAttributes, self.tintedTextAttibutes)
+				$0.property(\UINavigationBar.largeTitleTextAttributes, self.tintedTextAttibutes)
+			}))
 		}
 		
-		self.add(ThemeComponent([
-			ThemeProperty(\UITabBar.barTintColor, self.barTintColor),
-			ThemeProperty(\UITabBar.tintColor, self.tintColor),
-			ThemeProperty(\UITabBar.isTranslucent, self.isTranslucent),
-			]))
+		self.add(ThemeComponent<UITabBar>({
+			$0.property(\UITabBar.barTintColor, self.barTintColor)
+			$0.property(\UITabBar.tintColor, self.tintColor)
+			$0.property(\UITabBar.isTranslucent, self.isTranslucent)
+		}))
 		
-		self.add(ThemeComponent([
-			ThemeProperty(\UIToolbar.barTintColor, self.barTintColor),
-			ThemeProperty(\UIToolbar.tintColor, self.tintColor),
-			ThemeProperty(\UIToolbar.isTranslucent, self.isTranslucent),
-			]))
+		self.add(ThemeComponent<UIToolbar>({
+			$0.property(\UIToolbar.barTintColor, self.barTintColor)
+			$0.property(\UIToolbar.tintColor, self.tintColor)
+			$0.property(\UIToolbar.isTranslucent, self.isTranslucent)
+		}))
 		
-		self.add(ThemeComponent([
-			ThemeProperty(\UISearchBar.barTintColor, self.barTintColor),
-			ThemeProperty(\UISearchBar.tintColor, self.tintColor),
-			ThemeProperty(\UISearchBar.isTranslucent, self.isTranslucent),
-			]))
+		self.add(ThemeComponent<UISearchBar>({
+			$0.property(\UISearchBar.barTintColor, self.barTintColor)
+			$0.property(\UISearchBar.tintColor, self.tintColor)
+			$0.property(\UISearchBar.isTranslucent, self.isTranslucent)
+		}))
 		
-		self.add(ThemeComponent([
-			ThemeProperty(\UITextView.keyboardAppearance, self.keyboardAppearance),
-			]))
+		self.add(ThemeComponent<UITextView>({
+			$0.property(\UITextView.keyboardAppearance, self.keyboardAppearance)
+		}))
 		
-		self.add(ThemeComponent([
-			ThemeProperty(\UITextField.keyboardAppearance, self.keyboardAppearance),
-			]))
-		
-		self.add(ThemeComponent([
-//			ThemeProperty(\UITextField.tintColor, self.tintColor),
-			ThemeProperty(\UITextField.defaultTextAttributes, self.tintedTextAttibutes),
-			]) {
-				// Apply tint to image views
-				for case let subview as UIImageView in $0.subviews {
-					subview.image = subview.image?.withRenderingMode(.alwaysTemplate)
-				}
-				
-				// Apply tint to placeholder text
-				guard let placeholder = $0.attributedPlaceholder?.string ?? $0.placeholder else { return }
-				$0.attributedPlaceholder = NSAttributedString(string: placeholder,
-																attributes: $0.defaultTextAttributes)
-			}
-			.addingConstraint(when: .ContainedIn, is: UISearchBar.self)
-		)
+		//		self.add(ThemeComponent<UITextField>({
+		////			ThemeProperty(\UITextField.tintColor, self.tintColor),
+		//			ThemeProperty(\UITextField.defaultTextAttributes, self.tintedTextAttibutes),
+		//			]) {
+		//				// Apply tint to image views
+		//				for case let subview as UIImageView in $0.subviews {
+		//					subview.image = subview.image?.withRenderingMode(.alwaysTemplate)
+		//				}
+		//
+		//				// Apply tint to placeholder text
+		//				guard let placeholder = $0.attributedPlaceholder?.string ?? $0.placeholder else { return }
+		//				$0.attributedPlaceholder = NSAttributedString(string: placeholder,
+		//																attributes: $0.defaultTextAttributes)
+		//			}
+		//			.addingConstraint(when: .ContainedIn, is: UISearchBar.self)
+		//		}))
 	}
 	
-	public func add<T>(_ themeComponent: ThemeComponent<T>)
+	@discardableResult
+	public func add<T>(_ themeComponent: ThemeComponent<T>) -> Self
 		where T: AnyObject
 	{
 		self.components.append(themeComponent)
+		return self
 	}
 	
 	internal func applyTo<T>(_ viewController: T)
 		where T: UIViewController
 	{
-		for component in self.components {
-			component.applyTo(viewController)
+		self.components.forEach {
+			$0.applyTo(viewController, for: self)
 		}
 	}
 	
 	internal func applyTo<T>(_ view: T)
 		where T: UIView
 	{
-		for component in self.components {
-			component.applyTo(view)
+		self.components.forEach {
+			$0.applyTo(view, for: self)
 		}
+	}
+	
+	
+	
+	//	public static func +(lhs: Fraction, rhs: Fraction) -> Fraction
+	//	{
+	//		let num = (lhs.num * rhs.den) + (lhs.den * rhs.num)
+	//		let den = (lhs.den * rhs.den)
+	//
+	//		return Fraction(num, den)//.reduced()
+	//	}
+}
+
+
+
+
+
+extension Theme
+{
+	static let none = Theme(name: "None",
+							barTintColor: nil,
+							tintColor: nil,
+							isTranslucent: nil,
+							keyboardAppearance: nil)
+}
+
+
+
+
+
+extension Theme: Equatable
+{
+	public static func == (lhs: Theme, rhs: Theme) -> Bool
+	{
+		return (lhs.name == rhs.name)
 	}
 }
 
@@ -128,25 +166,24 @@ public final class Theme
 
 
 
-//extension Theme: Equatable
-//{
-//	public static func == (lhs: Theme, rhs: Theme) -> Bool
-//	{
-//		return lhs.name == rhs.name
-//	}
-//}
-//
-//
-//
-//
-//
-//extension Theme: Hashable
-//{
-//	public func hash(into hasher: inout Hasher)
-//	{
-//		hasher.combine(self.name)
-//	}
-//}
+extension Theme: Hashable
+{
+	public func hash(into hasher: inout Hasher)
+	{
+		hasher.combine(self.name)
+	}
+}
+
+
+
+
+
+extension Theme: CustomStringConvertible
+{
+	public var description: String {
+		return "\(type(of: self)).\(self.name)"
+	}
+}
 
 
 

@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0A21F73E94E86913F35CD517 /* Pods_KeyPath_Theme_Manager_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAD12B8ED52E16067F3C3E6 /* Pods_KeyPath_Theme_Manager_Tests.framework */; };
-		2E74632C21C5A5830077150D /* ThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E74632B21C5A5830077150D /* ThemeType.swift */; };
+		2E74632C21C5A5830077150D /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E74632B21C5A5830077150D /* Theme.swift */; };
+		2EDAECB221F7B8BB00DFBD8B /* ThemeDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDAECB121F7B8BB00DFBD8B /* ThemeDataSource.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -32,7 +33,8 @@
 		0AAD12B8ED52E16067F3C3E6 /* Pods_KeyPath_Theme_Manager_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KeyPath_Theme_Manager_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F752C71317514A3691910F9 /* Pods_KeyPath_Theme_Manager_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KeyPath_Theme_Manager_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27DED9EBBC382D21A42F4B7D /* KeyPath-Theme-Manager.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "KeyPath-Theme-Manager.podspec"; path = "../KeyPath-Theme-Manager.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		2E74632B21C5A5830077150D /* ThemeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeType.swift; sourceTree = "<group>"; };
+		2E74632B21C5A5830077150D /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		2EDAECB121F7B8BB00DFBD8B /* ThemeDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeDataSource.swift; sourceTree = "<group>"; };
 		4C6F418D83D581F76B3DE0B0 /* Pods-KeyPath-Theme-Manager_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeyPath-Theme-Manager_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KeyPath-Theme-Manager_Tests/Pods-KeyPath-Theme-Manager_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		566443F3616351E5E51CDCA7 /* Pods-KeyPath-Theme-Manager_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeyPath-Theme-Manager_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KeyPath-Theme-Manager_Example/Pods-KeyPath-Theme-Manager_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		58062CF833C9E854A96060FB /* Pods-KeyPath-Theme-Manager_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeyPath-Theme-Manager_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KeyPath-Theme-Manager_Tests/Pods-KeyPath-Theme-Manager_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -97,7 +99,8 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
-				2E74632B21C5A5830077150D /* ThemeType.swift */,
+				2E74632B21C5A5830077150D /* Theme.swift */,
+				2EDAECB121F7B8BB00DFBD8B /* ThemeDataSource.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -173,7 +176,7 @@
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
-				04CBAFB49DB8A0C815C37289 /* [CP] Embed Pods Frameworks */,
+				BCC47A11F4C92645C90E3F0E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -264,28 +267,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		04CBAFB49DB8A0C815C37289 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-KeyPath-Theme-Manager_Example/Pods-KeyPath-Theme-Manager_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/KeyPath-Theme-Manager/KeyPath_Theme_Manager.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeyPath_Theme_Manager.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KeyPath-Theme-Manager_Example/Pods-KeyPath-Theme-Manager_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		A49EB39F05C1E26AD5759FAF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -306,6 +287,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BCC47A11F4C92645C90E3F0E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KeyPath-Theme-Manager_Example/Pods-KeyPath-Theme-Manager_Example-resources.sh",
+				"${PODS_ROOT}/Sluthware/Sluthware/Resources/UIKit/DebugViewController.xib",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/DebugViewController.nib",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KeyPath-Theme-Manager_Example/Pods-KeyPath-Theme-Manager_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E360B68AF2D0702D8EDB9D24 /* [CP] Check Pods Manifest.lock */ = {
@@ -339,7 +342,8 @@
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
-				2E74632C21C5A5830077150D /* ThemeType.swift in Sources */,
+				2EDAECB221F7B8BB00DFBD8B /* ThemeDataSource.swift in Sources */,
+				2E74632C21C5A5830077150D /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
