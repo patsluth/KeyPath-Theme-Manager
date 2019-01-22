@@ -9,6 +9,7 @@
 import UIKit
 
 import KeyPath_Theme_Manager
+import Sluthware
 
 
 
@@ -107,7 +108,7 @@ extension ViewController: UITableViewDelegate
 
 extension ViewController: Themeable
 {
-	func themeManager(shouldApply keyPath: AnyKeyPath, for theme: Theme) -> Bool
+	func theme(_ theme: Theme, shouldSetValueFor keyPath: AnyKeyPath) -> Bool
 	{
 		switch keyPath {
 		case \ViewController.view!.alpha:	return false

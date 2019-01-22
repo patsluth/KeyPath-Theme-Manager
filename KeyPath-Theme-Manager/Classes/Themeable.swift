@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+import Sluthware
+
 
 
 
@@ -16,7 +18,10 @@ import UIKit
 // Inherit from Themable to override theme properties for specific instances
 public protocol Themeable
 {
-	func themeManager(shouldApply keyPath: AnyKeyPath, for theme: Theme) -> Bool
+	func theme(_ theme: Theme, shouldSetValueFor keyPath: AnyKeyPath) -> Bool
+//	func theme<Root, Value>(_ theme: Theme,
+//							willSet value: inout Value,
+//							for keyPathWriter: KeyPathWriter<Root, Value>)
 }
 
 

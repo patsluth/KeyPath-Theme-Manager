@@ -56,11 +56,15 @@ class ThemeProperty<Root, Value>: PartialThemeProperty<Root>
 	
 	override func applyTo(_ object: inout Root, for theme: Theme)
 	{
+//		let themeable = object as? Themeable
+//		var value = self.value
+//		themeable?.theme(theme: theme, willSet: &value, for: self.keyPathWriter.keyPath)
+		
 		if let themeable = object as? Themeable {
-			guard themeable.themeManager(shouldApply: self.keyPathWriter.keyPath, for: theme) else { return }
+			guard themeable.theme(theme, shouldSetValueFor: self.keyPathWriter.keyPath) else { return }
 		}
 		
-		self.keyPathWriter.write(value: self.value, toObject: &object)
+		self.keyPathWriter.write(value: value, toObject: &object)
 	}
 }
 
