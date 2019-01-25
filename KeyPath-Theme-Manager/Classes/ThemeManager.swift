@@ -28,9 +28,11 @@ public final class ThemeManager
 			guard let window = UIApplication.shared.keyWindow else { return }
 			guard let viewController = window.rootViewController else { return }
 			
+			print(theme)
+			
 			viewController.recurseDecendents {
 				theme.applyTo($0)
-				return false
+				$1 = false
 			}
 		}
 	}
@@ -53,13 +55,15 @@ public final class ThemeManager
 	//		self.register(T.allCases)
 	//	}
 	
-	public class func register<T>(_ themes: T)
+	public class func register<T>(_ themes: T, current: (inout Theme?) -> Void)
 		where T: Sequence, T.Element == Theme
 	{
 		self.themes.formUnion(themes)
-		self.current = self.themes.first(where: {
+		var loadedTheme = self.themes.first(where: {
 			$0.name == self.userDefaults.string(forKey: "\(Theme.self)")
 		})
+		current(&loadedTheme)
+		self.current = loadedTheme
 		
 		DispatchQueue.once({
 			do {
@@ -91,7 +95,7 @@ public final class ThemeManager
 		
 		viewController.recurseDecendents {
 			theme.applyTo($0)
-			return false
+			$1 = false
 		}
 	}
 	

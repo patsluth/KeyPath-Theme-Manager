@@ -15,9 +15,9 @@ import Sluthware
 
 
 
-protocol AnyThemeComponent//: Hashable
+protocol AnyThemeComponent
 {
-//	var rootType: Any.Type { get }
+	var rootType: Any.Type { get }
 	
 	func applyTo<T: UIViewController>(_ viewController: T, for theme: Theme)
 	func applyTo<T: UIView>(_ view: T, for theme: Theme)
@@ -36,7 +36,7 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 	
 	
 	
-//	public let rootType: Any.Type = Root.self
+	public let rootType: Any.Type = Root.self
 	
 	private var properties = [PartialThemeProperty<Root>]()
 	private var viewControllerConstraints = [Constraint]()
@@ -49,7 +49,7 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 	
 	public required init(_ initBlock: (ThemeComponent<Root>) -> Void = { _ in })
 	{
-//		super.init()
+		//		super.init()
 		
 		initBlock(self)
 	}
@@ -108,12 +108,12 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 			case .ContainedIn:
 				viewController.recurseAncestors {
 					canApply = typeContainer.containsKind($0)
-					return canApply
+					$1 = canApply
 				}
 			case .NotContainedIn:
 				viewController.recurseAncestors {
 					canApply = !typeContainer.containsKind($0)
-					return canApply
+					$1 = canApply
 				}
 			}
 			
@@ -137,12 +137,12 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 			case .ContainedIn:
 				view.recurseAncestors {
 					canApply = typeContainer.containsKind($0)
-					return canApply
+					$1 = canApply
 				}
 			case .NotContainedIn:
 				view.recurseAncestors {
 					canApply = !typeContainer.containsKind($0)
-					return canApply
+					$1 = canApply
 				}
 			}
 			
@@ -157,7 +157,7 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 	{
 		viewController.view.recurseDecendents {
 			self.applyTo($0, in: viewController, for: theme)
-			return false
+			$1 = false
 		}
 		
 		guard var root = viewController as? Root else { return }
@@ -166,9 +166,9 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 		
 		
 		
-		//		print(#file.fileName, #function, type(of: viewController))
+//		print(#file.fileName, #function, type(of: viewController))
 		for property in self.properties {
-			//			print(Char.Tab, property)
+//			print(Char.Tab, property)
 			property.applyTo(&root, for: theme)
 		}
 		
@@ -182,23 +182,28 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 	internal func applyTo<T>(_ view: T, for theme: Theme)
 		where T: UIView
 	{
-		guard let viewController = view.ancestorViewController else { return }
-		
-		self.applyTo(view, in: viewController, for: theme)
+		//		guard let viewController = view.ancestorViewController else {
+		//
+		//			print(type(of: view))
+		//			return
+		//
+		//		}
+		//
+		self.applyTo(view, in: view.ancestorViewController, for: theme)
 	}
 	
-	private func applyTo<T>(_ view: T, in viewController: UIViewController, for theme: Theme)
+	private func applyTo<T>(_ view: T, in viewController: UIViewController?, for theme: Theme)
 		where T: UIView
 	{
 		guard var root = view as? Root else { return }
 		guard self.canApplyTo(view) else { return }
-		guard self.canApplyTo(viewController) else { return }
+		if let viewController = viewController {
+			guard self.canApplyTo(viewController) else { return }
+		}
 		
-		
-		
-		//		print(#file.fileName, #function, Root.self)
+//		print(#file.fileName, #function, Root.self)
 		for property in self.properties {
-			//			print(Char.Tab, property)
+//			print(Char.Tab, property)
 			property.applyTo(&root, for: theme)
 		}
 		
@@ -207,6 +212,42 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 		self.onApplyClosures.forEach({
 			$0(root)
 		})
+	}
+}
+
+
+
+
+
+extension ThemeComponent: CustomStringConvertible
+{
+	public var description: String {
+		let builder = StringBuilder("\(type(of: self))")
+		if !self.properties.isEmpty {
+			builder.append("[\(self.properties.count) properties]")
+		}
+		if !self.viewControllerConstraints.isEmpty {
+			builder.append("[\(self.viewControllerConstraints.count) viewControllerConstraints]")
+		}
+		if !self.viewConstraints.isEmpty {
+			builder.append("[\(self.viewConstraints.count) viewConstraints]")
+		}
+		if !self.onApplyClosures.isEmpty {
+			builder.append("[\(self.onApplyClosures.count) onApplyClosures]")
+		}
+//		self.properties.forEach {
+//			builder.append(line: "\t\($0)")
+//		}
+//		self.viewControllerConstraints.forEach {
+//			builder.append(line: "\($0)")
+//		}
+//		self.viewConstraints.forEach {
+//			builder.append(line: "\($0)")
+//		}
+//		self.onApplyClosures.forEach {
+//			builder.append(line: "\($0)")
+//		}
+		return builder.string
 	}
 }
 

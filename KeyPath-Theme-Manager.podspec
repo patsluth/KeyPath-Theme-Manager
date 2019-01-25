@@ -25,6 +25,7 @@ Pod::Spec.new do |s|
   s.static_framework = true
   
   s.dependency 'Sluthware'
+  s.dependency 'Sluthware/RxSwift'
   
   s.frameworks = 'Foundation', 'UIKit'
   

@@ -24,6 +24,9 @@
   "dependencies": {
     "Sluthware": [
 
+    ],
+    "Sluthware/RxSwift": [
+
     ]
   },
   "frameworks": [

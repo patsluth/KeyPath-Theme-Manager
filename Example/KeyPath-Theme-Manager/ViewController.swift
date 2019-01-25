@@ -31,6 +31,43 @@ class ViewController: UIViewController
 		
 		self.dataSource = ThemeManager.themes
 			.sorted(by: \Theme.name, >)
+		
+		let searchController = UISearchController(searchResultsController: nil)
+		searchController.delegate = self
+//		searchController.searchResultsUpdater = self
+//		searchController.searchBar.delegate = self
+		searchController.obscuresBackgroundDuringPresentation = false
+		searchController.dimsBackgroundDuringPresentation = false
+		searchController.hidesNavigationBarDuringPresentation = true
+		searchController.searchBar.scopeButtonTitles = ["A", "B", "C"]
+		
+		self.navigationItem.searchController = searchController
+		self.navigationItem.hidesSearchBarWhenScrolling = false
+		self.definesPresentationContext = true
+	}
+}
+
+
+
+
+
+extension ViewController: UISearchControllerDelegate
+{
+	func willPresentSearchController(_ searchController: UISearchController)
+	{
+	}
+	
+	func didPresentSearchController(_ searchController: UISearchController)
+	{
+		searchController.viewDidAppear(true)
+	}
+	
+	func willDismissSearchController(_ searchController: UISearchController)
+	{
+	}
+	
+	func didDismissSearchController(_ searchController: UISearchController)
+	{
 	}
 }
 

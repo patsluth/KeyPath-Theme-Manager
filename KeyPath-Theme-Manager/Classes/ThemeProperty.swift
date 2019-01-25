@@ -15,7 +15,7 @@ import Sluthware
 
 
 
-class PartialThemeProperty<Root>: CustomStringConvertible
+internal class PartialThemeProperty<Root>
 {
 	fileprivate init()
 	{
@@ -24,19 +24,13 @@ class PartialThemeProperty<Root>: CustomStringConvertible
 	func applyTo(_ object: inout Root, for theme: Theme)
 	{
 	}
-	
-	// MARK: CustomStringConvertible
-	
-	var description: String {
-		return "\(type(of: self))"
-	}
 }
 
 
 
 
 
-class ThemeProperty<Root, Value>: PartialThemeProperty<Root>
+internal class ThemeProperty<Root, Value>: PartialThemeProperty<Root>
 {
 	private let keyPathWriter: KeyPathWriter<Root, Value>
 	private let value: Value
@@ -64,9 +58,25 @@ class ThemeProperty<Root, Value>: PartialThemeProperty<Root>
 			guard themeable.theme(theme, shouldSetValueFor: self.keyPathWriter.keyPath) else { return }
 		}
 		
-		self.keyPathWriter.write(value: value, toObject: &object)
+		self.keyPathWriter.write(value, to: &object)
 	}
 }
+
+
+
+
+
+//extension ThemeProperty: CustomStringConvertible
+//{
+//	public var description: String {
+////		let builder = StringBuilder("\(type(of: self))")
+////		self.properties.forEach {
+////			builder.append(line: "\t\($0)")
+////		}
+////		return builder.string
+//		return "\(String(describing: self.keyPathWriter.keyPath)) = \(Value.self))"
+//	}
+//}
 
 
 

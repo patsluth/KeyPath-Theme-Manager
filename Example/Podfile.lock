@@ -1,13 +1,40 @@
 PODS:
   - KeyPath-Theme-Manager (0.1.0):
     - Sluthware
+    - Sluthware/RxSwift
+  - RxAtomic (4.4.0)
+  - RxCocoa (4.4.0):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.4.0):
+    - RxAtomic (~> 4.4)
+  - RxSwiftExt (3.4.0):
+    - RxSwiftExt/Core (= 3.4.0)
+    - RxSwiftExt/RxCocoa (= 3.4.0)
+  - RxSwiftExt/Core (3.4.0):
+    - RxSwift (~> 4.0)
+  - RxSwiftExt/RxCocoa (3.4.0):
+    - RxCocoa (~> 4.0)
+    - RxSwiftExt/Core
   - Sluthware (1.0.31):
     - Sluthware/Default (= 1.0.31)
   - Sluthware/Default (1.0.31)
+  - Sluthware/RxSwift (1.0.31):
+    - RxCocoa
+    - RxSwift
+    - RxSwiftExt
+    - Sluthware/Default
 
 DEPENDENCIES:
   - KeyPath-Theme-Manager (from `../`)
   - Sluthware (from `https://github.com/patsluth/Sluthware.git`)
+  - Sluthware/RxSwift (from `https://github.com/patsluth/Sluthware.git`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - RxAtomic
+    - RxCocoa
+    - RxSwift
+    - RxSwiftExt
 
 EXTERNAL SOURCES:
   KeyPath-Theme-Manager:
@@ -17,13 +44,17 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Sluthware:
-    :commit: f3a0f2a7efc765a7f6360be5b9e9afd26af05728
+    :commit: 4a3b3990267d288827bd5e265e276fc3ac0b4f70
     :git: https://github.com/patsluth/Sluthware.git
 
 SPEC CHECKSUMS:
-  KeyPath-Theme-Manager: 556b40fe6e5be31b3542d38f80a514c3c15bf5e7
+  KeyPath-Theme-Manager: 583ebfe464ae8c1b7f7e809af1858380a7ce5807
+  RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
+  RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
+  RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
+  RxSwiftExt: 01f8ecbeeb355698e9c75365ebe908b00dacf45d
   Sluthware: b24bfc82468ad4c5f0e6492b0748a283c00a8f3b
 
-PODFILE CHECKSUM: 6b14c2b6dfa21890ae64d0a7028a3b78a2fba8ae
+PODFILE CHECKSUM: 40c93528c3681051f2cdb6b4a1b0d0fd302e92d3
 
 COCOAPODS: 1.6.0.beta.2

@@ -86,6 +86,9 @@ public extension Theme
 		self ++ ThemeComponent<UIViewController>()
 			+++ (\UIViewController.view?, \UIViewController.view!.tintColor, self.tintColor)
 		
+		//		self ++ ThemeComponent<UIView>()
+		//			+++ (\UIView.tintColor, self.tintColor)
+		
 		if #available(iOS 11.0, *) {
 			self ++ ThemeComponent<UINavigationBar>()
 				+++ (\UINavigationBar.barTintColor, self.barTintColor)
@@ -122,27 +125,50 @@ public extension Theme
 			$0.property(\UITextView.keyboardAppearance, self.keyboardAppearance)
 		}))
 		
+		self.add(ThemeComponent<UITextField>({
+			$0.property(\UITextField.keyboardAppearance, self.keyboardAppearance)
+		}))
+		
 		return self
 	}
 	
 	@discardableResult
 	public func addingTintedSearchBarProperties() -> Self
 	{
-		self ++ ThemeComponent<UITextField>()
-			+++ (\UITextField.tintColor, self.tintColor)
-			+++ (\UITextField.defaultTextAttributes, self.tintedTextAttibutes)
-			<<< ({
+//		self.add(ThemeComponent<UITextField>{
+//			$0 +++ (\UITextField.defaultTextAttributes, self.tintedTextAttibutes)
+////			$0 +++ (.ContainedIn, is: UISearchBar.self)
+//			$0 +++ ({
+//				// Apply tint to image views
+//				for case let subview as UIImageView in $0.subviews {
+//					subview.image = subview.image?.withRenderingMode(.alwaysTemplate)
+//				}
+//
+//				// Apply tint to placeholder text
+//				guard let placeholder = $0.attributedPlaceholder?.string ?? $0.placeholder else { return }
+//				$0.attributedPlaceholder = NSAttributedString(string: placeholder,
+//															  attributes: $0.defaultTextAttributes)
+//			})
+//		})
+		
+		self.add(ThemeComponent<UITextField>{
+			$0 +++ (\UITextField.defaultTextAttributes, self.tintedTextAttibutes)
+			$0 +++ (.ContainedIn, is: UISearchBar.self)
+			$0 +++ ({
 				// Apply tint to image views
-				for case let subview as UIImageView in $0.subviews {
-					subview.image = subview.image?.withRenderingMode(.alwaysTemplate)
+				for case let view as UIImageView in $0.subviews {
+					view.image = view.image?.withRenderingMode(.alwaysTemplate)
 				}
 				
-				// Apply tint to placeholder text
-				guard let placeholder = $0.attributedPlaceholder?.string ?? $0.placeholder else { return }
-				$0.attributedPlaceholder = NSAttributedString(string: placeholder,
-															  attributes: $0.defaultTextAttributes)
+				for case let view as UITextField in $0.subviews {
+					// Apply tint to placeholder text
+					guard let text = view.attributedPlaceholder?.string ?? view.placeholder else { continue }
+					view.attributedPlaceholder = NSAttributedString(string: text,
+																	attributes: view.defaultTextAttributes)
+				}
 			})
-		
+		})
+
 		return self
 	}
 }
@@ -191,7 +217,11 @@ extension Theme: Hashable
 extension Theme: CustomStringConvertible
 {
 	public var description: String {
-		return "\(type(of: self)).\(self.name)"
+		let builder = StringBuilder("\(type(of: self)).\(self.name)")
+		self.components.forEach {
+			builder.append(line: "\t\($0)")
+		}
+		return builder.string
 	}
 }
 

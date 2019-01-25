@@ -1,5 +1,5 @@
 //
-//  StringBuilder.swift
+//  String+Builder.swift
 //  Sluthware
 //
 //  Created by Pat Sluth on 2018-02-13.
@@ -27,7 +27,7 @@ import Foundation
 //		attributedString.append(rhs)
 //		return attributedString as NSAttributedString
 //	}
-//	
+//
 //	public static func +(lhs: NSAttributedString, rhs: String) -> NSAttributedString
 //	{
 //		return lhs + NSAttributedString(string: rhs)
@@ -48,72 +48,81 @@ import Foundation
 
 
 
-public struct StringBuilder
+public typealias StringBuilder = String.Builder
+
+public extension String
 {
-	fileprivate(set) public var attributed = NSMutableAttributedString()
-	
-	public var string: String {
-		return self.attributed.string
-	}
-	
-	
-	
-	
-	
-	public init()
+	public struct Builder
 	{
-	}
-	
-	//	public init(string: String, _ rawAttributes: (NSAttributedStringKey, Any)...)
-	//	{
-	//		self.append(string: string, rawAttributes)
-	//	}
-	
-	@discardableResult public func append(string: String?, _ rawAttributes: (NSAttributedString.Key, Any)...) -> StringBuilder
-	{
-		guard let string = string else { return self }
+		public typealias RawAttribute = (NSAttributedString.Key, Any)
+		private typealias Attributes = [NSAttributedString.Key: Any]
 		
-		let attributes = self.attributesDictionaryFrom(rawAttributes: rawAttributes)
-		return self.internalAppend(string: (string, attributes))
-	}
-	
-	@discardableResult public func append(line: String?, _ rawAttributes: (NSAttributedString.Key, Any)...) -> StringBuilder
-	{
-		guard let line = line else { return self }
+		fileprivate(set) public var attributed = NSMutableAttributedString()
 		
-		let attributes = self.attributesDictionaryFrom(rawAttributes: rawAttributes)
-		return self.internalAppend(line: (line, attributes))
-	}
-	
-	@discardableResult fileprivate func internalAppend(string: (String, [NSAttributedString.Key: Any]?)) -> StringBuilder
-	{
-		self.attributed.append(NSAttributedString(string: string.0, attributes: string.1))
+		public var string: String {
+			return self.attributed.string
+		}
 		
-		return self
-	}
-	
-	@discardableResult fileprivate func internalAppend(line: (String, [NSAttributedString.Key: Any]?)) -> StringBuilder
-	{
-		var line = line
-		//		if String.isEmpty(self.string) {
-		line.0 = "\n" + line.0
-		//		s}
-		self.attributed.append(NSAttributedString(string: line.0, attributes: line.1))
 		
-		return self
-	}
-	
-	@discardableResult public mutating func clear() -> StringBuilder
-	{
-		self.attributed = NSMutableAttributedString()
 		
-		return self
-	}
-	
-	fileprivate func attributesDictionaryFrom(rawAttributes: [(NSAttributedString.Key, Any)]) -> [NSAttributedString.Key: Any]?
-	{
-		return rawAttributes.reduce(into: [NSAttributedString.Key: Any]()) { result, element in
-			result[element.0] = element.1
+		
+		
+		public init()
+		{
+		}
+		
+		public init(_ string: String, _ rawAttributes: RawAttribute...)
+		{
+			self._append(string, self.attributes(for: rawAttributes))
+		}
+		
+		@discardableResult
+		public func append(_ string: String?, _ rawAttributes: RawAttribute...) -> StringBuilder
+		{
+			guard let string = string else { return self }
+			
+			return self._append(string, self.attributes(for: rawAttributes))
+		}
+		
+		@discardableResult
+		public func append(line: String?, _ rawAttributes: RawAttribute...) -> StringBuilder
+		{
+			guard let line = line else { return self }
+			
+			return self._append(line: line, self.attributes(for: rawAttributes))
+		}
+		
+		@discardableResult
+		private func _append(_ string: String, _ attributes: Attributes?) -> StringBuilder
+		{
+			self.attributed.append(NSAttributedString(string: string, attributes: attributes))
+			
+			return self
+		}
+		
+		@discardableResult
+		private func _append(line: String, _ attributes: Attributes?) -> StringBuilder
+		{
+			self.attributed.append(NSAttributedString(string: "\n" + line, attributes: attributes))
+			
+			return self
+		}
+		
+		@discardableResult
+		public mutating func clear() -> StringBuilder
+		{
+			self.attributed = NSMutableAttributedString()
+			
+			return self
+		}
+		
+		private func attributes(for rawAttributes: [RawAttribute]) -> Attributes?
+		{
+			guard !rawAttributes.isEmpty else { return nil }
+			
+			return rawAttributes.reduce(into: Attributes()) { result, element in
+				result[element.0] = element.1
+			}
 		}
 	}
 }
