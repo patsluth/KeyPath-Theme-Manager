@@ -179,7 +179,7 @@ func makeValueOverrideObservation<K, R, V>(_ keyPathWriter: K,
 		print("X")
 		guard value != change.newValue else { return }
 		var object = object
-		keyPathWriter.write(value, to: &object)
+		keyPathWriter.write(value: value, toObject: &object)
 //
 //		root[keyPath: keyPath] = value
 		print("X", object[keyPath: keyPathWriter.keyPath])
