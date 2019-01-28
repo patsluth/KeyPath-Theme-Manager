@@ -15,12 +15,12 @@ import Sluthware
 
 
 
-public class Theme
+public class Theme: UIBarStyleProvider
 {
 	public let name: String
 	
 	public let barTintColor: UIColor?
-	public let tintColor: UIColor
+	public let tintColor: UIColor!
 	public let isTranslucent: Bool
 	public let keyboardAppearance: UIKeyboardAppearance
 	
