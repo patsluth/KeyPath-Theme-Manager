@@ -154,6 +154,7 @@ public extension Theme
 //				for case let view as UIImageView in $0.subviews {
 //					view.image = view.image?.withRenderingMode(.alwaysTemplate)
 //				}
+				
 				let placeholder = $0.attributedPlaceholder?.string ?? $0.placeholder ?? ""
 				$0.attributedPlaceholder = placeholder.attributed({ attributes in
 					attributes[.foregroundColor] = self.tintColor.withAlphaComponent(0.5)
