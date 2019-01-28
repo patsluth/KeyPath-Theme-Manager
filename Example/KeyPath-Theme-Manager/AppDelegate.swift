@@ -205,66 +205,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 	
 	
 	
-	var vi: UIView! = UIView()
-	var test: Test! = Test()
-	class Test: NSObject
-	{
-		@objc dynamic var test2: Test2? = Test2()
-		
-		deinit {
-			print(#file.fileName, #function)
-		}
-	}
-	
-	class Test2: NSObject
-	{
-		@objc dynamic var x: Int = 4
-	}
+//	var vi: UIView! = UIView()
+//	var test: Test! = Test()
+//	class Test: NSObject
+//	{
+//		@objc dynamic var test2: Test2? = Test2()
+//
+//		deinit {
+//			print(#file.fileName, #function)
+//		}
+//	}
+//
+//	class Test2: NSObject
+//	{
+//		@objc dynamic var x: Int = 4
+//	}
 	
 	func application(_ application: UIApplication,
 					 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool
 	{
-		_ = Observable<Int>.interval(1.0, scheduler: MainScheduler.instance)
-			.bind { [unowned self] a in
-//				vi = nil
-				if a > 2 {
-					self.vi = nil
-					self.test = nil
-				}
-//				print(a)
-//				self.window!.tag = Int.random(0..<5)
-				self.vi?.alpha = CGFloat.random
-				self.test?.test2?.x = Int.random((0..<100))
-//				self.window!.alpha = CGFloat.random
-		}
-//		self.window!.rx
-//		self.window?.rx.obser
-//		test(keyPath: \UIWindow.tag, root: self.window!, value: 7)
-////			.do(onNext: { value in
-////				self.window!.tag = 0
-////			})
-////			.observeOn(MainScheduler.instance)
-//		.bind(onNext: { change in
-//			print(change)
-////			self.window!.tag = Int.random(0..<5)
-//		})
-//		obser(keyPath: \UIWindow.backgroundColor, root: self.window!, value: UIColor.red)
-		lockValue(keyPath: \UIWindow.alpha, root: self.window!, value: 0.5)
-			.takeUntil(self.window!.rx.deallocated)
-			.subscribe()
-
-		lockValue2(KeyPathWriter(\UIView.alpha), object: self.vi, value: 0.5)
-			.logOnDispose()
-			.logOnCompleted()
-			.subscribe()
-		
-		let a = \Test.test2
-		let b = \Test.test2!.x
-		let writer = SafeKeyPathWriter(\Test.test2?, \Test.test2!.x)
-		lockValue2(writer, object: self.test, value: 1)
-			.logOnDispose()
-			.logOnCompleted()
-			.subscribe()
+//		_ = Observable<Int>.interval(1.0, scheduler: MainScheduler.instance)
+//			.bind { [unowned self] a in
+////				vi = nil
+//				if a > 2 {
+//					self.vi = nil
+//					self.test = nil
+//				}
+////				print(a)
+////				self.window!.tag = Int.random(0..<5)
+//				self.vi?.alpha = CGFloat.random
+//				self.test?.test2?.x = Int.random((0..<100))
+////				self.window!.alpha = CGFloat.random
+//		}
+//
+//		lockValue(keyPath: \UIWindow.alpha, root: self.window!, value: 0.5)
+//			.takeUntil(self.window!.rx.deallocated)
+//			.subscribe()
+//
+//		lockValue2(KeyPathWriter(\UIView.alpha), object: self.vi, value: 0.5)
+//			.logOnDispose()
+//			.logOnCompleted()
+//			.subscribe()
+//
+//		lockValue2(SafeKeyPathWriter(\Test.test2?, \Test.test2!.x), object: self.test, value: 1)
+//			.logOnDispose()
+//			.logOnCompleted()
+//			.subscribe()
 		
 		
 		

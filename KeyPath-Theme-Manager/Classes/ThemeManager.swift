@@ -28,8 +28,6 @@ public final class ThemeManager
 			guard let window = UIApplication.shared.keyWindow else { return }
 			guard let viewController = window.rootViewController else { return }
 			
-			print(theme)
-			
 			viewController.recurseDecendents { 
 				theme.apply(to: $0)
 			}

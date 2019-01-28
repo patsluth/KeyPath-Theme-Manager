@@ -170,9 +170,13 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 		
 		
 		
-//		print(#file.fileName, #function, type(of: viewController))
+		#if VERBOSE_LOGGING
+		print(#file.fileName, #function, type(of: viewController))
+		#endif
 		for property in self.properties {
-//			print(Char.Tab, property)
+			#if VERBOSE_LOGGING
+			print(Char.Tab, property)
+			#endif
 			property.applyTo(&root, for: theme)
 		}
 		
@@ -183,18 +187,9 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 		})
 	}
 	
-	
-	
 	internal func apply<T>(to view: T, for theme: Theme)
 		where T: UIView
 	{
-		//		guard let viewController = view.ancestorViewController else {
-		//
-		//			print(type(of: view))
-		//			return
-		//
-		//		}
-		//
 		self.apply(to: view, containedIn: view.ancestorViewController, for: theme)
 	}
 	
@@ -209,9 +204,13 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 			guard self.canApplyTo(viewController) else { return }
 		}
 		
-//		print(#file.fileName, #function, Root.self)
+		#if VERBOSE_LOGGING
+		print(#file.fileName, #function, Root.self)
+		#endif
 		for property in self.properties {
-//			print(Char.Tab, property)
+			#if VERBOSE_LOGGING
+			print(Char.Tab, property)
+			#endif
 			property.applyTo(&root, for: theme)
 		}
 		

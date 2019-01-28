@@ -88,9 +88,6 @@ public extension Theme
 		self ++ ThemeComponent<UIViewController>()
 			+++ (\UIViewController.view?, \UIViewController.view!.tintColor, self.tintColor)
 		
-		//		self ++ ThemeComponent<UIView>()
-		//			+++ (\UIView.tintColor, self.tintColor)
-		
 		self ++ ThemeComponent<UINavigationBar>({
 			$0 +++ (\UINavigationBar.barTintColor, self.barTintColor)
 			$0 +++ (\UINavigationBar.tintColor, self.tintColor)
