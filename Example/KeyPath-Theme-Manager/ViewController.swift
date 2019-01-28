@@ -58,12 +58,23 @@ class ViewController: UIViewController
 		
 		self.navigationItem.searchController = self.searchController
 		self.navigationItem.hidesSearchBarWhenScrolling = false
+//		self.tableView.tableHeaderView = self.searchController.searchBar
+		
 		self.definesPresentationContext = true
+	}
+	
+	override func viewWillAppear(_ animated: Bool)
+	{
+		super.viewWillAppear(animated)
+		
+		(self.tableView.tableHeaderView as? UISearchBar)?.sizeToFit()
 	}
 	
 	override func viewDidAppear(_ animated: Bool)
 	{
 		super.viewDidAppear(animated)
+		
+		(self.tableView.tableHeaderView as? UISearchBar)?.sizeToFit()
 	}
 }
 

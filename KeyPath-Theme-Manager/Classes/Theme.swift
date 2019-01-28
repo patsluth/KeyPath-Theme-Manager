@@ -110,8 +110,8 @@ public extension Theme
 			$0.property(\UIToolbar.isTranslucent, self.isTranslucent)
 		}))
 		
-		// Causes cancel button to be hidden. Need to figure out why
 //		self ++ ThemeComponent<UISearchBar>()
+//			// Causes cancel button to be hidden. Need to figure out why
 //			+++ (\UISearchBar.barTintColor, self.barTintColor)
 //			+++ (\UISearchBar.tintColor, self.tintColor)
 //			+++ (\UISearchBar.isTranslucent, self.isTranslucent)
@@ -137,6 +137,7 @@ public extension Theme
 		return self
 	}
 	
+	@discardableResult
 	public func addingSearchBarComponents() -> Self
 	{
 		self ++ ThemeComponent<UITextField>()
@@ -144,12 +145,15 @@ public extension Theme
 			+++ (\UITextField.typingAttributes, self.tintedTextAttibutes)
 			+++ (\UITextField.defaultTextAttributes, self.tintedTextAttibutes)
 			+++ ({
-				// Apply tint to image views
-				for case let view as UIImageView in $0.subviews {
-					view.image = view.image?.withRenderingMode(.alwaysTemplate)
+				if let imageView = $0.leftView as? UIImageView {
+					imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
 				}
-
-				// Apply tint to placeholder text
+				if let imageView = $0.rightView as? UIImageView {
+					imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
+				}
+//				for case let view as UIImageView in $0.subviews {
+//					view.image = view.image?.withRenderingMode(.alwaysTemplate)
+//				}
 				let placeholder = $0.attributedPlaceholder?.string ?? $0.placeholder ?? ""
 				$0.attributedPlaceholder = placeholder.attributed({ attributes in
 					attributes[.foregroundColor] = self.tintColor.withAlphaComponent(0.5)

@@ -288,11 +288,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 				$0 +++ (SafeKeyPathWriter(\ViewController.view?,
 										 \ViewController.tableView.backgroundColor),
 						UIColor.blue)
-//				$0.property(SafeKeyPathWriter(\ViewController.view?,
-//											  \ViewController.tableView.backgroundColor),
-//							UIColor.blue)
 				$0.property(\ViewController.tableView.backgroundColor, UIColor.orange)
-				$0.property(\ViewController.tableView.alpha, 0.8)
 			})
 		
 		
@@ -309,7 +305,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 		Theme.dark
 			.add(ThemeComponent<ViewController>({
 				$0.property(\ViewController.tableView.backgroundColor, UIColor.purple)
-				$0.property(\ViewController.tableView.alpha, 0.1)
 			}))
 		//			.add(ThemeComponent<ViewController>({
 		//			}))
