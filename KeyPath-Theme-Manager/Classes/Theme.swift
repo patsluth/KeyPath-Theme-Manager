@@ -60,10 +60,10 @@ public class Theme
 	public func apply<T>(to viewController: T)
 		where T: UIViewController
 	{
-		self.components.forEach { component in
-			viewController.recurseDecendents { viewController in
-				component.apply(to: viewController, for: self)
-			}
+		self.components.forEach {
+//			viewController.recurseDecendents { viewController in
+				$0.apply(to: viewController, for: self)
+//			}
 		}
 	}
 	

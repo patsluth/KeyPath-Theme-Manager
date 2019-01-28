@@ -44,7 +44,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Sluthware:
-    :commit: a370b4b03a4e18bea1ee6a1dd187d82cda3f3c06
+    :commit: 57631e4bc92da33a6d93df2f4da4b278bb62f73c
     :git: https://github.com/patsluth/Sluthware.git
 
 SPEC CHECKSUMS:
@@ -57,4 +57,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 40c93528c3681051f2cdb6b4a1b0d0fd302e92d3
 
-COCOAPODS: 1.6.0.beta.2
+COCOAPODS: 1.6.0.rc.1
