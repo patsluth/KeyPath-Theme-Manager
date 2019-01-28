@@ -28,7 +28,7 @@ public final class ThemeManager
 			guard let window = UIApplication.shared.keyWindow else { return }
 			guard let viewController = window.rootViewController else { return }
 			
-			viewController.recurseDecendents { 
+			viewController.recurseDecendents {
 				theme.apply(to: $0)
 			}
 		}
@@ -65,11 +65,20 @@ public final class ThemeManager
 		DispatchQueue.once({
 			do {
 				try Runtime.swizzle(UIView.self,
-									#selector(UIView.didMoveToSuperview),
-									#selector(UIView.keyPathThemeManager_didMoveToSuperview))
-				try Runtime.swizzle(UIView.self,
-									#selector(UIView.didMoveToWindow),
-									#selector(UIView.keyPathThemeManager_didMoveToWindow))
+									#selector(UIView.didAddSubview(_:)),
+									#selector(UIView.keyPathThemeManager_didAddSubview(_:)))
+				//				try Runtime.swizzle(UIView.self,
+				//									#selector(UIView.willMove(toSuperview:)),
+				//									#selector(UIView.keyPathThemeManager_willMove(toSuperview:)))
+				//				try Runtime.swizzle(UIView.self,
+				//									#selector(UIView.didMoveToSuperview),
+				//									#selector(UIView.keyPathThemeManager_didMoveToSuperview))
+				//				try Runtime.swizzle(UIView.self,
+				//									#selector(UIView.willMove(toWindow:)),
+				//									#selector(UIView.keyPathThemeManager_willMove(toWindow:)))
+				//				try Runtime.swizzle(UIView.self,
+				//									#selector(UIView.didMoveToWindow),
+				//									#selector(UIView.keyPathThemeManager_didMoveToWindow))
 				try Runtime.swizzle(UIViewController.self,
 									#selector(UIViewController.viewWillAppear(_:)),
 									#selector(UIViewController.keyPathThemeManager_viewWillAppear(_:)))
@@ -95,15 +104,15 @@ public final class ThemeManager
 		}
 	}
 	
-//	@available(iOS 10.0, *)
-//	public class func apply(_ theme: Theme, animator: () -> UIViewPropertyAnimator)
-//	{
-//		let animator = animator()
-//		animator.addAnimations({
-//			self.apply(theme)
-//		})
-//		animator.startAnimation()
-//	}
+	//	@available(iOS 10.0, *)
+	//	public class func apply(_ theme: Theme, animator: () -> UIViewPropertyAnimator)
+	//	{
+	//		let animator = animator()
+	//		animator.addAnimations({
+	//			self.apply(theme)
+	//		})
+	//		animator.startAnimation()
+	//	}
 	
 	
 	
@@ -121,23 +130,48 @@ public final class ThemeManager
 
 fileprivate extension UIView
 {
-	@objc fileprivate func keyPathThemeManager_didMoveToSuperview()
+	@objc func keyPathThemeManager_didAddSubview(_ subview: UIView)
 	{
-		self.keyPathThemeManager_didMoveToSuperview()
+		self.keyPathThemeManager_didAddSubview(subview)
 		
-		guard let _ = self.superview else { return }
-		
-		ThemeManager.current?.apply(to: self)
+		ThemeManager.current?.apply(to: subview)
 	}
 	
-	@objc fileprivate func keyPathThemeManager_didMoveToWindow()
-	{
-		self.keyPathThemeManager_didMoveToWindow()
-		
-		guard let _ = self.window else { return }
-		
-		ThemeManager.current?.apply(to: self)
-	}
+	//	@objc func keyPathThemeManager_willMove(toSuperview newSuperview: UIView?)
+	//	{
+	//		self.keyPathThemeManager_willMove(toSuperview: newSuperview)
+	//
+	//		guard let _ = newSuperview else { return }
+	//
+	//		ThemeManager.current?.apply(to: self)
+	//	}
+	//
+	//	@objc func keyPathThemeManager_didMoveToSuperview()
+	//	{
+	//		self.keyPathThemeManager_didMoveToSuperview()
+	//
+	//		guard let _ = self.superview else { return }
+	//
+	//		ThemeManager.current?.apply(to: self)
+	//	}
+	//
+	//	@objc func keyPathThemeManager_willMove(toWindow newWindow: UIWindow?)
+	//	{
+	//		self.keyPathThemeManager_willMove(toWindow: newWindow)
+	//
+	//		guard let _ = newWindow else { return }
+	//
+	//		ThemeManager.current?.apply(to: self)
+	//	}
+	//
+	//	@objc func keyPathThemeManager_didMoveToWindow()
+	//	{
+	//		self.keyPathThemeManager_didMoveToWindow()
+	//
+	//		guard let _ = self.window else { return }
+	//
+	//		ThemeManager.current?.apply(to: self)
+	//	}
 }
 
 
@@ -146,11 +180,6 @@ fileprivate extension UIView
 
 fileprivate extension UIViewController
 {
-	//	@objc fileprivate func keyPathThemeManager_viewDidLoad()
-	//	{
-	//		self.keyPathThemeManager_viewDidLoad()
-	//	}
-	
 	@objc fileprivate func keyPathThemeManager_viewWillAppear(_ animated: Bool)
 	{
 		self.keyPathThemeManager_viewWillAppear(animated)

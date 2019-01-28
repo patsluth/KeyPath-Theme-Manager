@@ -173,11 +173,11 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 		#if VERBOSE_LOGGING
 		print(#file.fileName, #function, type(of: viewController))
 		#endif
-		for property in self.properties {
+		self.properties.forEach {
 			#if VERBOSE_LOGGING
-			print(Char.Tab, property)
+			print(Char.Tab, $0)
 			#endif
-			property.applyTo(&root, for: theme)
+			$0.applyTo(&root, for: theme)
 		}
 		
 		
@@ -199,19 +199,19 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 		where T: UIView
 	{
 		guard var root = view as? Root else { return }
-		guard self.canApplyTo(view) else { return }
 		if let viewController = viewController {
 			guard self.canApplyTo(viewController) else { return }
 		}
+		guard self.canApplyTo(view) else { return }
 		
 		#if VERBOSE_LOGGING
 		print(#file.fileName, #function, Root.self)
 		#endif
-		for property in self.properties {
+		self.properties.forEach {
 			#if VERBOSE_LOGGING
-			print(Char.Tab, property)
+			print(Char.Tab, $0)
 			#endif
-			property.applyTo(&root, for: theme)
+			$0.applyTo(&root, for: theme)
 		}
 		
 		
@@ -242,18 +242,18 @@ extension ThemeComponent: CustomStringConvertible
 		if !self.onApplyClosures.isEmpty {
 			builder.append("[\(self.onApplyClosures.count) onApplyClosures]")
 		}
-//		self.properties.forEach {
-//			builder.append(line: "\t\($0)")
-//		}
-//		self.viewControllerConstraints.forEach {
-//			builder.append(line: "\($0)")
-//		}
-//		self.viewConstraints.forEach {
-//			builder.append(line: "\($0)")
-//		}
-//		self.onApplyClosures.forEach {
-//			builder.append(line: "\($0)")
-//		}
+		//		self.properties.forEach {
+		//			builder.append(line: "\t\($0)")
+		//		}
+		//		self.viewControllerConstraints.forEach {
+		//			builder.append(line: "\($0)")
+		//		}
+		//		self.viewConstraints.forEach {
+		//			builder.append(line: "\($0)")
+		//		}
+		//		self.onApplyClosures.forEach {
+		//			builder.append(line: "\($0)")
+		//		}
 		return builder.string
 	}
 }

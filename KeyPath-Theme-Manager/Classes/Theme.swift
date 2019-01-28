@@ -61,9 +61,7 @@ public class Theme: UIBarStyleProvider
 		where T: UIViewController
 	{
 		self.components.forEach {
-//			viewController.recurseDecendents { viewController in
-				$0.apply(to: viewController, for: self)
-//			}
+			$0.apply(to: viewController, for: self)
 		}
 	}
 	
@@ -110,12 +108,12 @@ public extension Theme
 			$0.property(\UIToolbar.isTranslucent, self.isTranslucent)
 		}))
 		
-//		self ++ ThemeComponent<UISearchBar>()
-//			// Causes cancel button to be hidden. Need to figure out why
-//			+++ (\UISearchBar.barTintColor, self.barTintColor)
-//			+++ (\UISearchBar.tintColor, self.tintColor)
-//			+++ (\UISearchBar.isTranslucent, self.isTranslucent)
-
+		self ++ ThemeComponent<UISearchBar>()
+			// Causes cancel button to be hidden. Need to figure out why
+			//			+++ (\UISearchBar.barTintColor, self.barTintColor)
+			+++ (\UISearchBar.tintColor, self.tintColor)
+			+++ (\UISearchBar.isTranslucent, self.isTranslucent)
+		
 		self ++ ThemeComponent<UITextView>()
 			+++ (\UITextView.keyboardAppearance, self.keyboardAppearance)
 			+++ ({
@@ -124,7 +122,7 @@ public extension Theme
 					$0.becomeFirstResponder()
 				}
 			})
-
+		
 		self ++ ThemeComponent<UITextField>()
 			+++ (\UITextField.keyboardAppearance, self.keyboardAppearance)
 			+++ ({
@@ -140,27 +138,45 @@ public extension Theme
 	@discardableResult
 	public func addingSearchBarComponents() -> Self
 	{
-		self ++ ThemeComponent<UITextField>()
-			+++ (\UITextField.textColor, self.tintColor)
-			+++ (\UITextField.typingAttributes, self.tintedTextAttibutes)
-			+++ (\UITextField.defaultTextAttributes, self.tintedTextAttibutes)
-			+++ ({
-				if let imageView = $0.leftView as? UIImageView {
-					imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
-				}
-				if let imageView = $0.rightView as? UIImageView {
-					imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
-				}
-//				for case let view as UIImageView in $0.subviews {
-//					view.image = view.image?.withRenderingMode(.alwaysTemplate)
+//		self ++ ThemeComponent<UITextField>()
+//			+++ (\UITextField.textColor, self.tintColor)
+//			+++ (\UITextField.typingAttributes, self.tintedTextAttibutes)
+//			+++ (\UITextField.defaultTextAttributes, self.tintedTextAttibutes)
+//			+++ ({
+//				if let imageView = $0.leftView as? UIImageView {
+//					imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
 //				}
+//				if let imageView = $0.rightView as? UIImageView {
+//					imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
+//				}
+//
+//				let placeholder = $0.attributedPlaceholder?.string ?? $0.placeholder ?? ""
+//				$0.attributedPlaceholder = placeholder.attributed({ attributes in
+//					attributes[.foregroundColor] = self.tintColor.withAlphaComponent(0.5)
+//				})
+//			})
+//			+++ (.ContainedIn, is: UISearchBar.self)
+		
+		self ++ ThemeComponent<UISearchBar>()
+			+++ ({
+				let textField = $0.textField
 				
-				let placeholder = $0.attributedPlaceholder?.string ?? $0.placeholder ?? ""
-				$0.attributedPlaceholder = placeholder.attributed({ attributes in
+				textField.textColor = self.tintColor
+				textField.typingAttributes = self.tintedTextAttibutes
+				textField.defaultTextAttributes = self.tintedTextAttibutes
+				
+				if let imageView = textField.leftView as? UIImageView {
+					imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
+				}
+				if let imageView = textField.rightView as? UIImageView {
+					imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
+				}
+				
+				let placeholder = textField.attributedPlaceholder?.string ?? textField.placeholder ?? ""
+				textField.attributedPlaceholder = placeholder.attributed({ attributes in
 					attributes[.foregroundColor] = self.tintColor.withAlphaComponent(0.5)
 				})
 			})
-			+++ (.ContainedIn, is: UISearchBar.self)
 		
 		return self
 	}
