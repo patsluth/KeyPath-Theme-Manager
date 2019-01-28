@@ -30,9 +30,8 @@ public final class ThemeManager
 			
 			print(theme)
 			
-			viewController.recurseDecendents {
-				theme.applyTo($0)
-				$1 = false
+			viewController.recurseDecendents { 
+				theme.apply(to: $0)
 			}
 		}
 	}
@@ -94,20 +93,19 @@ public final class ThemeManager
 		guard let viewController = window.rootViewController else { return }
 		
 		viewController.recurseDecendents {
-			theme.applyTo($0)
-			$1 = false
+			theme.apply(to: $0)
 		}
 	}
 	
-	@available(iOS 10.0, *)
-	public class func apply(_ theme: Theme, animator: () -> UIViewPropertyAnimator)
-	{
-		let animator = animator()
-		animator.addAnimations({
-			self.apply(theme)
-		})
-		animator.startAnimation()
-	}
+//	@available(iOS 10.0, *)
+//	public class func apply(_ theme: Theme, animator: () -> UIViewPropertyAnimator)
+//	{
+//		let animator = animator()
+//		animator.addAnimations({
+//			self.apply(theme)
+//		})
+//		animator.startAnimation()
+//	}
 	
 	
 	
@@ -131,7 +129,7 @@ fileprivate extension UIView
 		
 		guard let _ = self.superview else { return }
 		
-		ThemeManager.current?.applyTo(self)
+		ThemeManager.current?.apply(to: self)
 	}
 	
 	@objc fileprivate func keyPathThemeManager_didMoveToWindow()
@@ -140,7 +138,7 @@ fileprivate extension UIView
 		
 		guard let _ = self.window else { return }
 		
-		ThemeManager.current?.applyTo(self)
+		ThemeManager.current?.apply(to: self)
 	}
 }
 
@@ -159,14 +157,14 @@ fileprivate extension UIViewController
 	{
 		self.keyPathThemeManager_viewWillAppear(animated)
 		
-		ThemeManager.current?.applyTo(self)
+		ThemeManager.current?.apply(to: self)
 	}
 	
 	@objc func keyPathThemeManager_viewDidAppear(_ animated: Bool)
 	{
 		self.keyPathThemeManager_viewDidAppear(animated)
 		
-		ThemeManager.current?.applyTo(self)
+		ThemeManager.current?.apply(to: self)
 	}
 }
 

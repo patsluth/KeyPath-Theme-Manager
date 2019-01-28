@@ -17,9 +17,20 @@ import Sluthware
 
 class ViewController: UIViewController
 {
+	@IBOutlet private var searchController: UISearchController!
 	@IBOutlet private(set) var tableView: UITableView!
 	
 	fileprivate var dataSource: [Theme]!
+	fileprivate var animator: UIViewPropertyAnimator? = nil {
+		didSet
+		{
+			oldValue?.stopAnimation(true)
+			self.animator?.startAnimation()
+			self.animator?.addCompletion({ [weak self] _ in
+				self?.animator = nil
+			})
+		}
+	}
 	
 	
 	
@@ -32,42 +43,27 @@ class ViewController: UIViewController
 		self.dataSource = ThemeManager.themes
 			.sorted(by: \Theme.name, >)
 		
-		let searchController = UISearchController(searchResultsController: nil)
-		searchController.delegate = self
-//		searchController.searchResultsUpdater = self
-//		searchController.searchBar.delegate = self
-		searchController.obscuresBackgroundDuringPresentation = false
-		searchController.dimsBackgroundDuringPresentation = false
-		searchController.hidesNavigationBarDuringPresentation = true
-		searchController.searchBar.scopeButtonTitles = ["A", "B", "C"]
+		self.searchController = UISearchController(searchResultsController: nil)
+		self.searchController.delegate = self
+//		self.searchController.searchResultsUpdater = self
+		self.searchController.obscuresBackgroundDuringPresentation = false
+		self.searchController.dimsBackgroundDuringPresentation = false
+		self.searchController.hidesNavigationBarDuringPresentation = true
 		
-		self.navigationItem.searchController = searchController
+		let searchBar = self.searchController.searchBar
+		searchBar.delegate = self
+//		searchBar.barStyle = UIBarStyle.black
+//		searchBar.searchBarStyle = UISearchBar.Style.minimal
+		searchBar.scopeButtonTitles = ["A", "B", "C"]
+		
+		self.navigationItem.searchController = self.searchController
 		self.navigationItem.hidesSearchBarWhenScrolling = false
 		self.definesPresentationContext = true
 	}
-}
-
-
-
-
-
-extension ViewController: UISearchControllerDelegate
-{
-	func willPresentSearchController(_ searchController: UISearchController)
-	{
-	}
 	
-	func didPresentSearchController(_ searchController: UISearchController)
+	override func viewDidAppear(_ animated: Bool)
 	{
-		searchController.viewDidAppear(true)
-	}
-	
-	func willDismissSearchController(_ searchController: UISearchController)
-	{
-	}
-	
-	func didDismissSearchController(_ searchController: UISearchController)
-	{
+		super.viewDidAppear(animated)
 	}
 }
 
@@ -126,16 +122,62 @@ extension ViewController: UITableViewDelegate
 		//			ThemeManager.default.apply(theme)
 		//		}).startAnimation()
 		
-		ThemeManager.apply(theme, animator: {
-			UIViewPropertyAnimator(duration: 2.0, curve: .linear)
+//		ThemeManager.apply(theme)
+		
+//		ThemeManager.apply(theme, animator: {
+//			UIViewPropertyAnimator(duration: 1.0, curve: .linear)
+//		})
+		
+		self.animator = UIViewPropertyAnimator(duration: 1.0, curve: .linear, animations: {
+			ThemeManager.apply(theme)
 		})
 		
-		//		UIView.animate(withDuration: 2.0,
-		//					   delay: 0.0,
-		//					   options: [.allowUserInteraction, .beginFromCurrentState],
-		//					   animations: {
-		//			ThemeManager.default.apply(theme)
-		//		}, completion: nil)
+//		UIView.animate(withDuration: 2.0,
+//					   delay: 0.0,
+//					   options: [.allowUserInteraction, .beginFromCurrentState],
+//					   animations: {
+//						ThemeManager.apply(theme)
+//		}, completion: nil)
+	}
+}
+
+
+
+
+
+extension ViewController: UISearchControllerDelegate
+{
+	func willPresentSearchController(_ searchController: UISearchController)
+	{
+		//		searchController.searchBar.textField.textColor = UIColor.red
+	}
+	
+	func didPresentSearchController(_ searchController: UISearchController)
+	{
+		//		searchController.viewDidAppear(true)
+		
+		
+	}
+	
+	func willDismissSearchController(_ searchController: UISearchController)
+	{
+		
+	}
+	
+	func didDismissSearchController(_ searchController: UISearchController)
+	{
+		
+	}
+}
+
+
+
+
+
+extension ViewController: UISearchBarDelegate
+{
+	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
+	{
 	}
 }
 

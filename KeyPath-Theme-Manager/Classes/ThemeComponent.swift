@@ -15,12 +15,14 @@ import Sluthware
 
 
 
-protocol AnyThemeComponent
+internal protocol AnyThemeComponent
 {
 	var rootType: Any.Type { get }
 	
-	func applyTo<T: UIViewController>(_ viewController: T, for theme: Theme)
-	func applyTo<T: UIView>(_ view: T, for theme: Theme)
+	func apply<T>(to viewController: T, for theme: Theme)
+		where T: UIViewController
+	func apply<T>(to view: T, for theme: Theme)
+		where T: UIView
 }
 
 
@@ -39,18 +41,21 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 	public let rootType: Any.Type = Root.self
 	
 	private var properties = [PartialThemeProperty<Root>]()
+	private var onApplyClosures = [OnApplyClosure]()
 	private var viewControllerConstraints = [Constraint]()
 	private var viewConstraints = [Constraint]()
-	private var onApplyClosures = [OnApplyClosure]()
 	
 	
 	
 	
 	
-	public required init(_ initBlock: (ThemeComponent<Root>) -> Void = { _ in })
+	public convenience init()
 	{
-		//		super.init()
-		
+		self.init({ _ in })
+	}
+	
+	public init(_ initBlock: (ThemeComponent<Root>) -> Void = { _ in })
+	{
 		initBlock(self)
 	}
 	
@@ -70,6 +75,13 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 	}
 	
 	@discardableResult
+	public func onApply(_ onApply: @escaping OnApplyClosure) -> Self
+	{
+		self.onApplyClosures.append(onApply)
+		return self
+	}
+	
+	@discardableResult
 	public func constraint<T>(when constraint: ConstraintType, is type: T.Type) -> Self
 		where T: UIViewController
 	{
@@ -82,13 +94,6 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 		where T: UIView
 	{
 		self.viewConstraints.append((constraint, TypeContainer(type)))
-		return self
-	}
-	
-	@discardableResult
-	public func onApply(_ onApply: @escaping OnApplyClosure) -> Self
-	{
-		self.onApplyClosures.append(onApply)
 		return self
 	}
 	
@@ -152,12 +157,11 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 		return canApply
 	}
 	
-	internal func applyTo<T>(_ viewController: T, for theme: Theme)
+	internal func apply<T>(to viewController: T, for theme: Theme)
 		where T: UIViewController
 	{
 		viewController.view.recurseDecendents {
-			self.applyTo($0, in: viewController, for: theme)
-			$1 = false
+			self.apply(to: $0, containedIn: viewController, for: theme)
 		}
 		
 		guard var root = viewController as? Root else { return }
@@ -179,7 +183,9 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 		})
 	}
 	
-	internal func applyTo<T>(_ view: T, for theme: Theme)
+	
+	
+	internal func apply<T>(to view: T, for theme: Theme)
 		where T: UIView
 	{
 		//		guard let viewController = view.ancestorViewController else {
@@ -189,10 +195,12 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 		//
 		//		}
 		//
-		self.applyTo(view, in: view.ancestorViewController, for: theme)
+		self.apply(to: view, containedIn: view.ancestorViewController, for: theme)
 	}
 	
-	private func applyTo<T>(_ view: T, in viewController: UIViewController?, for theme: Theme)
+	private func apply<T>(to view: T,
+						  containedIn viewController: UIViewController?,
+						  for theme: Theme)
 		where T: UIView
 	{
 		guard var root = view as? Root else { return }

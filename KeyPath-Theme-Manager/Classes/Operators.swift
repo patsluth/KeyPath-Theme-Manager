@@ -63,6 +63,15 @@ public func +++<R, V1, V2>(lhs: ThemeComponent<R>,
 
 
 @discardableResult
+public func +++<R>(lhs: ThemeComponent<R>,
+				   rhs: @escaping ThemeComponent<R>.OnApplyClosure) -> ThemeComponent<R>
+{
+	return lhs.onApply(rhs)
+}
+
+
+
+@discardableResult
 public func +++<R, T>(lhs: ThemeComponent<R>,
 					  rhs: (ThemeComponent<R>.ConstraintType, T.Type)) -> ThemeComponent<R>
 	where T: UIViewController
@@ -76,15 +85,6 @@ public func +++<R, T>(lhs: ThemeComponent<R>,
 	where T: UIView
 {
 	return lhs.constraint(when: rhs.0, is: rhs.1)
-}
-
-
-
-@discardableResult
-public func +++<R>(lhs: ThemeComponent<R>,
-				   rhs: @escaping ThemeComponent<R>.OnApplyClosure) -> ThemeComponent<R>
-{
-	return lhs.onApply(rhs)
 }
 
 

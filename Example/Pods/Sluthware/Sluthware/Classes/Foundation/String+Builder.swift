@@ -27,7 +27,7 @@ import Foundation
 //		attributedString.append(rhs)
 //		return attributedString as NSAttributedString
 //	}
-//
+//	
 //	public static func +(lhs: NSAttributedString, rhs: String) -> NSAttributedString
 //	{
 //		return lhs + NSAttributedString(string: rhs)

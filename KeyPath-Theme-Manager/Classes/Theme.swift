@@ -57,19 +57,21 @@ public class Theme
 		return self
 	}
 	
-	internal func applyTo<T>(_ viewController: T)
+	public func apply<T>(to viewController: T)
 		where T: UIViewController
 	{
-		self.components.forEach {
-			$0.applyTo(viewController, for: self)
+		self.components.forEach { component in
+			viewController.recurseDecendents { viewController in
+				component.apply(to: viewController, for: self)
+			}
 		}
 	}
 	
-	internal func applyTo<T>(_ view: T)
+	public func apply<T>(to view: T)
 		where T: UIView
 	{
 		self.components.forEach {
-			$0.applyTo(view, for: self)
+			$0.apply(to: view, for: self)
 		}
 	}
 }
@@ -81,7 +83,7 @@ public class Theme
 public extension Theme
 {
 	@discardableResult
-	public func addingDefaultProperties() -> Self
+	public func addingDefaultComponents() -> Self
 	{
 		self ++ ThemeComponent<UIViewController>()
 			+++ (\UIViewController.view?, \UIViewController.view!.tintColor, self.tintColor)
@@ -89,19 +91,15 @@ public extension Theme
 		//		self ++ ThemeComponent<UIView>()
 		//			+++ (\UIView.tintColor, self.tintColor)
 		
-		if #available(iOS 11.0, *) {
-			self ++ ThemeComponent<UINavigationBar>()
-				+++ (\UINavigationBar.barTintColor, self.barTintColor)
-				+++ (\UINavigationBar.tintColor, self.tintColor)
-				+++ (\UINavigationBar.isTranslucent, self.isTranslucent)
-				+++ (\UINavigationBar.titleTextAttributes, self.tintedTextAttibutes)
-				+++ (\UINavigationBar.largeTitleTextAttributes, self.tintedTextAttibutes)
-		} else {
-			self ++ ThemeComponent<UINavigationBar>()
-				+++ (\UINavigationBar.barTintColor, self.barTintColor)
-				+++ (\UINavigationBar.tintColor, self.tintColor)
-				+++ (\UINavigationBar.isTranslucent, self.isTranslucent)
-		}
+		self ++ ThemeComponent<UINavigationBar>({
+			$0 +++ (\UINavigationBar.barTintColor, self.barTintColor)
+			$0 +++ (\UINavigationBar.tintColor, self.tintColor)
+			$0 +++ (\UINavigationBar.isTranslucent, self.isTranslucent)
+			if #available(iOS 11.0, *) {
+				$0 +++ (\UINavigationBar.titleTextAttributes, self.tintedTextAttibutes)
+				$0 +++ (\UINavigationBar.largeTitleTextAttributes, self.tintedTextAttibutes)
+			}
+		})
 		
 		self.add(ThemeComponent<UITabBar>({
 			$0.property(\UITabBar.barTintColor, self.barTintColor)
@@ -115,61 +113,62 @@ public extension Theme
 			$0.property(\UIToolbar.isTranslucent, self.isTranslucent)
 		}))
 		
-		self.add(ThemeComponent<UISearchBar>({
-			$0.property(\UISearchBar.barTintColor, self.barTintColor)
-			$0.property(\UISearchBar.tintColor, self.tintColor)
-			$0.property(\UISearchBar.isTranslucent, self.isTranslucent)
-		}))
-		
-		self.add(ThemeComponent<UITextView>({
-			$0.property(\UITextView.keyboardAppearance, self.keyboardAppearance)
-		}))
-		
-		self.add(ThemeComponent<UITextField>({
-			$0.property(\UITextField.keyboardAppearance, self.keyboardAppearance)
-		}))
+		// Causes cancel button to be hidden. Need to figure out why
+//		self ++ ThemeComponent<UISearchBar>()
+//			+++ (\UISearchBar.barTintColor, self.barTintColor)
+//			+++ (\UISearchBar.tintColor, self.tintColor)
+//			+++ (\UISearchBar.isTranslucent, self.isTranslucent)
+
+		self ++ ThemeComponent<UITextView>()
+			+++ (\UITextView.keyboardAppearance, self.keyboardAppearance)
+			+++ ({
+				// Update keyboardAppearance by toggling isFirstResponder
+				if $0.resignFirstResponder() {
+					$0.becomeFirstResponder()
+				}
+			})
+
+		self ++ ThemeComponent<UITextField>()
+			+++ (\UITextField.keyboardAppearance, self.keyboardAppearance)
+			+++ ({
+				// Update keyboardAppearance by toggling isFirstResponder
+				if $0.resignFirstResponder() {
+					$0.becomeFirstResponder()
+				}
+			})
 		
 		return self
 	}
 	
-	@discardableResult
-	public func addingTintedSearchBarProperties() -> Self
+	public func addingSearchBarComponents() -> Self
 	{
-//		self.add(ThemeComponent<UITextField>{
-//			$0 +++ (\UITextField.defaultTextAttributes, self.tintedTextAttibutes)
-////			$0 +++ (.ContainedIn, is: UISearchBar.self)
-//			$0 +++ ({
-//				// Apply tint to image views
-//				for case let subview as UIImageView in $0.subviews {
-//					subview.image = subview.image?.withRenderingMode(.alwaysTemplate)
-//				}
-//
-//				// Apply tint to placeholder text
-//				guard let placeholder = $0.attributedPlaceholder?.string ?? $0.placeholder else { return }
-//				$0.attributedPlaceholder = NSAttributedString(string: placeholder,
-//															  attributes: $0.defaultTextAttributes)
-//			})
-//		})
-		
-		self.add(ThemeComponent<UITextField>{
-			$0 +++ (\UITextField.defaultTextAttributes, self.tintedTextAttibutes)
-			$0 +++ (.ContainedIn, is: UISearchBar.self)
-			$0 +++ ({
+		self ++ ThemeComponent<UITextField>()
+			+++ (\UITextField.textColor, self.tintColor)
+			+++ (\UITextField.typingAttributes, self.tintedTextAttibutes)
+			+++ (\UITextField.defaultTextAttributes, self.tintedTextAttibutes)
+			+++ ({
 				// Apply tint to image views
 				for case let view as UIImageView in $0.subviews {
 					view.image = view.image?.withRenderingMode(.alwaysTemplate)
 				}
-				
-				for case let view as UITextField in $0.subviews {
-					// Apply tint to placeholder text
-					guard let text = view.attributedPlaceholder?.string ?? view.placeholder else { continue }
-					view.attributedPlaceholder = NSAttributedString(string: text,
-																	attributes: view.defaultTextAttributes)
-				}
-			})
-		})
 
+				// Apply tint to placeholder text
+				let placeholder = $0.attributedPlaceholder?.string ?? $0.placeholder ?? ""
+				$0.attributedPlaceholder = placeholder.attributed({ attributes in
+					attributes[.foregroundColor] = self.tintColor.withAlphaComponent(0.5)
+				})
+			})
+			+++ (.ContainedIn, is: UISearchBar.self)
+		
 		return self
+	}
+}
+
+
+public extension UISearchBar
+{
+	public var textField: UITextField {
+		return self.value(forKey: "searchField") as! UITextField
 	}
 }
 

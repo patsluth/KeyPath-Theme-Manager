@@ -44,7 +44,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Sluthware:
-    :commit: 4a3b3990267d288827bd5e265e276fc3ac0b4f70
+    :commit: a370b4b03a4e18bea1ee6a1dd187d82cda3f3c06
     :git: https://github.com/patsluth/Sluthware.git
 
 SPEC CHECKSUMS:

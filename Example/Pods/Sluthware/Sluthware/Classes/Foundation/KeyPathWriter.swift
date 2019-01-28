@@ -21,14 +21,9 @@ public class KeyPathWriter<Root, Value>
 		self.keyPath = keyPath
 	}
 	
-//	public func value(for object: Root) throws -> Value
-//	{
-//		return object[keyPath: self.keyPath]
-//	}
-	
-	public func write(_ value: Value, to object: inout Root)
+	public func write(value: Value, toObject root: inout Root)
 	{
-		object[keyPath: self.keyPath] = value
+		root[keyPath: self.keyPath] = value
 	}
 }
 
@@ -47,19 +42,10 @@ final public class SafeKeyPathWriter<Root, Value>: KeyPathWriter<Root, Value>
 		super.init(thenKeyPath)
 	}
 	
-//	public override func value(for object: Root) -> Value
-//	{
-//		if Optional(object[keyPath: self.ifKeyPath]) != nil {
-//			return super.value(for: object)
-//		} else {
-//			return nil
-//		}
-//	}
-	
-	public override func write(_ value: Value, to object: inout Root)
+	public override func write(value: Value, toObject root: inout Root)
 	{
-		if Optional(object[keyPath: self.ifKeyPath]) != nil {
-			super.write(value, to: &object)
+		if Optional(root[keyPath: self.ifKeyPath]) != nil {
+			super.write(value: value, toObject: &root)
 		}
 	}
 }
