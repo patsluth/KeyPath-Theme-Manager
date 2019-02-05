@@ -58,7 +58,9 @@ internal class ThemeProperty<Root, Value>: PartialThemeProperty<Root>
 			guard themeable.theme(theme, shouldSetValueFor: self.keyPathWriter.keyPath) else { return }
 		}
 		
-		self.keyPathWriter.write(value: self.value, toObject: &object)
+		UIView.performWithoutAnimation {
+			self.keyPathWriter.write(value: self.value, toObject: &object)
+		}
 	}
 }
 

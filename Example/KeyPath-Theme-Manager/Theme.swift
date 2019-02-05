@@ -19,19 +19,19 @@ extension Theme
 {
 	static let light = {
 		Theme(name: "Light",
-					 barTintColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1),
-					 tintColor: #colorLiteral(red: 0.2823529412, green: 0.5176470588, blue: 0.2745098039, alpha: 1),
-					 isTranslucent: false,
-					 keyboardAppearance: .default)
+			  barTintColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1),
+			  tintColor: #colorLiteral(red: 0.2823529412, green: 0.5176470588, blue: 0.2745098039, alpha: 1),
+			  isTranslucent: true,
+			  keyboardAppearance: .default)
 			.addingDefaultComponents()
 			.addingSearchBarComponents()
 	}()
 	
 	static let dark = {
 		Theme(name: "Dark",
-			  barTintColor: #colorLiteral(red: 0.1254901961, green: 0.1254901961, blue: 0.1254901961, alpha: 1),
+			  barTintColor: #colorLiteral(red: 0.4756349325, green: 0.4756467342, blue: 0.4756404161, alpha: 1),
 			  tintColor: #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1),
-			  isTranslucent: false,
+			  isTranslucent: true,
 			  keyboardAppearance: .dark)
 			.addingDefaultComponents()
 			.addingSearchBarComponents()
@@ -145,6 +145,7 @@ extension Theme
 //		return theme
 //	}
 //}
+
 
 
 

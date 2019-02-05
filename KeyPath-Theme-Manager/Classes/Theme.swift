@@ -110,7 +110,7 @@ public extension Theme
 		
 		self ++ ThemeComponent<UISearchBar>()
 			// Causes cancel button to be hidden. Need to figure out why
-			//			+++ (\UISearchBar.barTintColor, self.barTintColor)
+			+++ (\UISearchBar.backgroundColor, self.barTintColor)
 			+++ (\UISearchBar.tintColor, self.tintColor)
 			+++ (\UISearchBar.isTranslucent, self.isTranslucent)
 		
@@ -159,7 +159,7 @@ public extension Theme
 		
 		self ++ ThemeComponent<UISearchBar>()
 			+++ ({
-				let textField = $0.textField
+				guard let textField = $0.textField else { return }
 				
 				textField.textColor = self.tintColor
 				textField.typingAttributes = self.tintedTextAttibutes
@@ -183,24 +183,18 @@ public extension Theme
 }
 
 
-public extension UISearchBar
+
+
+
+public extension Theme
 {
-	public var textField: UITextField {
-		return self.value(forKey: "searchField") as! UITextField
-	}
-}
-
-
-
-
-
-extension Theme
-{
-	static let none = Theme(name: "None",
-							barTintColor: nil,
-							tintColor: nil,
-							isTranslucent: nil,
-							keyboardAppearance: nil)
+	public static let none = Theme(name: "None",
+								   barTintColor: nil,
+								   tintColor: nil,
+								   isTranslucent: nil,
+								   keyboardAppearance: nil)
+		.addingDefaultComponents()
+		.addingSearchBarComponents()
 }
 
 
