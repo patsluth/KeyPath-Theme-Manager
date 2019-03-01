@@ -132,6 +132,9 @@ public extension Theme
 				}
 			})
 		
+		self ++ ThemeComponent<UISwitch>()
+			+++ (\UISwitch.onTintColor, self.tintColor)
+		
 		return self
 	}
 	
