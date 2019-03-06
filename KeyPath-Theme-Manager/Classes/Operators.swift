@@ -18,10 +18,10 @@ precedencegroup ThemeComponentPrecedence {
 	higherThan: LogicalConjunctionPrecedence
 }
 
-infix operator ++: ThemeComponentPrecedence
+infix operator <==: ThemeComponentPrecedence
 
 @discardableResult
-public func ++<T>(lhs: Theme, rhs: ThemeComponent<T>) -> Theme
+public func <==<T>(lhs: Theme, rhs: ThemeComponent<T>) -> Theme
 	where T: AnyObject
 {
 	lhs.add(rhs)
@@ -35,11 +35,11 @@ precedencegroup ThemePropertyPrecedence {
 	higherThan: ThemeComponentPrecedence
 }
 
-infix operator +++: ThemePropertyPrecedence
+infix operator <--: ThemePropertyPrecedence
 //infix operator <<<: ThemePropertyPrecedence
 
 @discardableResult
-public func +++<R, V, K>(lhs: ThemeComponent<R>,
+public func <--<R, V, K>(lhs: ThemeComponent<R>,
 						 rhs: (K, V)) -> ThemeComponent<R>
 	where K: KeyPathWriter<R, V>
 {
@@ -47,14 +47,14 @@ public func +++<R, V, K>(lhs: ThemeComponent<R>,
 }
 
 @discardableResult
-public func +++<R, V>(lhs: ThemeComponent<R>,
+public func <--<R, V>(lhs: ThemeComponent<R>,
 					  rhs: (WritableKeyPath<R, V>, V)) -> ThemeComponent<R>
 {
 	return lhs.property(rhs.0, rhs.1)
 }
 
 @discardableResult
-public func +++<R, V1, V2>(lhs: ThemeComponent<R>,
+public func <--<R, V1, V2>(lhs: ThemeComponent<R>,
 						   rhs: (KeyPath<R, V1?>, WritableKeyPath<R, V2>, V2)) -> ThemeComponent<R>
 {
 	return lhs.property(SafeKeyPathWriter(rhs.0, rhs.1), rhs.2)
@@ -63,7 +63,7 @@ public func +++<R, V1, V2>(lhs: ThemeComponent<R>,
 
 
 @discardableResult
-public func +++<R>(lhs: ThemeComponent<R>,
+public func <--<R>(lhs: ThemeComponent<R>,
 				   rhs: @escaping ThemeComponent<R>.OnApplyClosure) -> ThemeComponent<R>
 {
 	return lhs.onApply(rhs)
@@ -72,7 +72,7 @@ public func +++<R>(lhs: ThemeComponent<R>,
 
 
 @discardableResult
-public func +++<R, T>(lhs: ThemeComponent<R>,
+public func <--<R, T>(lhs: ThemeComponent<R>,
 					  rhs: (ThemeComponent<R>.ConstraintType, T.Type)) -> ThemeComponent<R>
 	where T: UIViewController
 {
@@ -80,7 +80,7 @@ public func +++<R, T>(lhs: ThemeComponent<R>,
 }
 
 @discardableResult
-public func +++<R, T>(lhs: ThemeComponent<R>,
+public func <--<R, T>(lhs: ThemeComponent<R>,
 					  rhs: (ThemeComponent<R>.ConstraintType, T.Type)) -> ThemeComponent<R>
 	where T: UIView
 {

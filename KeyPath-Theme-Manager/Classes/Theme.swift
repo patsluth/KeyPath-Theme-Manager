@@ -57,6 +57,15 @@ public class Theme: UIBarStyleProvider
 		return self
 	}
 	
+	@discardableResult
+	public func component<T>(_ type: T.Type) -> ThemeComponent<T>
+		where T: AnyObject
+	{
+		let component = ThemeComponent<T>()
+		self.components.append(component)
+		return component
+	}
+	
 	public func apply<T>(to viewController: T)
 		where T: UIViewController
 	{
@@ -83,16 +92,16 @@ public extension Theme
 	@discardableResult
 	public func addingDefaultComponents() -> Self
 	{
-		self ++ ThemeComponent<UIViewController>()
-			+++ (\UIViewController.view?, \UIViewController.view!.tintColor, self.tintColor)
+		self <== ThemeComponent<UIViewController>()
+			<-- (\UIViewController.view?, \UIViewController.view!.tintColor, self.tintColor)
 		
-		self ++ ThemeComponent<UINavigationBar>({
-			$0 +++ (\UINavigationBar.barTintColor, self.barTintColor)
-			$0 +++ (\UINavigationBar.tintColor, self.tintColor)
-			$0 +++ (\UINavigationBar.isTranslucent, self.isTranslucent)
+		self <== ThemeComponent<UINavigationBar>({
+			$0 <-- (\UINavigationBar.barTintColor, self.barTintColor)
+			$0 <-- (\UINavigationBar.tintColor, self.tintColor)
+			$0 <-- (\UINavigationBar.isTranslucent, self.isTranslucent)
 			if #available(iOS 11.0, *) {
-				$0 +++ (\UINavigationBar.titleTextAttributes, self.tintedTextAttibutes)
-				$0 +++ (\UINavigationBar.largeTitleTextAttributes, self.tintedTextAttibutes)
+				$0 <-- (\UINavigationBar.titleTextAttributes, self.tintedTextAttibutes)
+				$0 <-- (\UINavigationBar.largeTitleTextAttributes, self.tintedTextAttibutes)
 			}
 		})
 		
@@ -108,32 +117,32 @@ public extension Theme
 			$0.property(\UIToolbar.isTranslucent, self.isTranslucent)
 		}))
 		
-		self ++ ThemeComponent<UISearchBar>()
+		self <== ThemeComponent<UISearchBar>()
 			// Causes cancel button to be hidden. Need to figure out why
-			+++ (\UISearchBar.backgroundColor, self.barTintColor)
-			+++ (\UISearchBar.tintColor, self.tintColor)
-			+++ (\UISearchBar.isTranslucent, self.isTranslucent)
+			<-- (\UISearchBar.backgroundColor, self.barTintColor)
+			<-- (\UISearchBar.tintColor, self.tintColor)
+			<-- (\UISearchBar.isTranslucent, self.isTranslucent)
 		
-		self ++ ThemeComponent<UITextView>()
-			+++ (\UITextView.keyboardAppearance, self.keyboardAppearance)
-			+++ ({
+		self <== ThemeComponent<UITextView>()
+			<-- (\UITextView.keyboardAppearance, self.keyboardAppearance)
+			<-- ({
 				// Update keyboardAppearance by toggling isFirstResponder
 				if $0.resignFirstResponder() {
 					$0.becomeFirstResponder()
 				}
 			})
 		
-		self ++ ThemeComponent<UITextField>()
-			+++ (\UITextField.keyboardAppearance, self.keyboardAppearance)
-			+++ ({
+		self <== ThemeComponent<UITextField>()
+			<-- (\UITextField.keyboardAppearance, self.keyboardAppearance)
+			<-- ({
 				// Update keyboardAppearance by toggling isFirstResponder
 				if $0.resignFirstResponder() {
 					$0.becomeFirstResponder()
 				}
 			})
 		
-		self ++ ThemeComponent<UISwitch>()
-			+++ (\UISwitch.onTintColor, self.tintColor)
+		self <== ThemeComponent<UISwitch>()
+			<-- (\UISwitch.onTintColor, self.tintColor)
 		
 		return self
 	}
@@ -142,10 +151,10 @@ public extension Theme
 	public func addingSearchBarComponents() -> Self
 	{
 //		self ++ ThemeComponent<UITextField>()
-//			+++ (\UITextField.textColor, self.tintColor)
-//			+++ (\UITextField.typingAttributes, self.tintedTextAttibutes)
-//			+++ (\UITextField.defaultTextAttributes, self.tintedTextAttibutes)
-//			+++ ({
+//			<-- (\UITextField.textColor, self.tintColor)
+//			<-- (\UITextField.typingAttributes, self.tintedTextAttibutes)
+//			<-- (\UITextField.defaultTextAttributes, self.tintedTextAttibutes)
+//			<-- ({
 //				if let imageView = $0.leftView as? UIImageView {
 //					imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
 //				}
@@ -158,10 +167,10 @@ public extension Theme
 //					attributes[.foregroundColor] = self.tintColor.withAlphaComponent(0.5)
 //				})
 //			})
-//			+++ (.ContainedIn, is: UISearchBar.self)
+//			<-- (.ContainedIn, is: UISearchBar.self)
 		
-		self ++ ThemeComponent<UISearchBar>()
-			+++ ({
+		self <== ThemeComponent<UISearchBar>()
+			<-- ({
 				guard let textField = $0.textField else { return }
 				
 				textField.textColor = self.tintColor

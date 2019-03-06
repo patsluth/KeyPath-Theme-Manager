@@ -280,16 +280,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 		//		)
 		
 		//		let a = ThemeComponent<ViewController>({ _ in })
-		//			+++ (\ViewController.tableView.backgroundColor, UIColor.orange)
-		//			+++ (\ViewController.tableView.alpha, 0.8)
+		//			<-- (\ViewController.tableView.backgroundColor, UIColor.orange)
+		//			<-- (\ViewController.tableView.alpha, 0.8)
 		
-		Theme.light ++
-			ThemeComponent<ViewController>({
-				$0 +++ (SafeKeyPathWriter(\ViewController.view?,
-										 \ViewController.tableView.backgroundColor),
-						UIColor.blue)
-				$0.property(\ViewController.tableView.backgroundColor, UIColor.orange)
-			})
+		Theme.light <== ThemeComponent<ViewController>({
+			$0 <-- (SafeKeyPathWriter(\ViewController.view?,
+									  \ViewController.tableView.backgroundColor),
+					UIColor.blue)
+			$0.property(\ViewController.tableView.backgroundColor, UIColor.orange)
+		})
 		
 		
 		
