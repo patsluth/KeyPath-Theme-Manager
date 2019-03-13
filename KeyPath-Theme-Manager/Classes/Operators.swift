@@ -22,7 +22,6 @@ infix operator <==: ThemeComponentPrecedence
 
 @discardableResult
 public func <==<T>(lhs: Theme, rhs: ThemeComponent<T>) -> Theme
-	where T: AnyObject
 {
 	lhs.add(rhs)
 	return lhs
