@@ -51,15 +51,21 @@ public class Theme: UIBarStyleProvider
 	
 	@discardableResult
 	public func add<T>(_ themeComponent: ThemeComponent<T>) -> Self
-		where T: AnyObject
 	{
 		self.components.append(themeComponent)
 		return self
 	}
 	
+	//	@discardableResult
+	//	public func add(_ themeComponent: AnyThemeComponent) -> Self
+	//		//		where T: AnyObject
+	//	{
+	//		self.components.append(themeComponent as! _AnyThemeComponent)
+	//		return self
+	//	}
+	
 	@discardableResult
 	public func component<T>(_ type: T.Type) -> ThemeComponent<T>
-		where T: AnyObject
 	{
 		let component = ThemeComponent<T>()
 		self.components.append(component)
@@ -150,24 +156,24 @@ public extension Theme
 	@discardableResult
 	public func addingSearchBarComponents() -> Self
 	{
-//		self ++ ThemeComponent<UITextField>()
-//			<-- (\UITextField.textColor, self.tintColor)
-//			<-- (\UITextField.typingAttributes, self.tintedTextAttibutes)
-//			<-- (\UITextField.defaultTextAttributes, self.tintedTextAttibutes)
-//			<-- ({
-//				if let imageView = $0.leftView as? UIImageView {
-//					imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
-//				}
-//				if let imageView = $0.rightView as? UIImageView {
-//					imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
-//				}
-//
-//				let placeholder = $0.attributedPlaceholder?.string ?? $0.placeholder ?? ""
-//				$0.attributedPlaceholder = placeholder.attributed({ attributes in
-//					attributes[.foregroundColor] = self.tintColor.withAlphaComponent(0.5)
-//				})
-//			})
-//			<-- (.ContainedIn, is: UISearchBar.self)
+		//		self ++ ThemeComponent<UITextField>()
+		//			<-- (\UITextField.textColor, self.tintColor)
+		//			<-- (\UITextField.typingAttributes, self.tintedTextAttibutes)
+		//			<-- (\UITextField.defaultTextAttributes, self.tintedTextAttibutes)
+		//			<-- ({
+		//				if let imageView = $0.leftView as? UIImageView {
+		//					imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
+		//				}
+		//				if let imageView = $0.rightView as? UIImageView {
+		//					imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
+		//				}
+		//
+		//				let placeholder = $0.attributedPlaceholder?.string ?? $0.placeholder ?? ""
+		//				$0.attributedPlaceholder = placeholder.attributed({ attributes in
+		//					attributes[.foregroundColor] = self.tintColor.withAlphaComponent(0.5)
+		//				})
+		//			})
+		//			<-- (.ContainedIn, is: UISearchBar.self)
 		
 		self <== ThemeComponent<UISearchBar>()
 			<-- ({
