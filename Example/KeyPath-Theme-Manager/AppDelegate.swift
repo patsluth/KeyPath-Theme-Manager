@@ -283,6 +283,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 		//			<-- (\ViewController.tableView.backgroundColor, UIColor.orange)
 		//			<-- (\ViewController.tableView.alpha, 0.8)
 		
+		
 		Theme.light <== ThemeComponent<ViewController>({
 			$0 <-- (SafeKeyPathWriter(\ViewController.view?,
 									  \ViewController.tableView.backgroundColor),
