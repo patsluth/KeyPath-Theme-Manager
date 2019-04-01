@@ -15,7 +15,30 @@ import Sluthware
 
 
 
-public final class Style<Root>
+internal protocol AnyStyle
+{
+	var rootType: Any.Type { get }
+	
+	@discardableResult
+	func attemptApply<T>(to themeable: T) -> Bool
+		where T: Themeable
+}
+
+//extension AnyStyle
+//{
+//	@discardableResult
+//	func attemptApply<T>(to themeable: T) -> Bool
+//		where T: Themeable
+//	{
+//		if let root = themeable as? Roo
+//	}
+//}
+
+
+
+
+
+public final class Style<Root>: AnyStyle
 	where Root: Themeable
 {
 	public typealias OnApply = (Root) -> Void
@@ -24,6 +47,7 @@ public final class Style<Root>
 	
 	
 	
+	public let rootType: Any.Type = Root.self
 	private let onApply: OnApply
 	
 	
@@ -38,6 +62,16 @@ public final class Style<Root>
 	public func apply(to root: Root)
 	{
 		self.onApply(root)
+	}
+	
+	@discardableResult
+	func attemptApply<T>(to themeable: T) -> Bool
+		where T: Themeable
+	{
+		guard let root = themeable as? Root else { return false }
+		
+		self.apply(to: root)
+		return true
 	}
 }
 

@@ -80,7 +80,9 @@ public class Theme: UIBarStyleProvider
 		}
 		
 		// Apply object specific style
-		viewController.style?.apply(to: viewController)
+		viewController.styles.forEach({
+			$0.attemptApply(to: viewController)
+		})
 		self.apply(to: viewController.view)
 	}
 	
@@ -92,7 +94,9 @@ public class Theme: UIBarStyleProvider
 		}
 		
 		// Apply object specific style
-		view.style?.apply(to: view)
+		view.styles.forEach({
+			$0.attemptApply(to: view)
+		})
 	}
 }
 

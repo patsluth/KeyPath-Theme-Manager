@@ -12,9 +12,13 @@ import KeyPath_Theme_Manager
 import Sluthware
 
 
+let style2 = UIView.style({
+	print("SEX2", $0)
+	$0.layer.masksToBounds = true
+	$0.layer.cornerRadius = 25
+})
 
-
-let primaryButtonStyle = UITableView.style({
+let style3 = UITableView.style({
 	print("SEX", $0)
 	$0.backgroundColor = .red
 })
@@ -49,7 +53,9 @@ class ViewController: UIViewController
 	{
 		super.viewDidLoad()
 	
-		self.tableView.style = primaryButtonStyle
+		self.tableView
+			.adding(style: style2)
+			.adding(style: style3)
 		self.dataSource = ThemeManager.themes
 			.sorted(by: \Theme.name, >)
 		
