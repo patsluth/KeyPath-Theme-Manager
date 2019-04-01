@@ -14,11 +14,11 @@ import Sluthware
 
 
 
-let primaryButtonStyle = UITableView.themeComponent()
-	<-- ({ button in
-		print("SEX")
-	})
-	<-- (\.backgroundColor, UIColor.red)
+let primaryButtonStyle = UITableView.style({
+	print("SEX", $0)
+	$0.backgroundColor = .red
+})
+//	<-- (\.backgroundColor, UIColor.red)
 
 
 

@@ -99,6 +99,7 @@
 		2DBD676A9C077FAD3590248F526DA309 /* UIBarStyleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5F3BFD11C32B6D6BB49D944EE245B5 /* UIBarStyleProvider.swift */; };
 		2E048B71073BADA65681325B8B80E1C7 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130535A392C66E63E765E16838917F66 /* UIColor.swift */; };
 		2E1BD3758BFAD46D902EBF64AFB3E016 /* UIControl+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111EB1D13782B9D42BFC80674FAE33AE /* UIControl+Rx.swift */; };
+		2E34AE0F2252957500566462 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E34AE0E2252957500566462 /* Style.swift */; };
 		2E5896BA58CFAC113146445AEB202973 /* ControlEvent+Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2225ECB080F59088E17C3F1F2C2BE3 /* ControlEvent+Driver.swift */; };
 		2E62F9E429586B6587172EAFCE164521 /* FloatingPointType+Angles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C02B78F3C276AAA650D061D8A2AA7D5 /* FloatingPointType+Angles.swift */; };
 		2ECEDC55E33D13354D37B9E605B8F152 /* Scan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C0B5B9A52DE5D2187AA2CFEC8D498D /* Scan.swift */; };
@@ -676,6 +677,7 @@
 		2CA3D39E9E19DDB2088D3D4F80755604 /* mapTo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = mapTo.swift; path = Source/RxSwift/mapTo.swift; sourceTree = "<group>"; };
 		2D01466F765EB3D227B3745B3105EC35 /* Deprecated.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Deprecated.swift; path = RxCocoa/Deprecated.swift; sourceTree = "<group>"; };
 		2D5A6AAD445437AA364D67CD47218201 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CLLocationCoordinate2D.swift; path = Sluthware/Classes/CoreLocation/CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
+		2E34AE0E2252957500566462 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Style.swift; path = "KeyPath-Theme-Manager/Classes/Style.swift"; sourceTree = "<group>"; };
 		2F573749EEBB1E4E72A2B9E788A94BE2 /* UIViewController+UIDocumentInteraction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIViewController+UIDocumentInteraction.swift"; path = "Sluthware/Classes/UIKit/UIViewController+UIDocumentInteraction.swift"; sourceTree = "<group>"; };
 		30038551C76B19D563F85055CD019633 /* CompositeDisposable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CompositeDisposable.swift; path = RxSwift/Disposables/CompositeDisposable.swift; sourceTree = "<group>"; };
 		3039DB9BAC3849FA6DAA17E743EA5D68 /* Just.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Just.swift; path = RxSwift/Observables/Just.swift; sourceTree = "<group>"; };
@@ -1897,6 +1899,7 @@
 				337D0285D57879F77F6C56729A76AF32 /* Theme.swift */,
 				823561DBED673DE9F08439930F9907B7 /* Themeable.swift */,
 				60898BCB0940E83D832B2AB75746B1B5 /* Themeable+Style.swift */,
+				2E34AE0E2252957500566462 /* Style.swift */,
 				4AC0FC29582AC99DB71A262F32C7BF60 /* ThemeComponent.swift */,
 				D4AEA1C5998ED8E48BD864D5410E87C9 /* ThemeComponent+ConstraintType.swift */,
 				4C2FCB4508687B4DF9408E3FFF66F040 /* ThemeManager.swift */,
@@ -2418,6 +2421,7 @@
 				BBCBAF8BF039671D441E903F22D5028F /* ThemeComponent.swift in Sources */,
 				746AE74F841C526904546D7E360D0EB3 /* ThemeManager.swift in Sources */,
 				53AEABE5439B5B72D4C7A7FFF416344B /* ThemeProperty.swift in Sources */,
+				2E34AE0F2252957500566462 /* Style.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

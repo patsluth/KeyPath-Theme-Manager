@@ -16,16 +16,16 @@ import Sluthware
 public extension Themeable
 	where Self: NSObjectProtocol
 {
-	var style: ThemeComponent<Self>? {
+	var style: Style<Self>? {
 		get
 		{
-			return self.get(associatedObject: "style", ThemeComponent<Self>.self)
+			return self.get(associatedObject: "style", Style<Self>.self)
 		}
 		set
 		{
 			self.set(associatedObject: "style", object: newValue)
 			
-			newValue?.apply(toThemeable: self)
+			newValue?.apply(to: self)
 		}
 	}
 }

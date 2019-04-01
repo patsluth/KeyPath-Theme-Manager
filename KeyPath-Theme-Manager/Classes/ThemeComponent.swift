@@ -271,32 +271,6 @@ extension ThemeComponent: CustomStringConvertible
 
 
 
-public extension NSObjectProtocol
-	where Self: UIViewController
-{
-	static func themeComponent() -> ThemeComponent<Self>
-	{
-		return ThemeComponent<Self>()
-	}
-}
-
-
-
-
-
-public extension NSObjectProtocol
-	where Self: UIView
-{
-	static func themeComponent() -> ThemeComponent<Self>
-	{
-		return ThemeComponent<Self>()
-	}
-}
-
-
-
-
-
 //extension ThemeComponent: Equatable
 //{
 //	public static func == (lhs: ThemeComponent<Root>, rhs: ThemeComponent<Root>) -> Bool
