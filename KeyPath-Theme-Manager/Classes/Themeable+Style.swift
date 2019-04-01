@@ -14,6 +14,7 @@ import Sluthware
 
 
 public extension Themeable
+	where Self: NSObjectProtocol
 {
 	var style: ThemeComponent<Self>? {
 		get

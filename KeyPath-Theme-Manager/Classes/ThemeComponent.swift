@@ -212,13 +212,6 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 		
 		
 		self.onApplyClosure?(root)
-		
-		
-		
-		print(type(of: root), root.style)
-		if self !== root.style {
-			root.style?.apply(toThemeable: root)
-		}
 	}
 	
 	internal func apply<T>(to view: T)
@@ -250,13 +243,6 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 		
 		
 		self.onApplyClosure?(root)
-		
-		
-		
-		print(type(of: root), root.style)
-		if self !== root.style {
-			root.style?.apply(toThemeable: root)
-		}
 	}
 }
 

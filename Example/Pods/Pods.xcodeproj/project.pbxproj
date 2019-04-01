@@ -1893,10 +1893,10 @@
 		F30AD72A3DBBC2ACA36963B5562E2870 /* KeyPath-Theme-Manager */ = {
 			isa = PBXGroup;
 			children = (
-				60898BCB0940E83D832B2AB75746B1B5 /* Themeable+Style.swift */,
 				61736DB2C766E9021B740B9E29F86765 /* Operators.swift */,
 				337D0285D57879F77F6C56729A76AF32 /* Theme.swift */,
 				823561DBED673DE9F08439930F9907B7 /* Themeable.swift */,
+				60898BCB0940E83D832B2AB75746B1B5 /* Themeable+Style.swift */,
 				4AC0FC29582AC99DB71A262F32C7BF60 /* ThemeComponent.swift */,
 				D4AEA1C5998ED8E48BD864D5410E87C9 /* ThemeComponent+ConstraintType.swift */,
 				4C2FCB4508687B4DF9408E3FFF66F040 /* ThemeManager.swift */,
