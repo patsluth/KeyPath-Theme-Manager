@@ -19,9 +19,9 @@ internal protocol AnyThemeComponent
 {
 	var rootType: Any.Type { get }
 	
-	func apply<T>(to viewController: T, for theme: Theme)
+	func apply<T>(to viewController: T)
 		where T: UIViewController
-	func apply<T>(to view: T, for theme: Theme)
+	func apply<T>(to view: T)
 		where T: UIView
 }
 
@@ -29,7 +29,25 @@ internal protocol AnyThemeComponent
 
 
 
+//extension Themeable
+//{
+//	func apply<Root>(style: ThemeComponent<Root>!)
+//	{
+//		if let viewController = self as? UIViewController {
+//
+//		} else if let view = self as? UIView {
+//
+//		}
+//		style?.apply(to: self as? UIView)
+//	}
+//}
+
+
+
+
+
 public final class ThemeComponent<Root>: AnyThemeComponent
+	where Root: Themeable
 {
 	public typealias OnApplyClosure = (Root) -> Void
 	private typealias Constraint = (ConstraintType, AnyTypeContainer)
@@ -41,7 +59,7 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 	public let rootType: Any.Type = Root.self
 	
 	private var properties = [PartialThemeProperty<Root>]()
-	private var onApplyClosures = [OnApplyClosure]()
+	private var onApplyClosure: OnApplyClosure? = nil
 	private var viewControllerConstraints = [Constraint]()
 	private var viewConstraints = [Constraint]()
 	
@@ -77,7 +95,7 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 	@discardableResult
 	public func onApply(_ onApply: @escaping OnApplyClosure) -> Self
 	{
-		self.onApplyClosures.append(onApply)
+		self.onApplyClosure = onApply
 		return self
 	}
 	
@@ -157,12 +175,23 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 		return canApply
 	}
 	
-	internal func apply<T>(to viewController: T, for theme: Theme)
+	
+	
+	internal func apply(toThemeable themeable: Themeable)
+	{
+		if let viewController = themeable as? UIViewController {
+			self.apply(to: viewController)
+		} else if let view = themeable as? UIView {
+			self.apply(to: view)
+		}
+	}
+	
+	internal func apply<T>(to viewController: T)
 		where T: UIViewController
 	{
-		viewController.view.recurseDecendents {
-			self.apply(to: $0, containedIn: viewController, for: theme)
-		}
+//		viewController.view.recurseDecendents {
+//			self.apply(to: $0, containedIn: viewController)
+//		}
 		
 		guard var root = viewController as? Root else { return }
 		guard self.canApplyTo(viewController) else { return }
@@ -177,25 +206,29 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 			#if VERBOSE_LOGGING
 			print(Char.Tab, $0)
 			#endif
-			$0.applyTo(&root, for: theme)
+			$0.applyTo(&root)
 		}
 		
 		
 		
-		self.onApplyClosures.forEach({
-			$0(root)
-		})
+		self.onApplyClosure?(root)
+		
+		
+		
+		print(type(of: root), root.style)
+		if self !== root.style {
+			root.style?.apply(toThemeable: root)
+		}
 	}
 	
-	internal func apply<T>(to view: T, for theme: Theme)
+	internal func apply<T>(to view: T)
 		where T: UIView
 	{
-		self.apply(to: view, containedIn: view.ancestorViewController, for: theme)
+		self.apply(to: view, containedIn: view.ancestorViewController)
 	}
 	
 	private func apply<T>(to view: T,
-						  containedIn viewController: UIViewController?,
-						  for theme: Theme)
+						  containedIn viewController: UIViewController?)
 		where T: UIView
 	{
 		guard var root = view as? Root else { return }
@@ -211,14 +244,19 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 			#if VERBOSE_LOGGING
 			print(Char.Tab, $0)
 			#endif
-			$0.applyTo(&root, for: theme)
+			$0.applyTo(&root)
 		}
 		
 		
 		
-		self.onApplyClosures.forEach({
-			$0(root)
-		})
+		self.onApplyClosure?(root)
+		
+		
+		
+		print(type(of: root), root.style)
+		if self !== root.style {
+			root.style?.apply(toThemeable: root)
+		}
 	}
 }
 
@@ -239,21 +277,6 @@ extension ThemeComponent: CustomStringConvertible
 		if !self.viewConstraints.isEmpty {
 			builder.append("[\(self.viewConstraints.count) viewConstraints]")
 		}
-		if !self.onApplyClosures.isEmpty {
-			builder.append("[\(self.onApplyClosures.count) onApplyClosures]")
-		}
-		//		self.properties.forEach {
-		//			builder.append(line: "\t\($0)")
-		//		}
-		//		self.viewControllerConstraints.forEach {
-		//			builder.append(line: "\($0)")
-		//		}
-		//		self.viewConstraints.forEach {
-		//			builder.append(line: "\($0)")
-		//		}
-		//		self.onApplyClosures.forEach {
-		//			builder.append(line: "\($0)")
-		//		}
 		return builder.string
 	}
 }
@@ -265,7 +288,7 @@ extension ThemeComponent: CustomStringConvertible
 public extension NSObjectProtocol
 	where Self: UIViewController
 {
-	public static func themeComponent() -> ThemeComponent<Self>
+	static func themeComponent() -> ThemeComponent<Self>
 	{
 		return ThemeComponent<Self>()
 	}
@@ -278,7 +301,7 @@ public extension NSObjectProtocol
 public extension NSObjectProtocol
 	where Self: UIView
 {
-	public static func themeComponent() -> ThemeComponent<Self>
+	static func themeComponent() -> ThemeComponent<Self>
 	{
 		return ThemeComponent<Self>()
 	}

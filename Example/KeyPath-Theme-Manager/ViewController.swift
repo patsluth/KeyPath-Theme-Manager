@@ -14,6 +14,15 @@ import Sluthware
 
 
 
+let primaryButtonStyle = UITableView.themeComponent()
+	<-- ({ button in
+		print("SEX")
+	})
+	<-- (\.backgroundColor, UIColor.red)
+
+
+
+
 
 class ViewController: UIViewController
 {
@@ -39,7 +48,8 @@ class ViewController: UIViewController
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
-		
+	
+		self.tableView.style = primaryButtonStyle
 		self.dataSource = ThemeManager.themes
 			.sorted(by: \Theme.name, >)
 		
@@ -196,16 +206,16 @@ extension ViewController: UISearchBarDelegate
 
 
 
-extension ViewController: Themeable
-{
-	func theme(_ theme: Theme, shouldSetValueFor keyPath: AnyKeyPath) -> Bool
-	{
-		switch keyPath {
-		case \ViewController.view!.alpha:	return false
-		default: 							return true
-		}
-	}
-}
+//extension ViewController: Themeable
+//{
+//	func theme(_ theme: Theme, shouldSetValueFor keyPath: AnyKeyPath) -> Bool
+//	{
+//		switch keyPath {
+//		case \ViewController.view!.alpha:	return false
+//		default: 							return true
+//		}
+//	}
+//}
 
 
 

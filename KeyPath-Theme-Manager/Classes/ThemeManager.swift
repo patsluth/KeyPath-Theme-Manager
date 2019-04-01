@@ -68,9 +68,6 @@ public final class ThemeManager
 									#selector(UIView.didAddSubview(_:)),
 									#selector(UIView.keyPathThemeManager_didAddSubview(_:)))
 				//				try Runtime.swizzle(UIView.self,
-				//									#selector(UIView.willMove(toSuperview:)),
-				//									#selector(UIView.keyPathThemeManager_willMove(toSuperview:)))
-				//				try Runtime.swizzle(UIView.self,
 				//									#selector(UIView.didMoveToSuperview),
 				//									#selector(UIView.keyPathThemeManager_didMoveToSuperview))
 				//				try Runtime.swizzle(UIView.self,
@@ -180,7 +177,7 @@ fileprivate extension UIView
 
 fileprivate extension UIViewController
 {
-	@objc fileprivate func keyPathThemeManager_viewWillAppear(_ animated: Bool)
+	@objc func keyPathThemeManager_viewWillAppear(_ animated: Bool)
 	{
 		self.keyPathThemeManager_viewWillAppear(animated)
 		

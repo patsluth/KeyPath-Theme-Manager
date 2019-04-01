@@ -21,7 +21,7 @@ internal class PartialThemeProperty<Root>
 	{
 	}
 	
-	func applyTo(_ object: inout Root, for theme: Theme)
+	func applyTo(_ object: inout Root)
 	{
 	}
 }
@@ -48,15 +48,15 @@ internal class ThemeProperty<Root, Value>: PartialThemeProperty<Root>
 		super.init()
 	}
 	
-	override func applyTo(_ object: inout Root, for theme: Theme)
+	override func applyTo(_ object: inout Root)
 	{
 //		let themeable = object as? Themeable
 //		var value = self.value
 //		themeable?.theme(theme: theme, willSet: &value, for: self.keyPathWriter.keyPath)
 		
-		if let themeable = object as? Themeable {
-			guard themeable.theme(theme, shouldSetValueFor: self.keyPathWriter.keyPath) else { return }
-		}
+//		if let themeable = object as? Themeable {
+//			guard themeable.theme(theme, shouldSetValueFor: self.keyPathWriter.keyPath) else { return }
+//		}
 		
 		UIView.performWithoutAnimation {
 			self.keyPathWriter.write(value: self.value, toObject: &object)

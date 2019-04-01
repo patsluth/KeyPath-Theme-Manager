@@ -284,30 +284,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 		//			<-- (\ViewController.tableView.alpha, 0.8)
 		
 		
-		Theme.light <== ThemeComponent<ViewController>({
-			$0 <-- (SafeKeyPathWriter(\ViewController.view?,
-									  \ViewController.tableView.backgroundColor),
-					UIColor.blue)
-			$0.property(\ViewController.tableView.backgroundColor, UIColor.orange)
-		})
+		Theme.light <== ThemeComponent<ViewController>()
+			<-- (\.tableView.alpha, 0.2)
 		
+		Theme.dark <== ThemeComponent<ViewController>()
+			<-- (\.tableView.alpha, 0.8)
 		
-		
-		
-		
-		//		Theme.light
-		//			.add(ThemeComponent<ViewController>({
-		//				$0.add(\ViewController.tableView.backgroundColor, UIColor.orange)
-		//			}))
-		//			.add(ThemeComponent<ViewController>({
-		//				$0.add(\ViewController.tableView.alpha, 0.8)
-		//			}))
-		Theme.dark
-			.add(ThemeComponent<ViewController>({
-				$0.property(\ViewController.tableView.backgroundColor, UIColor.purple)
-			}))
-		//			.add(ThemeComponent<ViewController>({
-		//			}))
 		
 		
 		ThemeManager.register([Theme.light, Theme.dark], current: { theme in

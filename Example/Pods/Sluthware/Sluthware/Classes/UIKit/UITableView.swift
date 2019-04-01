@@ -16,56 +16,84 @@ import ObjectiveC
 public extension UITableView
 {
 	@available(iOS 5.0, *)
-	func register<T>(_ nib: UINib?, of type: T.Type)
-	{
-		self.register(nib, forCellReuseIdentifier: "\(T.self)")
-	}
-	
-	@available(iOS 6.0, *)
-	func registerCell<T>(of type: T.Type)
-		where T: AnyObject
-	{
-		self.register(T.self, forCellReuseIdentifier: "\(T.self)")
-	}
-	
-	@available(iOS 6.0, *)
-	func registerHeaderFooterView<T>(_ nib: UINib?, of type: T.Type)
-	{
-		self.register(nib, forHeaderFooterViewReuseIdentifier: "\(T.self)")
-	}
-	
-	@available(iOS 6.0, *)
-	func registerHeaderFooterView<T>(of type: T.Type)
-		where T: AnyObject
-	{
-		self.register(T.self, forHeaderFooterViewReuseIdentifier: "\(T.self)")
-	}
-	
-	
-	
-	func dequeueReusableCell<T>(of type: T.Type) -> T?
+	func registerCell<T>(_ type: T.Type,
+						 nib: UINib?,
+						 reuseIdentifier: String = "\(T.self)")
 		where T: UITableViewCell
 	{
-		return self.dequeueReusableCell(withIdentifier: "\(T.self)") as? T
+		self.register(nib, forCellReuseIdentifier: reuseIdentifier)
+	}
+	
+	func registerCell<T>(_ type: T.Type,
+						 reuseIdentifier: String = "\(T.self)")
+		where T: UITableViewCell & UINib.Provider
+	{
+		self.registerCell(type, nib: T.nib)
 	}
 	
 	@available(iOS 6.0, *)
-	func dequeueReusableCell<T>(of type: T.Type, for indexPath: IndexPath) -> T
+	func registerCell<T>(_  type: T.Type,
+						 reuseIdentifier: String = "\(T.self)")
 		where T: UITableViewCell
 	{
-		return self.dequeueReusableCell(withIdentifier: "\(T.self)", for: indexPath) as! T
+		self.register(T.self, forCellReuseIdentifier: reuseIdentifier)
 	}
 	
 	@available(iOS 6.0, *)
-	func dequeueReusableHeaderFooterView<T>(of type: T.Type) -> T?
+	func registerHeaderFooter<T>(_ type: T.Type,
+								 nib: UINib?,
+								 reuseIdentifier: String = "\(T.self)")
 		where T: UITableViewHeaderFooterView
 	{
-		return self.dequeueReusableHeaderFooterView(withIdentifier: "\(T.self)") as? T
+		self.register(nib, forHeaderFooterViewReuseIdentifier: reuseIdentifier)
+	}
+	
+	func registerHeaderFooter<T>(_ type: T.Type,
+								 reuseIdentifier: String = "\(T.self)")
+		where T: UITableViewHeaderFooterView & UINib.Provider
+	{
+		self.registerHeaderFooter(type, nib: T.nib)
+	}
+	
+	@available(iOS 6.0, *)
+	func registerHeaderFooter<T>(_ type: T.Type,
+								 reuseIdentifier: String = "\(T.self)")
+		where T: UITableViewHeaderFooterView
+	{
+		self.register(T.self, forHeaderFooterViewReuseIdentifier: reuseIdentifier)
 	}
 	
 	
 	
-	func cellForRow<T>(of type: T.Type, at indexPath: IndexPath) -> T?
+	func dequeue<T>(_ type: T.Type,
+					reuseIdentifier: String = "\(T.self)") -> T?
+		where T: UITableViewCell
+	{
+		return self.dequeueReusableCell(withIdentifier: reuseIdentifier) as? T
+	}
+	
+	@available(iOS 6.0, *)
+	func dequeue<T>(_ type: T.Type,
+					for indexPath: IndexPath,
+					reuseIdentifier: String = "\(T.self)") -> T
+		where T: UITableViewCell
+	{
+		return self.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! T
+	}
+	
+	@available(iOS 6.0, *)
+	func dequeueHeaderFooter<T>(_ type: T.Type,
+								reuseIdentifier: String = "\(T.self)") -> T?
+		where T: UITableViewHeaderFooterView
+	{
+		return self.dequeueReusableHeaderFooterView(withIdentifier: reuseIdentifier) as? T
+	}
+	
+	
+	
+	func cell<T>(_ type: T.Type,
+				 at indexPath: IndexPath) -> T?
+		where T: UITableViewCell
 	{
 		return self.cellForRow(at: indexPath) as? T
 	}
@@ -97,7 +125,7 @@ public extension UITableView
 	
 	
 	
-	func prototypeCell(withIdentifier identifier: String) -> UITableViewCell?
+	func prototype(withIdentifier identifier: String) -> UITableViewCell?
 	{
 		if let cell = self.prototypeCells[identifier] {
 			return cell
@@ -111,9 +139,11 @@ public extension UITableView
 	
 	
 	
-	func prototypeCell<T>(of type: T.Type) -> T?
+	func prototype<T>(_ type: T.Type,
+					  reuseIdentifier: String = "\(T.self)") -> T?
+		where T: UITableViewCell
 	{
-		return self.prototypeCell(withIdentifier: "\(T.self)") as? T
+		return self.prototype(withIdentifier: reuseIdentifier) as? T
 	}
 }
 

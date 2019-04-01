@@ -76,16 +76,23 @@ public class Theme: UIBarStyleProvider
 		where T: UIViewController
 	{
 		self.components.forEach {
-			$0.apply(to: viewController, for: self)
+			$0.apply(to: viewController)
 		}
+		
+		// Apply object specific style
+		viewController.style?.apply(to: viewController)
+		self.apply(to: viewController.view)
 	}
 	
 	public func apply<T>(to view: T)
 		where T: UIView
 	{
 		self.components.forEach {
-			$0.apply(to: view, for: self)
+			$0.apply(to: view)
 		}
+		
+		// Apply object specific style
+		view.style?.apply(to: view)
 	}
 }
 
@@ -96,7 +103,7 @@ public class Theme: UIBarStyleProvider
 public extension Theme
 {
 	@discardableResult
-	public func addingDefaultComponents() -> Self
+	func addingDefaultComponents() -> Self
 	{
 		self <== ThemeComponent<UIViewController>()
 			<-- (\UIViewController.view?, \UIViewController.view!.tintColor, self.tintColor)
@@ -154,7 +161,7 @@ public extension Theme
 	}
 	
 	@discardableResult
-	public func addingSearchBarComponents() -> Self
+	func addingSearchBarComponents() -> Self
 	{
 		//		self ++ ThemeComponent<UITextField>()
 		//			<-- (\UITextField.textColor, self.tintColor)
@@ -206,11 +213,11 @@ public extension Theme
 
 public extension Theme
 {
-	public static let none = Theme(name: "None",
-								   barTintColor: nil,
-								   tintColor: nil,
-								   isTranslucent: nil,
-								   keyboardAppearance: nil)
+	static let none = Theme(name: "None",
+							barTintColor: nil,
+							tintColor: nil,
+							isTranslucent: nil,
+							keyboardAppearance: nil)
 		.addingDefaultComponents()
 		.addingSearchBarComponents()
 }
