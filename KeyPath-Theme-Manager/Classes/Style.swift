@@ -50,6 +50,11 @@ public class Style<Root>: AnyStyle
 		self.apply(to: root)
 		return true
 	}
+	
+	public func mutableCopy() -> MutableStyle<Root>
+	{
+		return MutableStyle<Root>(self.onApply)
+	}
 }
 
 

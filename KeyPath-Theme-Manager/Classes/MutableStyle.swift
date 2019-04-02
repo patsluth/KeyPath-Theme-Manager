@@ -1,5 +1,5 @@
 //
-//  CompoundStyle.swift
+//  MutableStyle.swift
 //  KeyPath-Theme-Manager
 //
 //  Created by Pat Sluth on 2018-02-15.
@@ -15,7 +15,7 @@ import Sluthware
 
 
 
-public final class CompoundStyle<Root>: Style<Root>
+public final class MutableStyle<Root>: Style<Root>
 	where Root: Themeable
 {
 	private var styles = [AnyStyle]()

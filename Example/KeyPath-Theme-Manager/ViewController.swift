@@ -17,9 +17,9 @@ let style2 = Style<UIView>({
 	$0.layer.cornerRadius = 25
 })
 
-let style3 = CompoundStyle<UITableView>({
+let style3 = Style<UITableView>({
 	$0.backgroundColor = .red
-}).appending(style2)
+}).mutableCopy().appending(style2)
 //	<-- (\.backgroundColor, UIColor.red)
 
 
