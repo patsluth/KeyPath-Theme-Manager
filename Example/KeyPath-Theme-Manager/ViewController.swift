@@ -18,7 +18,7 @@ let style2 = UIView.style({
 	$0.layer.cornerRadius = 25
 })
 
-let style3 = UITableView.style({
+let style3 = Style<UITableView>({
 	print("SEX", $0)
 	$0.backgroundColor = .red
 })
@@ -52,7 +52,7 @@ class ViewController: UIViewController
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
-	
+	self.view.needsUpdateConstraints()
 		self.tableView
 			.adding(style: style2)
 			.adding(style: style3)

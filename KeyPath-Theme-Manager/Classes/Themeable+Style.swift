@@ -32,45 +32,69 @@ import Sluthware
 public extension Themeable
 	where Self: NSObjectProtocol
 {
-	internal var styles: [AnyStyle] {
-		get
-		{
-			return self.get(associatedObject: "styles", [AnyStyle].self) ?? []
-		}
-		set
-		{
-			self.set(associatedObject: "styles", object: newValue)
-			
-//			newValue?.forEach {
-//				$0.attemptApply(to: self)
-//			}
-		}
-	}
-	
-//	var style: Style<Self>? {
+//	internal var styles: [AnyStyle] {
 //		get
 //		{
-//			return self.get(associatedObject: "style", Style<Self>.self)
+//			return self.get(associatedObject: "styles", [AnyStyle].self) ?? []
 //		}
 //		set
 //		{
-//			self.set(associatedObject: "style", object: newValue)
+//			self.set(associatedObject: "styles", object: newValue)
 //
-//			newValue?.apply(to: self)
+////			newValue?.forEach {
+////				$0.attemptApply(to: self)
+////			}
 //		}
 //	}
 	
+	var style: Style<Self>? {
+		get
+		{
+			return self.get(associatedObject: "style", Style<Self>.self)
+		}
+		set
+		{
+			self.set(associatedObject: "style", object: newValue)
+
+			newValue?.apply(to: self)
+		}
+	}
+	
 	@discardableResult
-	func adding<T>(style: Style<T>) -> Self
-		where T: Themeable//, Self: T
+	func with(style: Style<Self>) -> Self
 	{
-		var styles = self.styles
-		styles.append(style)
-		self.styles = styles
-		
-		style.attemptApply(to: self)
+		self.style = style
 		
 		return self
+	}
+	
+//	@discardableResult
+//	func adding<T>(style: Style<T>) -> Self
+//		where T: Themeable//, Self: T
+//	{
+//		var styles = self.styles
+//		styles.append(style)
+//		self.styles = styles
+//
+//		style.attemptApply(to: self)
+//
+//		return self
+//	}
+	
+	func setNeedsUpdateStyle()
+	{
+		self.updateStyle()
+//		self.styles.forEach {
+//			$0.attemptApply(to: self)
+//		}
+	}
+	
+	func updateStyle()
+	{
+		self.style?.apply(to: self)
+		//		self.styles.forEach {
+		//			$0.attemptApply(to: self)
+		//		}
 	}
 	
 //	@discardableResult
