@@ -12,16 +12,14 @@ import KeyPath_Theme_Manager
 import Sluthware
 
 
-let style2 = UIView.style({
-	print("SEX2", $0)
+let style2 = Style<UIView>({
 	$0.layer.masksToBounds = true
 	$0.layer.cornerRadius = 25
 })
 
-let style3 = Style<UITableView>({
-	print("SEX", $0)
+let style3 = CompoundStyle<UITableView>({
 	$0.backgroundColor = .red
-})
+}).appending(style2)
 //	<-- (\.backgroundColor, UIColor.red)
 
 
@@ -52,10 +50,8 @@ class ViewController: UIViewController
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
-	self.view.needsUpdateConstraints()
-		self.tableView
-			.adding(style: style2)
-			.adding(style: style3)
+		self.view.needsUpdateConstraints()
+		self.tableView.style = style3
 		self.dataSource = ThemeManager.themes
 			.sorted(by: \Theme.name, >)
 		

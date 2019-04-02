@@ -15,37 +15,6 @@ import Sluthware
 
 
 
-internal protocol AnyThemeComponent
-{
-	var rootType: Any.Type { get }
-	
-	func apply<T>(to viewController: T)
-		where T: UIViewController
-	func apply<T>(to view: T)
-		where T: UIView
-}
-
-
-
-
-
-//extension Themeable
-//{
-//	func apply<Root>(style: ThemeComponent<Root>!)
-//	{
-//		if let viewController = self as? UIViewController {
-//
-//		} else if let view = self as? UIView {
-//
-//		}
-//		style?.apply(to: self as? UIView)
-//	}
-//}
-
-
-
-
-
 public final class ThemeComponent<Root>: AnyThemeComponent
 	where Root: Themeable
 {
@@ -189,9 +158,9 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 	internal func apply<T>(to viewController: T)
 		where T: UIViewController
 	{
-//		viewController.view.recurseDecendents {
-//			self.apply(to: $0, containedIn: viewController)
-//		}
+		//		viewController.view.recurseDecendents {
+		//			self.apply(to: $0, containedIn: viewController)
+		//		}
 		
 		guard var root = viewController as? Root else { return }
 		guard self.canApplyTo(viewController) else { return }

@@ -12,41 +12,10 @@ import Sluthware
 
 
 
-// TODO: Move
-//extension Collection
-//	where Element: AnyStyle
-//{
-//	func attemptApply<T>(to themeable: T)
-//		where T: Themeable
-//	{
-//		self.forEach({
-//			$0.attemptApply(to: themeable)
-//		})
-//	}
-//}
-
-
-
-
 
 public extension Themeable
 	where Self: NSObjectProtocol
 {
-//	internal var styles: [AnyStyle] {
-//		get
-//		{
-//			return self.get(associatedObject: "styles", [AnyStyle].self) ?? []
-//		}
-//		set
-//		{
-//			self.set(associatedObject: "styles", object: newValue)
-//
-////			newValue?.forEach {
-////				$0.attemptApply(to: self)
-////			}
-//		}
-//	}
-	
 	var style: Style<Self>? {
 		get
 		{
@@ -113,6 +82,18 @@ public extension Themeable
 //
 //	}
 }
+
+
+
+
+
+//public extension Themeable
+//{
+//	static func Style(_ onApply: @escaping Style<Self>.OnApply) -> Style<Self>
+//	{
+//		return Style<Self>(onApply)
+//	}
+//}
 
 
 

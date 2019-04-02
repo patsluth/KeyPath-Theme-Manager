@@ -15,21 +15,6 @@ import Sluthware
 
 
 
-internal class PartialThemeProperty<Root>
-{
-	fileprivate init()
-	{
-	}
-	
-	func applyTo(_ object: inout Root)
-	{
-	}
-}
-
-
-
-
-
 internal class ThemeProperty<Root, Value>: PartialThemeProperty<Root>
 {
 	private let keyPathWriter: KeyPathWriter<Root, Value>
@@ -50,13 +35,13 @@ internal class ThemeProperty<Root, Value>: PartialThemeProperty<Root>
 	
 	override func applyTo(_ object: inout Root)
 	{
-//		let themeable = object as? Themeable
-//		var value = self.value
-//		themeable?.theme(theme: theme, willSet: &value, for: self.keyPathWriter.keyPath)
+		//		let themeable = object as? Themeable
+		//		var value = self.value
+		//		themeable?.theme(theme: theme, willSet: &value, for: self.keyPathWriter.keyPath)
 		
-//		if let themeable = object as? Themeable {
-//			guard themeable.theme(theme, shouldSetValueFor: self.keyPathWriter.keyPath) else { return }
-//		}
+		//		if let themeable = object as? Themeable {
+		//			guard themeable.theme(theme, shouldSetValueFor: self.keyPathWriter.keyPath) else { return }
+		//		}
 		
 		UIView.performWithoutAnimation {
 			self.keyPathWriter.write(value: self.value, toObject: &object)
