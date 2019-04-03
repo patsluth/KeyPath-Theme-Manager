@@ -27,8 +27,6 @@ let style4 = MutableStyle<UITableView>({
 
 
 
-
-
 class ViewController: UIViewController
 {
 	@IBOutlet private var searchController: UISearchController!
