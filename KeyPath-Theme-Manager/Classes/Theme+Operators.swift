@@ -1,5 +1,5 @@
 //
-//  Operators.swift
+//  Theme+Operators.swift
 //  KeyPath-Theme-Manager
 //
 //  Created by Pat Sluth on 2019-01-22.

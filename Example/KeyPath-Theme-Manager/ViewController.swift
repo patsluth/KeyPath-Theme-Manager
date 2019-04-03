@@ -15,9 +15,13 @@ import Sluthware
 let style2 = Style<UIView>({
 	$0.layer.masksToBounds = true
 	$0.layer.cornerRadius = 25
-})
+}) + Style<UIView>({ _ in })
 
 let style3 = Style<UITableView>({
+	$0.backgroundColor = .red
+}).mutableCopy().appending(style2)
+
+let style4 = MutableStyle<UITableView>({
 	$0.backgroundColor = .red
 }).mutableCopy().appending(style2)
 
