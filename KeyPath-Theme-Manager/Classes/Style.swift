@@ -12,15 +12,27 @@ import UIKit
 import Sluthware
 
 
+//public protocol TypedStyle//: AnyStyle
+//{
+//	associatedtype Root where Root: Themeable
+//	typealias OnApply = (Root) -> Void
+//}
+//
+//public class _Style<_Root>: TypedStyle
+//	where _Root: Themeable
+//{
+//	public typealias Root = _Root
+//
+//	public let rootType: Any.Type = Root.self
+//}
 
 
 
 public class Style<Root>: AnyStyle
+//public class Style<_Root>: _Style<_Root>, AnyStyle
 	where Root: Themeable
 {
 	public typealias OnApply = (Root) -> Void
-	
-	
 	
 	
 	
@@ -53,45 +65,43 @@ public class Style<Root>: AnyStyle
 	
 	public func mutableCopy() -> MutableStyle<Root>
 	{
+		// TODO: allow many copies?
+		if let mutable = self as? MutableStyle {
+			return mutable
+		}
 		return MutableStyle<Root>(self.onApply)
+	}
+	
+	public func cast<T>() throws -> Style<T>
+		where T: Themeable
+	{
+		guard T.self is Root.Type else {
+			throw Errors.Message("Cannot cast \(T.self) to \(Root.self)")
+		}
+		
+		return MutableStyle() + self
+	}
+	
+	public func cast<T>(_ type: T.Type) throws -> Style<T>
+		where T: Themeable
+	{
+		return try self.cast() as Style<T>
 	}
 }
 
 
-
-
-
-//func cast<S, R, T>(style: S, to type: T.Type) -> Style<T>?
-//	where S: Style<R>,
+//extension TypedStyle
+//	where Self: Style<Root>
 //{
-//	if T.isKind(Root.self) {
-//		return
-//	}
-//}
-
-//extension Themeable
-//{
-//	func cast<R>(style: Style<R>) -> Style<Self>?
-//		where R: Themeable
+//	public func cast3<T>() -> Style<T>
+//		where T: Themeable, T == Self.Root
 //	{
-//		if self.isKind(of: R.self) {
-//			return
-//		}
-//	}
-//}
-
-//extension Style
-//{
-//	func cast<T>(to type: T.Type) -> Style<T>
-//	{
-//		if type.isKind(of: Root.self) {
-//			return Style<T>({ [weak self] in
+////		guard T.self is Root.Type else {
+////			throw Errors.Message("Cannot cast \(T.self) to \(Root.self)")
+////		}
+//		let a = self as Style<T>
 //
-//			})
-//		}
+//		return MutableStyle.appending(self as Style)
 //	}
 //}
-
-
-
 

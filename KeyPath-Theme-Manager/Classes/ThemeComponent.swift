@@ -91,7 +91,7 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 	{
 		var canApply = true
 		
-		for (constraint, typeContainer) in self.viewControllerConstraints {
+		for (constraint, typeContainer) in self.viewControllerConstraints {      
 			switch constraint {
 			case .ParentIs:
 				canApply = typeContainer.containsKind(viewController.parent)

@@ -50,6 +50,36 @@ class ViewController: UIViewController
 	
 	override func viewDidLoad()
 	{
+		let a = MutableStyle<UIScrollView>({ _ in })
+		let b = Style<UIView>({ _ in })
+		
+		print((MutableStyle<UIScrollView>() as Style) is MutableStyle<UIScrollView>)
+		
+		do {
+			print(try a.cast(UIScrollView.self))
+		} catch {
+			error.log()
+		}
+		
+		do {
+			print(try a.cast() as Style<UITableView>)
+		} catch {
+			error.log()
+		}
+		
+		do {
+			print(try a.cast() as Style<UIView>)
+		} catch {
+			error.log()
+		}
+		
+		do {
+			print(try b.cast() as Style<UITableView>)
+		} catch {
+			error.log()
+		}
+//		print(style2 is MutableStyle<UIView>)
+		
 		super.viewDidLoad()
 		self.view.needsUpdateConstraints()
 		self.tableView.style = style3
