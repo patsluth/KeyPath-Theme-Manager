@@ -37,7 +37,7 @@ public class Style<Root>: AnyStyle
 	
 	
 	public let rootType: Any.Type = Root.self
-	fileprivate let onApply: OnApply
+	internal let onApply: OnApply
 	
 	
 	
@@ -46,6 +46,16 @@ public class Style<Root>: AnyStyle
 	public init(_ onApply: @escaping OnApply)
 	{
 		self.onApply = onApply
+	}
+	
+	public func mutable() -> MutableStyle<Root>
+	{
+		return self.mutableCopy()
+	}
+	
+	public func mutableCopy() -> MutableStyle<Root>
+	{
+		return MutableStyle<Root>(self.onApply)
 	}
 	
 	public func apply(to root: Root)
@@ -63,30 +73,27 @@ public class Style<Root>: AnyStyle
 		return true
 	}
 	
-	public func mutableCopy() -> MutableStyle<Root>
-	{
-		// TODO: allow many copies?
-		if let mutable = self as? MutableStyle {
-			return mutable
-		}
-		return MutableStyle<Root>(self.onApply)
-	}
-	
-	public func cast<T>() throws -> Style<T>
-		where T: Themeable
-	{
-		guard T.self is Root.Type else {
-			throw Errors.Message("Cannot cast \(T.self) to \(Root.self)")
-		}
-		
-		return MutableStyle() + self
-	}
-	
-	public func cast<T>(_ type: T.Type) throws -> Style<T>
-		where T: Themeable
-	{
-		return try self.cast() as Style<T>
-	}
+//	public func cast<T>() -> Style<T>?
+//		where T: Themeable
+//	{
+//		guard T.self is Root.Type else {
+//			Errors.Message("Cannot cast \(T.self) to \(Root.self)").log()
+//			return nil
+//		}
+//
+//		print(self.onApply as? Style<T>.OnApply)
+//		if let onApply = self.onApply as? Style<T>.OnApply {
+//
+//		}
+//		return nil
+////		return MutableStyle() + self
+//	}
+//
+//	public func cast<T>(_ type: T.Type) -> Style<T>?
+//		where T: Themeable
+//	{
+//		return self.cast()
+//	}
 }
 
 
@@ -94,7 +101,7 @@ public class Style<Root>: AnyStyle
 //	where Self: Style<Root>
 //{
 //	public func cast3<T>() -> Style<T>
-//		where T: Themeable, T == Self.Root
+//		where T: Themeable, Root: T
 //	{
 ////		guard T.self is Root.Type else {
 ////			throw Errors.Message("Cannot cast \(T.self) to \(Root.self)")

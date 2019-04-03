@@ -15,15 +15,18 @@ import Sluthware
 let style2 = Style<UIView>({
 	$0.layer.masksToBounds = true
 	$0.layer.cornerRadius = 25
-}) + Style<UIView>({ _ in })
+}) //+ Style<UIView>({ _ in })
+//	+ Style<UITableView>({
+//	$0.backgroundColor = .red
+//})
 
 let style3 = Style<UITableView>({
 	$0.backgroundColor = .red
-}).mutableCopy().appending(style2)
+}).mutable().mutable().mutable().mutable() + style2
 
 let style4 = MutableStyle<UITableView>({
 	$0.backgroundColor = .red
-}).mutableCopy().appending(style2)
+})//.mutableCopy().appending(style2)
 
 
 
@@ -45,39 +48,36 @@ class ViewController: UIViewController
 	}
 	
 	
-	
+	typealias A<T> = (T) -> Void
+	typealias AA = A<UIView>
+	typealias BB = A<UIScrollView>
 	
 	
 	override func viewDidLoad()
 	{
-		let a = MutableStyle<UIScrollView>({ _ in })
+		
+		let aa: AA = { _ in
+			
+		}
+		
+		let bb: BB = { _ in
+			
+		}
+		
+		print(aa as? BB, bb as? AA)
+//		print(B.self == A.self, bb as? A)
+		
+//		print((MutableStyle<UIScrollView>() as Style) is MutableStyle<UIScrollView>)
+//
+		let a = Style<UIScrollView>({ _ in })
 		let b = Style<UIView>({ _ in })
 		
-		print((MutableStyle<UIScrollView>() as Style) is MutableStyle<UIScrollView>)
-		
-		do {
-			print(try a.cast(UIScrollView.self))
-		} catch {
-			error.log()
-		}
-		
-		do {
-			print(try a.cast() as Style<UITableView>)
-		} catch {
-			error.log()
-		}
-		
-		do {
-			print(try a.cast() as Style<UIView>)
-		} catch {
-			error.log()
-		}
-		
-		do {
-			print(try b.cast() as Style<UITableView>)
-		} catch {
-			error.log()
-		}
+		print(a as? Style<UIView>)
+		print(b as? Style<UIScrollView>)
+//		print(a.cast(UIScrollView.self))
+//		print(a.cast() as? Style<UITableView>)
+//		print(a.cast() as? Style<UIView>)
+//		print(b.cast() as? Style<UITableView>)
 //		print(style2 is MutableStyle<UIView>)
 		
 		super.viewDidLoad()

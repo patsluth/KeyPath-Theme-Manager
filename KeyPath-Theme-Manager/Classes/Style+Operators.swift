@@ -19,7 +19,7 @@ public extension Style
 		if let mutable = lhs as? MutableStyle<Root> {
 			return mutable + rhs
 		}
-		return MutableStyle() + lhs + rhs
+		return lhs.mutableCopy() + rhs
 	}
 }
 

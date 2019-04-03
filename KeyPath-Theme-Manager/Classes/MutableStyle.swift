@@ -19,6 +19,7 @@ public final class MutableStyle<Root>: Style<Root>
 	where Root: Themeable
 {
 	private var styles = [AnyStyle]()
+	//	private var styles = [Style<Root>]()
 	
 	
 	
@@ -37,6 +38,8 @@ public final class MutableStyle<Root>: Style<Root>
 	public func append<T>(_ style: Style<T>)
 		where T: Themeable
 	{
+		guard Root.self is T.Type else { return }
+		
 		self.styles.append(style)
 	}
 	
@@ -46,6 +49,11 @@ public final class MutableStyle<Root>: Style<Root>
 	{
 		self.append(style)
 		
+		return self
+	}
+	
+	public override func mutable() -> MutableStyle<Root>
+	{
 		return self
 	}
 	
