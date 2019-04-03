@@ -24,6 +24,16 @@ public final class MutableStyle<Root>: Style<Root>
 	
 	
 	
+	public init()
+	{
+		super.init({ _ in })
+	}
+	
+	public override init(_ onApply: @escaping OnApply)
+	{
+		super.init(onApply)
+	}
+	
 	public func append<T>(_ style: Style<T>)
 		where T: Themeable
 	{

@@ -24,8 +24,8 @@ public extension Themeable
 		set
 		{
 			self.set(associatedObject: "style", object: newValue)
-
-			newValue?.apply(to: self)
+			
+			self.setNeedsUpdateStyle()
 		}
 	}
 	
@@ -37,25 +37,25 @@ public extension Themeable
 		return self
 	}
 	
-//	@discardableResult
-//	func adding<T>(style: Style<T>) -> Self
-//		where T: Themeable//, Self: T
-//	{
-//		var styles = self.styles
-//		styles.append(style)
-//		self.styles = styles
-//
-//		style.attemptApply(to: self)
-//
-//		return self
-//	}
+	//	@discardableResult
+	//	func adding<T>(style: Style<T>) -> Self
+	//		where T: Themeable//, Self: T
+	//	{
+	//		var styles = self.styles
+	//		styles.append(style)
+	//		self.styles = styles
+	//
+	//		style.attemptApply(to: self)
+	//
+	//		return self
+	//	}
 	
 	func setNeedsUpdateStyle()
 	{
 		self.updateStyle()
-//		self.styles.forEach {
-//			$0.attemptApply(to: self)
-//		}
+		//		self.styles.forEach {
+		//			$0.attemptApply(to: self)
+		//		}
 	}
 	
 	func updateStyle()
@@ -66,21 +66,21 @@ public extension Themeable
 		//		}
 	}
 	
-//	@discardableResult
-//	func removing<T>(style: Style<T>) -> Self
-//		where T: Themeable//, Self: T
-//	{
-//		var styles = self.styles
-//		if let index = self.styles.indexof
-//		var styles = self.styles
-//		styles.append(style)
-//		return self
-//	}
+	//	@discardableResult
+	//	func removing<T>(style: Style<T>) -> Self
+	//		where T: Themeable//, Self: T
+	//	{
+	//		var styles = self.styles
+	//		if let index = self.styles.indexof
+	//		var styles = self.styles
+	//		styles.append(style)
+	//		return self
+	//	}
 	
-//	func remove(style: Style)
-//	{
-//
-//	}
+	//	func remove(style: Style)
+	//	{
+	//
+	//	}
 }
 
 
