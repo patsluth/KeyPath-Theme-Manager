@@ -156,7 +156,10 @@ public extension Theme
 			})
 		
 		self <== ThemeComponent<UISwitch>()
-			<-- (\UISwitch.onTintColor, self.tintColor)
+			<-- (\.onTintColor, self.tintColor)
+		
+		self <== ThemeComponent<UIActivityIndicatorView>()
+			<-- (\.color, self.tintColor)
 		
 		return self
 	}

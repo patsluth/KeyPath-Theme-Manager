@@ -30,9 +30,31 @@ public extension Themeable
 	}
 	
 	@discardableResult
-	func with(style: Style<Self>) -> Self
+	@available(*, deprecated, renamed: "style(_:)")
+	func with(style: Style<Self>?) -> Self
+	{
+		return self.style(style)
+	}
+	
+	@discardableResult
+	func style(_ style: Style<Self>?) -> Self
 	{
 		self.style = style
+		
+		return self
+	}
+	
+	@discardableResult
+	@available(*, deprecated, renamed: "style(_:)")
+	func with(style provider: () -> Style<Self>?) -> Self
+	{
+		return self.style(provider)
+	}
+	
+	@discardableResult
+	func style(_ provider: () -> Style<Self>?) -> Self
+	{
+		self.style = provider()
 		
 		return self
 	}

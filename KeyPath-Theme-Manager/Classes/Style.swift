@@ -29,7 +29,7 @@ import Sluthware
 
 
 public class Style<Root>: AnyStyle
-//public class Style<_Root>: _Style<_Root>, AnyStyle
+	//public class Style<_Root>: _Style<_Root>, AnyStyle
 	where Root: Themeable
 {
 	public typealias OnApply = (Root) -> Void
@@ -55,7 +55,7 @@ public class Style<Root>: AnyStyle
 	
 	public func mutableCopy() -> MutableStyle<Root>
 	{
-		return MutableStyle<Root>(self.onApply)
+		return MutableStyle(self)
 	}
 	
 	public func apply(to root: Root)
@@ -73,27 +73,27 @@ public class Style<Root>: AnyStyle
 		return true
 	}
 	
-//	public func cast<T>() -> Style<T>?
-//		where T: Themeable
-//	{
-//		guard T.self is Root.Type else {
-//			Errors.Message("Cannot cast \(T.self) to \(Root.self)").log()
-//			return nil
-//		}
-//
-//		print(self.onApply as? Style<T>.OnApply)
-//		if let onApply = self.onApply as? Style<T>.OnApply {
-//
-//		}
-//		return nil
-////		return MutableStyle() + self
-//	}
-//
-//	public func cast<T>(_ type: T.Type) -> Style<T>?
-//		where T: Themeable
-//	{
-//		return self.cast()
-//	}
+	//	public func cast<T>() -> Style<T>?
+	//		where T: Themeable
+	//	{
+	//		guard T.self is Root.Type else {
+	//			Errors.Message("Cannot cast \(T.self) to \(Root.self)").log()
+	//			return nil
+	//		}
+	//
+	//		print(self.onApply as? Style<T>.OnApply)
+	//		if let onApply = self.onApply as? Style<T>.OnApply {
+	//
+	//		}
+	//		return nil
+	////		return MutableStyle() + self
+	//	}
+	//
+	//	public func cast<T>(_ type: T.Type) -> Style<T>?
+	//		where T: Themeable
+	//	{
+	//		return self.cast()
+	//	}
 }
 
 

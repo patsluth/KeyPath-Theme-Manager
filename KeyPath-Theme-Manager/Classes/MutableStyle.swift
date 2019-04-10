@@ -25,9 +25,12 @@ public final class MutableStyle<Root>: Style<Root>
 	
 	
 	
-	public init()
+	public init<T>(_ style: Style<T>)
+		where T: Themeable
 	{
 		super.init({ _ in })
+		
+		self.append(style)
 	}
 	
 	public override init(_ onApply: @escaping OnApply)
