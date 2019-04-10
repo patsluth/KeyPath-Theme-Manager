@@ -41,7 +41,9 @@ public final class MutableStyle<Root>: Style<Root>
 	public func append<T>(_ style: Style<T>)
 		where T: Themeable
 	{
-		guard Root.self is T.Type else { return }
+		guard Root.self is T.Type else {
+			fatalError("Type Mismatch \(T.self) \(Root.self)")
+		}
 		
 		self.styles.append(style)
 	}
@@ -55,9 +57,13 @@ public final class MutableStyle<Root>: Style<Root>
 		return self
 	}
 	
-	public override func mutable() -> MutableStyle<Root>
+	public override func mutable<T>() -> MutableStyle<T>?
+		where T : Themeable
 	{
-		return self
+		if let style = self as? MutableStyle<T> {
+			return style
+		}
+		return super.mutable()
 	}
 	
 	public override func apply(to root: Root)

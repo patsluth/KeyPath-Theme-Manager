@@ -48,14 +48,19 @@ public class Style<Root>: AnyStyle
 		self.onApply = onApply
 	}
 	
-	public func mutable() -> MutableStyle<Root>
+	public func mutable<T>() -> MutableStyle<T>?
+		where T: Themeable
 	{
 		return self.mutableCopy()
 	}
 	
-	public func mutableCopy() -> MutableStyle<Root>
+	public func mutableCopy<T>() -> MutableStyle<T>?
+		where T: Themeable
 	{
-		return MutableStyle(self)
+		if T.self is Root.Type {
+			return MutableStyle(self)
+		}
+		return nil
 	}
 	
 	public func apply(to root: Root)

@@ -16,7 +16,7 @@ public extension Style
 	static func +<T>(lhs: Style, rhs: Style<T>) -> MutableStyle<Root>
 		where T: Themeable
 	{
-		return lhs.mutable() + rhs
+		return MutableStyle(lhs) + rhs
 	}
 }
 
