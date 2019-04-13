@@ -37,9 +37,17 @@ public extension Themeable
 	}
 	
 	@discardableResult
-	func style(_ style: Style<Self>?) -> Self
+	func style<T>(_ style: Style<T>?) -> Self
 	{
-		self.style = style
+		if let style = style as? Style<Self> {
+			self.style = style
+		} else {
+			guard Self.self is T.Type else {
+				fatalError("Type Mismatch \(T.self) \(Self.self)")
+			}
+			
+			self.style = style?.mutableCopy()
+		}
 		
 		return self
 	}
