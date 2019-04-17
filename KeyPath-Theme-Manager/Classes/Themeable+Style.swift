@@ -90,7 +90,11 @@ public extension Themeable
 	
 	func updateStyle()
 	{
+		self.willUpdateStyle?()
+		
 		self.style?.apply(to: self)
+		
+		self.didUpdateStyle?()
 		//		self.styles.forEach {
 		//			$0.attemptApply(to: self)
 		//		}

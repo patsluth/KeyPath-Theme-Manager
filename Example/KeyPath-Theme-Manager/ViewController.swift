@@ -22,7 +22,7 @@ let style2 = Style<UIView>({
 
 let style3 = Style<UITableView>({
 	$0.backgroundColor = .red
-}).mutable().mutable().mutable().mutable() + style2
+}) + style2
 
 let style4 = MutableStyle<UITableView>({
 	$0.backgroundColor = .red

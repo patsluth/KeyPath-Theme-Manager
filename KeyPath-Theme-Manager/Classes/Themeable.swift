@@ -16,9 +16,11 @@ import Sluthware
 
 
 // Inherit from Themable to override theme properties for specific instances
-public protocol Themeable: class, NSObjectProtocol
+@objc public protocol Themeable: class, NSObjectProtocol
 //	where Self: AnyClass
 {
+	@objc optional func willUpdateStyle()
+	@objc optional func didUpdateStyle()
 	//	func theme(_ theme: Theme, shouldSetValueFor keyPath: AnyKeyPath) -> Bool
 	//	func theme<Root, Value>(_ theme: Theme,
 	//							willSet value: inout Value,
