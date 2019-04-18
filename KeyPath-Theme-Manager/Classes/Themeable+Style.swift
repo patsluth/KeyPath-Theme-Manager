@@ -62,9 +62,7 @@ public extension Themeable
 	@discardableResult
 	func style(_ provider: () -> Style<Self>?) -> Self
 	{
-		self.style = provider()
-		
-		return self
+		return self.style(provider())
 	}
 	
 	//	@discardableResult
