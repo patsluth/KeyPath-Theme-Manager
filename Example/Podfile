@@ -1,11 +1,10 @@
 use_frameworks!
 
-platform :ios, '9.0'
+platform :ios, '10.0'
 
 target 'KeyPath-Theme-Manager_Example' do
   pod 'KeyPath-Theme-Manager', :path => '../'
   pod 'Sluthware', :git => 'https://github.com/patsluth/Sluthware.git'
-	pod 'Sluthware/RxSwift', :git => 'https://github.com/patsluth/Sluthware.git'
 
   target 'KeyPath-Theme-Manager_Tests' do
     inherit! :search_paths
