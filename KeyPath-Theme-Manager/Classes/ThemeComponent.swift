@@ -98,7 +98,7 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 			case .ParentIsNot:
 				canApply = !typeContainer.containsKind(viewController.parent)
 			case .ContainedIn:
-				viewController.recurseAncestors {
+				viewController.recurseAncestors { 
 					canApply = typeContainer.containsKind($0)
 					$1 = canApply
 				}

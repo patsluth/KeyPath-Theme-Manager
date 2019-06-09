@@ -24,14 +24,12 @@
   "dependencies": {
     "Sluthware": [
 
-    ],
-    "Sluthware/RxSwift": [
-
     ]
   },
   "frameworks": [
     "Foundation",
     "UIKit"
   ],
-  "source_files": "KeyPath-Theme-Manager/Classes/**/*"
+  "source_files": "KeyPath-Theme-Manager/Classes/**/*",
+  "swift_version": "5.0"
 }

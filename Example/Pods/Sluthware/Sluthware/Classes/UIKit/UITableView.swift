@@ -15,6 +15,21 @@ import ObjectiveC
 
 public extension UITableView
 {
+	func lastIndexPath(inSection section: Int? = nil) -> IndexPath?
+	{
+		let section = section ?? self.numberOfSections - 1
+		let row = self.numberOfRows(inSection: section) - 1
+		
+		return IndexPath(row: row, section: section)
+	}
+}
+
+
+
+
+
+public extension UITableView
+{
 	@available(iOS 5.0, *)
 	func registerCell<T>(_ type: T.Type,
 						 nib: UINib?,
@@ -103,21 +118,16 @@ public extension UITableView
 
 
 
-fileprivate var _prototypeCells = Selector(("_prototypeCells"))
-
 public extension UITableView
 {
 	fileprivate var prototypeCells: [String: UITableViewCell] {
 		get
 		{
-			return (objc_getAssociatedObject(self, &_prototypeCells) as? [String: UITableViewCell]) ?? [:]
+			return self.get(associatedObject: "prototypeCells", [String: UITableViewCell].self) ?? [:]
 		}
 		set
 		{
-			objc_setAssociatedObject(self,
-									 &_prototypeCells,
-									 newValue,
-									 objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			self.set(associatedObject: "prototypeCells", object: newValue)
 		}
 	}
 	
@@ -125,25 +135,29 @@ public extension UITableView
 	
 	
 	
-	func prototype(withIdentifier identifier: String) -> UITableViewCell?
+	func prototype(reuseIdentifier: String) -> UITableViewCell?
 	{
-		if let cell = self.prototypeCells[identifier] {
+		if let cell = self.prototypeCells[reuseIdentifier] {
 			return cell
 		}
 		
-		let cell = self.dequeueReusableCell(withIdentifier: identifier)
-		self.prototypeCells[identifier] = cell
+		let cell = self.dequeueReusableCell(withIdentifier: reuseIdentifier)
+		self.prototypeCells[reuseIdentifier] = cell
 		
 		return cell
 	}
 	
-	
-	
 	func prototype<T>(_ type: T.Type,
-					  reuseIdentifier: String = "\(T.self)") -> T?
+					  reuseIdentifier: String = "\(T.self)") -> T
 		where T: UITableViewCell
 	{
-		return self.prototype(withIdentifier: reuseIdentifier) as? T
+		if let cell = self.prototype(reuseIdentifier: reuseIdentifier) as? T {
+			return cell
+		}
+		
+		return T.make({
+			self.prototypeCells[reuseIdentifier] = $0
+		})
 	}
 }
 

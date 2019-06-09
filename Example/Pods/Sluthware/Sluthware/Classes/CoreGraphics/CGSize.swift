@@ -113,3 +113,40 @@ public extension CGSize
 
 
 
+
+public extension CGSize
+{
+	/// Returns new CGSize with width
+	func with(width: CGFloat) -> CGSize
+	{
+		var size = self
+		return size.width(width)
+	}
+	
+	/// Returns new CGSize with height
+	func with(height: CGFloat) -> CGSize
+	{
+		var size = self
+		return size.height(height)
+	}
+	
+	/// Returns update CGSize with width
+	@discardableResult
+	mutating func width(_ width: CGFloat) -> CGSize
+	{
+		self.width = width
+		return self
+	}
+	
+	/// Returns update CGSize with width
+	@discardableResult
+	mutating func height(_ height: CGFloat) -> CGSize
+	{
+		self.height = height
+		return self
+	}
+}
+
+
+
+

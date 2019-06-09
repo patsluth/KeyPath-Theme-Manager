@@ -1,26 +1,49 @@
 PODS:
+  - CancelForPromiseKit (1.1.0):
+    - CancelForPromiseKit/CorePromise (= 1.1.0)
+    - CancelForPromiseKit/Foundation (= 1.1.0)
+  - CancelForPromiseKit/CorePromise (1.1.0):
+    - PromiseKit/CorePromise (~> 6.0)
+  - CancelForPromiseKit/Foundation (1.1.0):
+    - CancelForPromiseKit/CorePromise
+    - PromiseKit/Foundation (~> 6.0)
   - KeyPath-Theme-Manager (0.1.0):
     - Sluthware
-    - Sluthware/RxSwift
-  - RxCocoa (4.5.0):
-    - RxSwift (>= 4.4.2, ~> 4.4)
-  - RxSwift (4.5.0)
-  - RxSwiftExt (3.4.0):
-    - RxSwiftExt/Core (= 3.4.0)
-    - RxSwiftExt/RxCocoa (= 3.4.0)
-  - RxSwiftExt/Core (3.4.0):
-    - RxSwift (~> 4.0)
-  - RxSwiftExt/RxCocoa (3.4.0):
-    - RxCocoa (~> 4.0)
+  - Kingfisher (5.5.0)
+  - PromiseKit (6.8.4):
+    - PromiseKit/CorePromise (= 6.8.4)
+    - PromiseKit/Foundation (= 6.8.4)
+    - PromiseKit/UIKit (= 6.8.4)
+  - PromiseKit/CorePromise (6.8.4)
+  - PromiseKit/Foundation (6.8.4):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.8.4):
+    - PromiseKit/CorePromise
+  - RxCocoa (5.0.0):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.0.0):
+    - RxSwift (~> 5)
+  - RxSwift (5.0.0)
+  - RxSwiftExt (5.0.0):
+    - RxSwiftExt/Core (= 5.0.0)
+    - RxSwiftExt/RxCocoa (= 5.0.0)
+  - RxSwiftExt/Core (5.0.0):
+    - RxSwift (~> 5.0)
+  - RxSwiftExt/RxCocoa (5.0.0):
+    - RxCocoa (~> 5.0)
     - RxSwiftExt/Core
   - Sluthware (1.0.31):
     - Sluthware/Default (= 1.0.31)
-  - Sluthware/Default (1.0.31)
-  - Sluthware/RxSwift (1.0.31):
+  - Sluthware/Default (1.0.31):
+    - CancelForPromiseKit
+    - Kingfisher
+    - PromiseKit
     - RxCocoa
     - RxSwift
     - RxSwiftExt
-    - Sluthware/Default
+    - SnapKit
+  - SnapKit (5.0.0)
 
 DEPENDENCIES:
   - KeyPath-Theme-Manager (from `../`)
@@ -28,9 +51,14 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - CancelForPromiseKit
+    - Kingfisher
+    - PromiseKit
     - RxCocoa
+    - RxRelay
     - RxSwift
     - RxSwiftExt
+    - SnapKit
 
 EXTERNAL SOURCES:
   KeyPath-Theme-Manager:
@@ -40,16 +68,21 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Sluthware:
-    :commit: 7d8cd27e603e59349066b0e813225f2dbc85a191
+    :commit: ea20aef63760cfec991855fd80fbf2b5b4dde7fe
     :git: https://github.com/patsluth/Sluthware.git
 
 SPEC CHECKSUMS:
-  KeyPath-Theme-Manager: d8f752a9a4cee665db38f6835a3272267e7b36e3
-  RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
-  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
-  RxSwiftExt: 01f8ecbeeb355698e9c75365ebe908b00dacf45d
-  Sluthware: 366e025dec0867e9d88d87443dc7de4da620e0d1
+  CancelForPromiseKit: 753c8798c31519ab324dad33974b7f8e4a92257b
+  KeyPath-Theme-Manager: 7845d810c4d721ac1aa39b1ce9cc8b6b71c42d8d
+  Kingfisher: 6fe5e67a90fd335e49b0f5c075ff55ac5ebedd94
+  PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
+  RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
+  RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
+  RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
+  RxSwiftExt: 4564187392cc53823ef241fa4a11647861567026
+  Sluthware: 3a6bb41dce403edc06381976780c832a94f6dc6b
+  SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
 
 PODFILE CHECKSUM: 89f96db4c9391dc949f57cb0aab8d5b150ad28af
 
-COCOAPODS: 1.7.0.beta.3
+COCOAPODS: 1.7.1

@@ -16,9 +16,9 @@
     "tag": "1.0.31"
   },
   "social_media_url": "https://twitter.com/patsluth",
-  "swift_versions": "4.2",
+  "swift_versions": "5.0",
   "platforms": {
-    "ios": "9.0",
+    "ios": "10.0",
     "osx": "10.11"
   },
   "static_framework": true,
@@ -35,14 +35,40 @@
           "UIKit",
           "SystemConfiguration"
         ],
+        "dependencies": {
+          "SnapKit": [
+
+          ],
+          "RxSwift": [
+
+          ],
+          "RxCocoa": [
+
+          ],
+          "RxSwiftExt": [
+
+          ],
+          "PromiseKit": [
+
+          ],
+          "CancelForPromiseKit": [
+
+          ],
+          "Kingfisher": [
+
+          ]
+        },
         "resources": "Sluthware/Resources/UIKit/**/*",
         "source_files": [
+          "Sluthware/Classes/*.swift",
           "Sluthware/Classes/Shared/**/*",
           "Sluthware/Classes/Foundation/**/*",
           "Sluthware/Classes/CoreGraphics/**/*",
           "Sluthware/Classes/CoreLocation/**/*",
           "Sluthware/Classes/UIKit/**/*",
-          "Sluthware/Classes/Reachability/**/*"
+          "Sluthware/Classes/Reachability/**/*",
+          "Sluthware/Classes/PromiseKit/**/*",
+          "Sluthware/Classes/RxSwift/**/*"
         ]
       },
       "osx": {
@@ -54,6 +80,7 @@
           "SystemConfiguration"
         ],
         "source_files": [
+          "Sluthware/Classes/*.swift",
           "Sluthware/Classes/Shared/**/*",
           "Sluthware/Classes/Foundation/**/*",
           "Sluthware/Classes/CoreGraphics/**/*",
@@ -134,43 +161,6 @@
       "ios": {
         "source_files": "Sluthware/Classes/ARKit/**/*"
       }
-    },
-    {
-      "name": "RxSwift",
-      "dependencies": {
-        "Sluthware/Default": [
-
-        ],
-        "RxSwift": [
-
-        ],
-        "RxCocoa": [
-
-        ],
-        "RxSwiftExt": [
-
-        ]
-      },
-      "ios": {
-        "frameworks": "UIKit",
-        "source_files": "Sluthware/Classes/RxSwift+iOS/**/*"
-      },
-      "source_files": "Sluthware/Classes/RxSwift/**/*",
-      "osx": {
-        "source_files": "Sluthware/Classes/RxSwift+macOS/**/*"
-      }
-    },
-    {
-      "name": "PromiseKit",
-      "dependencies": {
-        "Sluthware/Default": [
-
-        ],
-        "PromiseKit": [
-
-        ]
-      },
-      "source_files": "Sluthware/Classes/PromiseKit/**/*"
     },
     {
       "name": "Firebase",
@@ -257,17 +247,42 @@
     {
       "name": "API",
       "dependencies": {
+        "Sluthware/Alamofire": [
+
+        ]
+      },
+      "source_files": "Sluthware/Classes/API/**/*"
+    },
+    {
+      "name": "Alamofire",
+      "dependencies": {
         "Sluthware/Default": [
 
         ],
         "Alamofire": [
 
         ],
-        "PromiseKit": [
+        "CancelForPromiseKit/Alamofire": [
 
         ]
       },
-      "source_files": "Sluthware/Classes/API/**/*"
+      "source_files": "Sluthware/Classes/Alamofire/**/*"
+    },
+    {
+      "name": "R.swift",
+      "dependencies": {
+        "Sluthware/Default": [
+
+        ],
+        "R.swift": [
+
+        ],
+        "SegueManager/R.swift": [
+
+        ]
+      },
+      "source_files": "Sluthware/Classes/R.swift/**/*"
     }
-  ]
+  ],
+  "swift_version": "5.0"
 }

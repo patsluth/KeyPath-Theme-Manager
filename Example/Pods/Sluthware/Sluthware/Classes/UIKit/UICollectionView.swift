@@ -14,6 +14,21 @@ import Foundation
 
 public extension UICollectionView
 {
+	func lastIndexPath(inSection section: Int? = nil) -> IndexPath?
+	{
+		let section = section ?? self.numberOfSections - 1
+		let item = self.numberOfItems(inSection: section) - 1
+		
+		return IndexPath(item: item, section: section)
+	}
+}
+
+
+
+
+
+public extension UICollectionView
+{
 	func registerCell<T>(_ type: T.Type,
 						 reuseIdentifier: String = "\(T.self)")
 		where T: UICollectionViewCell
@@ -65,6 +80,26 @@ public extension UICollectionView
 					  withReuseIdentifier: reuseIdentifier)
 	}
 	
+	/// Wrapper for registerSupplementary kind UICollectionView.elementKindSectionHeader
+	func registerHeader<T>(_ type: T.Type,
+						   reuseIdentifier: String = "\(T.self)")
+		where T: UICollectionReusableView
+	{
+		self.registerSupplementary(type,
+								   kind: UICollectionView.elementKindSectionHeader,
+								   reuseIdentifier: reuseIdentifier)
+	}
+	
+	/// Wrapper for registerSupplementary kind UICollectionView.elementKindSectionFooter
+	func registerFooter<T>(_ type: T.Type,
+						   reuseIdentifier: String = "\(T.self)")
+		where T: UICollectionReusableView
+	{
+		self.registerSupplementary(type,
+								   kind: UICollectionView.elementKindSectionFooter,
+								   reuseIdentifier: reuseIdentifier)
+	}
+	
 	
 	
 	
@@ -102,24 +137,18 @@ public extension UICollectionView
 
 
 
-fileprivate var _prototypeCells = Selector(("_prototypeCells"))
-
 public extension UICollectionView
 {
 	fileprivate var prototypeCells: [String: UICollectionViewCell] {
 		get
 		{
-			return (objc_getAssociatedObject(self, &_prototypeCells) as? [String: UICollectionViewCell]) ?? [:]
+			return self.get(associatedObject: "prototypeCells", [String: UICollectionViewCell].self) ?? [:]
 		}
 		set
 		{
-			objc_setAssociatedObject(self,
-									 &_prototypeCells,
-									 newValue,
-									 objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			self.set(associatedObject: "prototypeCells", object: newValue)
 		}
 	}
-	
 	
 	
 	
@@ -132,11 +161,9 @@ public extension UICollectionView
 			return cell
 		}
 		
-		let cell = T()
-		cell.translatesAutoresizingMaskIntoConstraints = false
-		self.prototypeCells[reuseIdentifier] = cell
-		
-		return cell
+		return T.make({
+			self.prototypeCells[reuseIdentifier] = $0
+		})
 	}
 }
 

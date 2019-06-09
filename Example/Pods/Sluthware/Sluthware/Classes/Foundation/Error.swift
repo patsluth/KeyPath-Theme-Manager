@@ -22,11 +22,14 @@ public extension Error
 	
 	
 	
+	@discardableResult
 	public func log(file: String = #file,
 					function: String = #function,
-					line: Int = #line)
+					line: Int = #line) -> Self
 	{
-		print(file.fileNameFull, function, line, self)
+		swlog(file: file.fileNameFull, function: function, line: line, self)
+		
+		return self
 	}
 }
 
