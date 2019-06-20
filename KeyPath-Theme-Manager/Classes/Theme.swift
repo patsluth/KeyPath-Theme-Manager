@@ -25,7 +25,7 @@ public class Theme: UIBarStyleProvider
     public let keyboardAppearance: UIKeyboardAppearance
     
     public let tintedTextAttibutes: [NSAttributedString.Key: Any]
-    private var components: [AnyThemeComponent]
+    internal private(set) var components: [AnyThemeComponent]
     
     
     
@@ -74,33 +74,53 @@ public class Theme: UIBarStyleProvider
         return component
     }
     
-    internal func apply<T>(to viewController: T)
-        where T: UIViewController
-    {
-//        viewController.willApplyTheme?()
-        self.components.forEach({
-            $0.apply(to: viewController)
-        })
+//    internal func attempt<T>(applyTo themeable: T)
+//        where T: Themeable
+//    {
+//        switch themeable {
+//        case let x as UIViewController:
+//            themeable.willUpdateTheme?()
+//            self.components.forEach({
+//                $0.apply(to: x)
+//            })
+//            themeable.didUpdateTheme?()
+//        case let x as UIView:
+//            self.apply(to: x)
+//        default:
+//            break
+//        }
+//
+//        // Apply object specific style
+//        themeable.setNeedsUpdateStyle()
+//    }
+//
+//    public func apply<T>(to viewController: T)
+//        where T: Themeable & UIViewController
+//    {
+//        viewController.willUpdateTheme?()
+//        self.components.forEach({
+//            $0.apply(to: viewController)
+//        })
 //        viewController.didApplyTheme?()
-        
-        // Apply object specific style
-        viewController.setNeedsUpdateStyle()
-        
-        self.apply(to: viewController.view)
-    }
-    
-    internal func apply<T>(to view: T)
-        where T: UIView
-    {
+//
+//        // Apply object specific style
+//        viewController.setNeedsUpdateStyle()
+//
+//        self.apply(to: viewController.view)
+//    }
+//
+//    public func apply<T>(to view: T)
+//        where T: UIView
+//    {
 //        view.willApplyTheme?()
-        self.components.forEach({
-            $0.apply(to: view)
-        })
+//        self.components.forEach({
+//            $0.apply(to: view)
+//        })
 //        view.didApplyTheme?()
-        
-        // Apply object specific style
-        view.setNeedsUpdateStyle()
-    }
+//
+//        // Apply object specific style
+//        view.setNeedsUpdateStyle()
+//    }
 }
 
 
@@ -201,15 +221,11 @@ public extension Theme
                 textField.defaultTextAttributes = self.tintedTextAttibutes
                 
                 sw.cast(textField.leftView, UIImageView.self, {
-                    if $0 is UITintedImageView { return }
-                    
                     $0.tintColor = textField.tintColor
                     object_setClass($0, UITintedImageView.self)
                     $0.image = $0.image ?? nil
                 })
                 sw.cast(textField.rightView, UIImageView.self, {
-                    if $0 is UITintedImageView { return }
-                    
                     $0.tintColor = textField.tintColor
                     object_setClass($0, UITintedImageView.self)
                     $0.image = $0.image ?? nil
@@ -229,11 +245,6 @@ public extension Theme
 
 
 
-
-
-
-
-
 extension Theme: Hashable
 {
     public func hash(into hasher: inout Hasher)
@@ -241,9 +252,9 @@ extension Theme: Hashable
         hasher.combine(self.name)
     }
     
-    public static func == (lhs: Theme, rhs: Theme) -> Bool
+    public static func ==(lhs: Theme, rhs: Theme) -> Bool
     {
-        return (lhs.name == rhs.name)
+        return (lhs.hashValue == rhs.hashValue)
     }
 }
 

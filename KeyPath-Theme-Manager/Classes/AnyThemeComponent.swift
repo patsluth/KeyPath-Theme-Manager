@@ -16,11 +16,9 @@ import UIKit
 internal protocol AnyThemeComponent
 {
 	var rootType: Any.Type { get }
-	
-	func apply<T>(to viewController: T)
-		where T: UIViewController
-	func apply<T>(to view: T)
-		where T: UIView
+    
+    func attempt<T>(applyTo themeable: T)
+        where T: Themeable
 }
 
 

@@ -144,16 +144,18 @@ public final class ThemeComponent<Root>: AnyThemeComponent
 		return canApply
 	}
 	
-	
-	
-	internal func apply(toThemeable themeable: Themeable)
-	{
-		if let viewController = themeable as? UIViewController {
-			self.apply(to: viewController)
-		} else if let view = themeable as? UIView {
-			self.apply(to: view)
-		}
-	}
+    func attempt<T>(applyTo themeable: T)
+        where T: Themeable
+    {
+        switch themeable {
+        case let x as UIViewController:
+            self.apply(to: x)
+        case let x as UIView:
+            self.apply(to: x)
+        default:
+            break
+        }
+    }
 	
 	internal func apply<T>(to viewController: T)
 		where T: UIViewController

@@ -28,9 +28,11 @@ public final class ThemeManager
 			guard let window = UIApplication.shared.keyWindow else { return }
 			guard let viewController = window.rootViewController else { return }
 			
-			viewController.recurseDecendents {
-				theme.apply(to: $0)
-			}
+			viewController.recurseDecendents({
+                if oldValue == $0.theme {
+                    $0.theme = theme
+                }
+            })
 		}
 	}
 	
@@ -90,15 +92,7 @@ public final class ThemeManager
 	
 	public class func apply(_ theme: Theme)
 	{
-		guard self.current != theme else { return }
 		self.current = theme
-		
-		guard let window = UIApplication.shared.keyWindow else { return }
-		guard let viewController = window.rootViewController else { return }
-		
-		viewController.recurseDecendents {
-			theme.apply(to: $0)
-		}
 	}
 	
 	//	@available(iOS 10.0, *)
@@ -131,7 +125,7 @@ fileprivate extension UIView
 	{
 		self.keyPathThemeManager_didAddSubview(subview)
 		
-		ThemeManager.current?.apply(to: subview)
+        subview.theme = ThemeManager.current
 	}
 	
 	//	@objc func keyPathThemeManager_willMove(toSuperview newSuperview: UIView?)
@@ -181,14 +175,14 @@ fileprivate extension UIViewController
 	{
 		self.keyPathThemeManager_viewWillAppear(animated)
 		
-		ThemeManager.current?.apply(to: self)
+		self.theme = ThemeManager.current
 	}
 	
 	@objc func keyPathThemeManager_viewDidAppear(_ animated: Bool)
 	{
 		self.keyPathThemeManager_viewDidAppear(animated)
 		
-		ThemeManager.current?.apply(to: self)
+		self.theme = ThemeManager.current
 	}
 }
 

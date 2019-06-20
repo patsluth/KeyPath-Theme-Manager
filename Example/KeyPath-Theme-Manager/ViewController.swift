@@ -35,7 +35,9 @@ class ViewController: UIViewController
 	@IBOutlet private var searchController: UISearchController!
 	@IBOutlet private(set) var tableView: UITableView!
 	
-	fileprivate var dataSource: [Theme]!
+    fileprivate var dataSource: [Theme]! {
+        didSet  { self.tableView.reloadData() }
+    }
 	fileprivate var animator: UIViewPropertyAnimator? = nil {
 		didSet
 		{
@@ -83,8 +85,6 @@ class ViewController: UIViewController
 		super.viewDidLoad()
 		self.view.needsUpdateConstraints()
 		self.tableView.style = style3
-		self.dataSource = ThemeManager.themes
-			.sorted(by: \Theme.name, >)
 		
 		self.searchController = UISearchController(searchResultsController: nil)
 		self.searchController.delegate = self
@@ -109,7 +109,10 @@ class ViewController: UIViewController
 	override func viewWillAppear(_ animated: Bool)
 	{
 		super.viewWillAppear(animated)
-		
+        
+        self.dataSource = ThemeManager.themes
+            .sorted(by: \Theme.name, >)
+        
 		(self.tableView.tableHeaderView as? UISearchBar)?.sizeToFit()
 	}
 	
