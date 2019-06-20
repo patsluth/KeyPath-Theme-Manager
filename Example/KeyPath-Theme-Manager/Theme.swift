@@ -24,7 +24,7 @@ extension Theme
 			  isTranslucent: true,
 			  keyboardAppearance: .default)
 			.addingDefaultComponents()
-			.addingSearchBarComponents()
+			.addingSearchControllerComponents()
 	}()
 	
 	static let dark = {
@@ -34,7 +34,7 @@ extension Theme
 			  isTranslucent: true,
 			  keyboardAppearance: .dark)
 			.addingDefaultComponents()
-			.addingSearchBarComponents()
+			.addingSearchControllerComponents()
 	}()
 }
 

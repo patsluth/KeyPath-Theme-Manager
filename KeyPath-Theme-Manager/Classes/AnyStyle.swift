@@ -17,8 +17,8 @@ internal protocol AnyStyle
 	var rootType: Any.Type { get }
 	
 	@discardableResult
-	func attempt<T>(applyTo themeable: T) -> Bool
-		where T: Themeable
+    func attempt<S>(applyTo s: S) -> Bool
+		where S: Styleable
 }
 
 

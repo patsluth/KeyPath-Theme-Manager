@@ -1,6 +1,6 @@
 {
   "name": "Sluthware",
-  "version": "1.0.31",
+  "version": "1.1.0",
   "summary": "Sluthware shared framework",
   "description": "Sluthware shared framework description",
   "homepage": "https://sluthware.com",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/patsluth/Sluthware.git",
-    "tag": "1.0.31"
+    "tag": "1.1.0"
   },
   "social_media_url": "https://twitter.com/patsluth",
   "swift_versions": "5.0",
@@ -33,7 +33,8 @@
           "CoreGraphics",
           "CoreLocation",
           "UIKit",
-          "SystemConfiguration"
+          "SystemConfiguration",
+          "AVKit"
         ],
         "dependencies": {
           "SnapKit": [
@@ -282,6 +283,18 @@
         ]
       },
       "source_files": "Sluthware/Classes/R.swift/**/*"
+    },
+    {
+      "name": "Eureka",
+      "dependencies": {
+        "Sluthware/Default": [
+
+        ],
+        "Eureka": [
+
+        ]
+      },
+      "source_files": "Sluthware/Classes/Eureka/**/*"
     }
   ],
   "swift_version": "5.0"

@@ -16,7 +16,7 @@ import Sluthware
 
 
 public final class MutableStyle<Root>: Style<Root>
-	where Root: Themeable
+    where Root: Styleable
 {
 	private var styles = [AnyStyle]()
 	//	private var styles = [Style<Root>]()
@@ -25,21 +25,21 @@ public final class MutableStyle<Root>: Style<Root>
 	
 	
 	
-	public init<T>(_ style: Style<T>)
-		where T: Themeable
-	{
-		super.init({ _ in })
-		
-		self.append(style)
-	}
-	
-	public override init(_ onApply: @escaping OnApply)
+    public init<T>(_ style: Style<T>)
+        where T: Styleable
+    {
+        super.init({ _ in })
+        
+        self.append(style)
+    }
+    
+    public override init(_ onApply: @escaping OnApply)
 	{
 		super.init(onApply)
 	}
 	
 	public func append<T>(_ style: Style<T>)
-		where T: Themeable
+		where T: Styleable
 	{
 		guard Root.self is T.Type else {
 			fatalError("Type Mismatch \(T.self) \(Root.self)")
@@ -50,7 +50,7 @@ public final class MutableStyle<Root>: Style<Root>
 	
 	@discardableResult
 	public func appending<T>(_ style: Style<T>) -> Self
-		where T: Themeable
+		where T: Styleable
 	{
 		self.append(style)
 		
@@ -58,22 +58,24 @@ public final class MutableStyle<Root>: Style<Root>
 	}
 	
 	public override func mutable<T>() -> MutableStyle<T>?
-		where T : Themeable
+		where T : Styleable
 	{
 		if let style = self as? MutableStyle<T> {
 			return style
 		}
 		return super.mutable()
 	}
+    
+    
 	
-	public override func apply(to root: Root)
-	{
-		for style in self.styles {
-			style.attempt(applyTo: root)
-		}
-		
-		super.apply(to: root)
-	}
+//	public override func apply(to root: Root)
+//	{
+//		self.styles.forEach({
+//            $0.attempt(applyTo: root)
+//        })
+//
+//		super.apply(to: root)
+//	}
 }
 
 
