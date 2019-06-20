@@ -12,13 +12,13 @@
 
 public extension ThemeComponent
 {
-	public enum ConstraintType
-	{
-		case ParentIs
-		case ParentIsNot
-		case ContainedIn
-		case NotContainedIn
-	}
+    enum ConstraintType
+    {
+        case ParentIs
+        case ParentIsNot
+        case ContainedIn
+        case NotContainedIn
+    }
 }
 
 
