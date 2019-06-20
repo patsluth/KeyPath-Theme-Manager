@@ -16,7 +16,7 @@ import Sluthware
 
 
 /// Inherit from Themable to override theme properties for specific instances
-@objc public protocol Themeable: Styleable
+@objc public protocol Themeable: class, NSObjectProtocol
 {
     @objc optional func willUpdateTheme()
     @objc optional func didUpdateTheme()
@@ -94,7 +94,7 @@ public extension Themeable
         self.didUpdateTheme?()
         
         // Apply object specific style
-        self.setNeedsUpdateStyle()
+        (self as? Styleable)?.setNeedsUpdateStyle()
     }
 }
 
