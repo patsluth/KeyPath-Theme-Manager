@@ -16,7 +16,7 @@ import Sluthware
 
 
 public final class MutableStyle<Root>: Style<Root>
-    where Root: Styleable
+	where Root: Styleable
 {
 	private var styles = [AnyStyle]()
 	//	private var styles = [Style<Root>]()
@@ -25,15 +25,15 @@ public final class MutableStyle<Root>: Style<Root>
 	
 	
 	
-    public init<T>(_ style: Style<T>)
-        where T: Styleable
-    {
-        super.init({ _ in })
-        
-        self.append(style)
-    }
-    
-    public override init(_ onApply: @escaping OnApply)
+	public init<T>(_ style: Style<T>)
+		where T: Styleable
+	{
+		super.init({ _ in })
+		
+		self.append(style)
+	}
+	
+	public override init(_ onApply: @escaping OnApply)
 	{
 		super.init(onApply)
 	}
@@ -65,17 +65,15 @@ public final class MutableStyle<Root>: Style<Root>
 		}
 		return super.mutable()
 	}
-    
-    
 	
-//	public override func apply(to root: Root)
-//	{
-//		self.styles.forEach({
-//            $0.attempt(applyTo: root)
-//        })
-//
-//		super.apply(to: root)
-//	}
+	public override func apply(to root: Root)
+	{
+		self.styles.forEach({
+			$0.attempt(applyTo: root)
+		})
+		
+		super.apply(to: root)
+	}
 }
 
 
