@@ -25,9 +25,13 @@ public enum StyleProvider<T>
 
 
 
-public extension Styleable
+extension Styleable
 {
 	public typealias Styles = StyleProvider<Self>
+	
+	public var Styles: Styles.Type {
+		return Self.Styles.self
+	}
 }
 
 
