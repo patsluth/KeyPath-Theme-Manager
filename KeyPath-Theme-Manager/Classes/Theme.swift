@@ -192,6 +192,9 @@ public extension Theme
 		self <== ThemeComponent<UIActivityIndicatorView>()
 			<-- (\.color, self.tintColor)
 		
+		self <== ThemeComponent<UIRefreshControl>()
+			<-- (\UIRefreshControl.tintColor, self.tintColor)
+		
 		return self
 	}
 	
